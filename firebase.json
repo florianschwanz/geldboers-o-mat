@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/finanz-o-mat",
+    "public": "dist/finanz-o-mat/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

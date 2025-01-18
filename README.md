@@ -1,4 +1,5 @@
 [![Build](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/build-app-workflow.yml/badge.svg)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/build-app-workflow.yml)
+[![Build and Deploy to Firebase](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-workflow.yml/badge.svg)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-workflow.yml)
 [![Issues](https://img.shields.io/github/issues/florianschwanz/finanz-o-mat)](https://github.com/florianschwanz/finanz-o-mat/issues)
 
 <br />
