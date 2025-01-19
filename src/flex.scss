@@ -1,0 +1,12 @@
+.flex-container {
+  display: flex !important;
+}
+
+.flex-container-vertical {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.flex-box {
+  flex-grow: 1 !important;
+}
