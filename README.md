@@ -21,7 +21,7 @@ The aim of this app is to visualize financial impacts as bar charts.
 
 ### Built With
 
-* [Angular](https://angular.io/)
+- [Angular](https://angular.io/)
 
 ## Installation
 
