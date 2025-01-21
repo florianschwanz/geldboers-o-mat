@@ -1,7 +1,14 @@
 {
   "pages": {
     "main": {
-      "title": "Finanz-O-Mat"
+      "title": "Finanz-O-Mat",
+      "terms": {
+        "income-group": "Einkommensgruppe",
+        "euros": "Euro"
+      },
+      "questions": {
+        "income-group": "Wie hoch ist dein Bruttojahreseinkommen?"
+      }
     }
   }
 }
