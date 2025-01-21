@@ -1,7 +1,14 @@
 {
   "pages": {
     "main": {
-      "title": "Finanz-O-Mat"
+      "title": "Finanz-O-Mat",
+      "terms": {
+        "income-group": "income group",
+        "euros": "Euros"
+      },
+      "questions": {
+        "income-group": "What is your gross annual income in Euros?"
+      }
     }
   }
 }
