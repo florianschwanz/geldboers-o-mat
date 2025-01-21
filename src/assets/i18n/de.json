@@ -1,3 +1,7 @@
 {
-  "app-title": "Finanz-O-Mat"
+  "pages": {
+    "main": {
+      "title": "Finanz-O-Mat"
+    }
+  }
 }
