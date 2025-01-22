@@ -14,6 +14,15 @@
           }
         </mat-select>
       </mat-form-field>
+
+      <app-bar-chart
+        [datasets]="incomeGroupDatasets"
+        [labels]="incomeGroupLabels"
+        [vertical]="false"
+        [xUnit]="'%'"
+        [xSuggestedMin]="-30"
+        [xSuggestedMax]="30"
+      ></app-bar-chart>
     </div>
   </div>
 </ng-container>
