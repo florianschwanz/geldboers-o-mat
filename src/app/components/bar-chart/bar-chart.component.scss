@@ -1,0 +1,16 @@
+@use "@angular/material" as mat;
+@import "../../../styles";
+
+::ng-deep .theme-light {
+  .context-box {
+    color: darken(mat.m2-get-color-from-palette($accent, 500), 25%);
+    background: rgba(mat.m2-get-color-from-palette($accent, 500), 0.1);
+  }
+}
+
+::ng-deep .theme-dark {
+  .context-box {
+    color: darken(mat.m2-get-color-from-palette($accent, 100), 25%);
+    background: rgba(mat.m2-get-color-from-palette($accent, 500), 0.1);
+  }
+}

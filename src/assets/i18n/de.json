@@ -8,6 +8,9 @@
       },
       "questions": {
         "income-group": "Wie hoch ist dein Bruttojahreseinkommen?"
+      },
+      "labels": {
+        "percentage-income-change": "prozentuale Veränderung im verfügbaren Einkommen"
       }
     }
   }
