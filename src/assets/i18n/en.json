@@ -1,4 +1,5 @@
 {
+  "app-title": "Finanz-O-Mat",
   "pages": {
     "main": {
       "title": "Finanz-O-Mat",
@@ -8,6 +9,9 @@
       },
       "questions": {
         "income-group": "What is your gross annual income in Euros?"
+      },
+      "labels": {
+        "percentage-income-change": "percentage change in disposable income"
       }
     }
   }
