@@ -2,6 +2,14 @@
   <div class="flex-container">
     <div class="main-container flex-box">
       <h1 class="header">{{ t("title") }}</h1>
+      <div class="description">
+        <a
+          href="https://www.leibniz-gemeinschaft.de/institute/leibniz-institute-alle-listen/zew-leibniz-zentrum-fuer-europaeische-wirtschaftsforschung"
+          target="_blank"
+          >ZEW</a
+        >
+        {{ t("description") }}
+      </div>
       <span class="question">{{ t("questions.income-group") }}</span>
 
       <mat-form-field>
@@ -9,8 +17,8 @@
         <mat-select (selectionChange)="onIncomeGroupChanged($event)">
           @for (incomeGroup of incomeGroups; track incomeGroup) {
             <mat-option [value]="incomeGroup.index"
-              >{{ incomeGroup.text }} {{ t("terms.euros") }}</mat-option
-            >
+              >{{ incomeGroup.text }} {{ t("terms.euros") }}
+            </mat-option>
           }
         </mat-select>
       </mat-form-field>
