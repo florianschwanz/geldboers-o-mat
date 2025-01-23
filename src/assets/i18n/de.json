@@ -2,6 +2,7 @@
   "pages": {
     "main": {
       "title": "Finanz-O-Mat",
+      "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you.",
       "terms": {
         "income-group": "Einkommensgruppe",
         "euros": "Euro"

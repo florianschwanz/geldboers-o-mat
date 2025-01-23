@@ -76,7 +76,7 @@ h3 {
 }
 
 a:hover {
-  color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 600);
+  color: mat.m2-get-color-from-palette($accent, 600);
 }
 
 .mdc-button,
