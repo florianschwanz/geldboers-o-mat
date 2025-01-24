@@ -1,3 +1,4 @@
+@use "@angular/material" as mat;
 @import "../../../styles";
 
 .main-container {
@@ -23,9 +24,18 @@
   }
 }
 
+.tag {
+  color: mat.m2-get-color-from-palette($accent, 600);
+  column-gap: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
 .header {
   font-size: 42px;
   font-weight: 700;
+  margin-top: 4px;
   text-align: center;
 }
 
