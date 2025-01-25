@@ -42,8 +42,19 @@
 .description {
   margin-bottom: 16px;
   text-align: center;
+
+  @media #{$breakpoint-small} {
+    margin-bottom: 32px;
+  }
 }
 
 .question {
   margin-right: 16px;
+}
+
+.income-group-selection {
+  @media #{$breakpoint-small} {
+    display: inline-block;
+    margin-top: 16px;
+  }
 }
