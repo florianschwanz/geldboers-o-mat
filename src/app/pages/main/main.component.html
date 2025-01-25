@@ -13,16 +13,18 @@
       </div>
       <span class="question">{{ t("questions.income-group") }}</span>
 
-      <mat-form-field>
-        <mat-label>{{ t("terms.income-group") }}</mat-label>
-        <mat-select (selectionChange)="onIncomeGroupChanged($event)">
-          @for (incomeGroup of incomeGroups; track incomeGroup) {
-            <mat-option [value]="incomeGroup.index"
-              >{{ incomeGroup.text }} {{ t("terms.euros") }}
-            </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <span class="income-group-selection">
+        <mat-form-field>
+          <mat-label>{{ t("terms.income-group") }}</mat-label>
+          <mat-select (selectionChange)="onIncomeGroupChanged($event)">
+            @for (incomeGroup of incomeGroups; track incomeGroup) {
+              <mat-option [value]="incomeGroup.index"
+                >{{ incomeGroup.text }} {{ t("terms.euros") }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </span>
 
       <app-bar-chart
         [datasets]="incomeGroupDatasets"
