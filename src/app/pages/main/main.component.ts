@@ -164,6 +164,9 @@ export class MainComponent implements OnInit {
   /** Labels for selected income group */
   incomeGroupLabels: string[] = [];
 
+  /** Suggested min-max value on the x-axis */
+  xSuggestedMinMax = 30;
+
   //
   // Media
   //
@@ -229,10 +232,30 @@ export class MainComponent implements OnInit {
     this.incomeGroupLabels = Array.from(data.keys());
   }
 
+  /**
+   * Initialize suggested min-max for income group
+   * @param data data
+   * @param selectedIncomeGroupIndex selected income group index
+   * @private
+   */
+  private initializeIncomeGroupSuggestedMinMax(
+    data: Map<string, Party>,
+    selectedIncomeGroupIndex: number,
+  ) {
+    const values = Array.from(data.values()).map(
+      (party) => party.changesIncomeGroups[selectedIncomeGroupIndex],
+    );
+
+    this.xSuggestedMinMax = Math.max(
+      Math.abs(Math.max(...values)),
+      Math.abs(Math.min(...values)),
+    );
+  }
+
   /** Initializes datasets for income group
    *
    * @param data data
-   * @param selectedIncomeGroupIndex
+   * @param selectedIncomeGroupIndex selected income group index
    * @private
    */
   private initializeIncomeGroupDatasets(
@@ -285,5 +308,9 @@ export class MainComponent implements OnInit {
 
     this.initializeIncomeGroupDatasets(dataSorted, selectedIncomeGroupIndex);
     this.initializeIncomeGroupLabels(dataSorted);
+    this.initializeIncomeGroupSuggestedMinMax(
+      dataSorted,
+      selectedIncomeGroupIndex,
+    );
   }
 }
