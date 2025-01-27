@@ -237,6 +237,19 @@ export class MainComponent implements OnInit {
    * @param event event
    */
   onIncomeGroupChanged(event: MatSelectChange) {
-    this.initializeIncomeGroupDatasets(this.data, event.value);
+    const selectedIncomeGroupIndex = event.value;
+    const dataSorted = new Map(
+      [...this.data.entries()].sort(
+        (a: [string, Party], b: [string, Party]) => {
+          return (
+            b[1].changesIncomeGroups[selectedIncomeGroupIndex] -
+            a[1].changesIncomeGroups[selectedIncomeGroupIndex]
+          );
+        },
+      ),
+    );
+
+    this.initializeIncomeGroupDatasets(dataSorted, selectedIncomeGroupIndex);
+    this.initializeIncomeGroupLabels(dataSorted);
   }
 }
