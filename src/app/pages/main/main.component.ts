@@ -17,6 +17,12 @@ import {
   BarChartComponent,
   Dataset,
 } from '../../components/bar-chart/bar-chart.component';
+import {
+  MatButtonToggle,
+  MatButtonToggleChange,
+  MatButtonToggleGroup,
+} from '@angular/material/button-toggle';
+import { Media, MediaService } from '../../core/ui/services/media.service';
 
 /**
  * Represents an income group
@@ -25,7 +31,9 @@ export type IncomeGroup = {
   /** Index */
   index: number;
   /** Text */
-  text: string;
+  selectText: string;
+  /** Text */
+  buttonToggleText: string;
 };
 
 /**
@@ -50,6 +58,8 @@ export type Party = {
     MatSelect,
     MatOption,
     BarChartComponent,
+    MatButtonToggleGroup,
+    MatButtonToggle,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -64,6 +74,8 @@ export class MainComponent implements OnInit {
   private route = inject(ActivatedRoute);
   /** Theme service */
   private themeService = inject(ThemeService);
+  /** Media service */
+  private mediaService = inject(MediaService);
   /** Transloco service */
   private translocoService = inject(TranslocoService);
 
@@ -72,16 +84,16 @@ export class MainComponent implements OnInit {
 
   /** Available income groups */
   incomeGroups: IncomeGroup[] = [
-    { index: 0, text: '1 - 10.000' },
-    { index: 1, text: '10.001 - 20.000' },
-    { index: 2, text: '20.001 - 30.000' },
-    { index: 3, text: '30.001 - 40.000' },
-    { index: 4, text: '40.001 - 55.000' },
-    { index: 5, text: '55.001 - 80.000' },
-    { index: 6, text: '80.001 - 100.000' },
-    { index: 7, text: '100.001 - 150.000' },
-    { index: 8, text: '150.001 - 250.000' },
-    { index: 9, text: '250.001 - 2.000.000' },
+    { index: 0, selectText: '1 - 10.000', buttonToggleText: '10T' },
+    { index: 1, selectText: '10.001 - 20.000', buttonToggleText: '20T' },
+    { index: 2, selectText: '20.001 - 30.000', buttonToggleText: '30T' },
+    { index: 3, selectText: '30.001 - 40.000', buttonToggleText: '40T' },
+    { index: 4, selectText: '40.001 - 55.000', buttonToggleText: '55T' },
+    { index: 5, selectText: '55.001 - 80.000', buttonToggleText: '80T' },
+    { index: 6, selectText: '80.001 - 100.000', buttonToggleText: '100T' },
+    { index: 7, selectText: '100.001 - 150.000', buttonToggleText: '150T' },
+    { index: 8, selectText: '150.001 - 250.000', buttonToggleText: '250T' },
+    { index: 9, selectText: '250.001 - 2.000.000', buttonToggleText: '2Mio' },
   ];
 
   /** Data of parties */
@@ -153,6 +165,15 @@ export class MainComponent implements OnInit {
   incomeGroupLabels: string[] = [];
 
   //
+  // Media
+  //
+
+  /** Current medium */
+  media: Media = Media.LARGE;
+  /** Media enum */
+  mediaEnum = Media;
+
+  //
   // Constants
   //
 
@@ -168,6 +189,8 @@ export class MainComponent implements OnInit {
    */
   ngOnInit() {
     this.handleQueryParameters();
+    this.initializeMedia();
+
     this.initializeIncomeGroupLabels(this.data);
     this.initializeIncomeGroupDatasets(this.data, -1);
   }
@@ -185,6 +208,17 @@ export class MainComponent implements OnInit {
   //
   // Initialization
   //
+
+  /**
+   * Initializes media
+   */
+  private initializeMedia() {
+    this.mediaService.mediaSubject.subscribe((media: Media) => {
+      this.media = media;
+    });
+
+    this.media = this.mediaService.mediaSubject.value;
+  }
 
   /**
    * Initialize labels for income group
@@ -236,7 +270,7 @@ export class MainComponent implements OnInit {
    * Handles change of income group
    * @param event event
    */
-  onIncomeGroupChanged(event: MatSelectChange) {
+  onIncomeGroupChanged(event: MatSelectChange | MatButtonToggleChange) {
     const selectedIncomeGroupIndex = event.value;
     const dataSorted = new Map(
       [...this.data.entries()].sort(
