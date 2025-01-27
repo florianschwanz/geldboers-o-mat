@@ -13,18 +13,36 @@
       </div>
       <span class="question">{{ t("questions.income-group") }}</span>
 
-      <span class="income-group-selection">
-        <mat-form-field>
-          <mat-label>{{ t("terms.income-group") }}</mat-label>
-          <mat-select (selectionChange)="onIncomeGroupChanged($event)">
+      @if (media < mediaEnum.LARGE) {
+        <div class="income-group-selection">
+          <mat-form-field>
+            <mat-label>{{ t("terms.income-group") }}</mat-label>
+            <mat-select (selectionChange)="onIncomeGroupChanged($event)">
+              @for (incomeGroup of incomeGroups; track incomeGroup) {
+                <mat-option [value]="incomeGroup.index"
+                  >{{ incomeGroup.selectText }} {{ t("terms.euros") }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
+
+      @if (media > mediaEnum.MEDIUM) {
+        <div class="income-group-selection">
+          <mat-button-toggle-group
+            name="fontStyle"
+            aria-label="income group"
+            (change)="onIncomeGroupChanged($event)"
+          >
             @for (incomeGroup of incomeGroups; track incomeGroup) {
-              <mat-option [value]="incomeGroup.index"
-                >{{ incomeGroup.text }} {{ t("terms.euros") }}
-              </mat-option>
+              <mat-button-toggle [value]="incomeGroup.index"
+                >{{ incomeGroup.buttonToggleText }} {{ t("terms.euros") }}
+              </mat-button-toggle>
             }
-          </mat-select>
-        </mat-form-field>
-      </span>
+          </mat-button-toggle-group>
+        </div>
+      }
 
       <app-bar-chart
         [datasets]="incomeGroupDatasets"
