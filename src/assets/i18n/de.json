@@ -6,11 +6,12 @@
       "description": "hat ausgerechnet, welche Partei wem wie viel Geld ins Portemonnaie spülen möchte. Schau jetzt, was für dich dabei rausspringt.",
       "terms": {
         "income-group": "Einkommensgruppe",
-        "euros": "Euro",
+        "euros": "€",
         "source": "Quelle"
       },
       "questions": {
-        "income-group": "Wie hoch ist dein Bruttojahreseinkommen?"
+        "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
+        "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?"
       },
       "labels": {
         "percentage-income-change": "prozentuale Veränderung im verfügbaren Einkommen"

@@ -7,11 +7,12 @@
       "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you.",
       "terms": {
         "income-group": "income group",
-        "euros": "Euros",
+        "euros": "€",
         "source": "source"
       },
       "questions": {
-        "income-group": "What is your gross annual income in Euros?"
+        "income-group-year": "What is your gross annual income in Euros?",
+        "income-group-month": "or what is your gross monthly income in Euros?"
       },
       "labels": {
         "percentage-income-change": "percentage change in disposable income"

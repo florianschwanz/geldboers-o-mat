@@ -30,10 +30,10 @@ import { Media, MediaService } from '../../core/ui/services/media.service';
 export type IncomeGroup = {
   /** Index */
   index: number;
-  /** Text */
-  selectText: string;
-  /** Text */
-  buttonToggleText: string;
+  /** Texts for annual income  */
+  annual: { selectText: string; buttonToggleText: string };
+  /** Texts for monthly income  */
+  monthly: { selectText: string; buttonToggleText: string };
 };
 
 /**
@@ -82,18 +82,62 @@ export class MainComponent implements OnInit {
   /** Language */
   lang = getBrowserLang();
 
+  //
+  // Data
+  //
+
   /** Available income groups */
   incomeGroups: IncomeGroup[] = [
-    { index: 0, selectText: '1 - 10.000', buttonToggleText: '10T' },
-    { index: 1, selectText: '10.001 - 20.000', buttonToggleText: '20T' },
-    { index: 2, selectText: '20.001 - 30.000', buttonToggleText: '30T' },
-    { index: 3, selectText: '30.001 - 40.000', buttonToggleText: '40T' },
-    { index: 4, selectText: '40.001 - 55.000', buttonToggleText: '55T' },
-    { index: 5, selectText: '55.001 - 80.000', buttonToggleText: '80T' },
-    { index: 6, selectText: '80.001 - 100.000', buttonToggleText: '100T' },
-    { index: 7, selectText: '100.001 - 150.000', buttonToggleText: '150T' },
-    { index: 8, selectText: '150.001 - 250.000', buttonToggleText: '250T' },
-    { index: 9, selectText: '250.001 - 2.000.000', buttonToggleText: '2Mio' },
+    {
+      index: 0,
+      annual: { selectText: '1 - 10.000', buttonToggleText: '10T' },
+      monthly: { selectText: '1 - 833', buttonToggleText: '833' },
+    },
+    {
+      index: 1,
+      annual: { selectText: '10.001 - 20.000', buttonToggleText: '20T' },
+      monthly: { selectText: '834 - 1.666', buttonToggleText: '1.666' },
+    },
+    {
+      index: 2,
+      annual: { selectText: '20.001 - 30.000', buttonToggleText: '30T' },
+      monthly: { selectText: '1.667 - 2.500', buttonToggleText: '2.500' },
+    },
+    {
+      index: 3,
+      annual: { selectText: '30.001 - 40.000', buttonToggleText: '40T' },
+      monthly: { selectText: '2.500 - 3.333', buttonToggleText: '3.333' },
+    },
+    {
+      index: 4,
+      annual: { selectText: '40.001 - 55.000', buttonToggleText: '55T' },
+      monthly: { selectText: '3.334 - 4.583', buttonToggleText: '4.583' },
+    },
+    {
+      index: 5,
+      annual: { selectText: '55.001 - 80.000', buttonToggleText: '80T' },
+      monthly: { selectText: '4.584 - 6.666', buttonToggleText: '6.666' },
+    },
+    {
+      index: 6,
+      annual: { selectText: '80.001 - 100.000', buttonToggleText: '100T' },
+      monthly: { selectText: '6.667 - 8.333', buttonToggleText: '8.333' },
+    },
+    {
+      index: 7,
+      annual: { selectText: '100.001 - 150.000', buttonToggleText: '150T' },
+      monthly: { selectText: '8.334 - 12.500', buttonToggleText: '12.5T' },
+    },
+    {
+      index: 8,
+      annual: { selectText: '150.001 - 250.000', buttonToggleText: '250T' },
+      monthly: { selectText: '12.501 - 20.833', buttonToggleText: '20.8T' },
+    },
+    {
+      index: 9,
+      annual: { selectText: '250.001 - 2.000.000', buttonToggleText: '2Mio' },
+      monthly: { selectText: '20.834 - 166.666', buttonToggleText: '166.6T' },
+    },
   ];
 
   /** Data of parties */
@@ -159,11 +203,17 @@ export class MainComponent implements OnInit {
     ],
   ]);
 
+  //
+  // Selections
+  //
+
+  /** Index of the selected income group */
+  selectedIncomeGroupIndex = -1;
+
   /** Datasets for selected income group */
   incomeGroupDatasets: Dataset[] = [];
   /** Labels for selected income group */
   incomeGroupLabels: string[] = [];
-
   /** Suggested min-max value on the x-axis */
   xSuggestedMinMax = 30;
 
@@ -294,23 +344,27 @@ export class MainComponent implements OnInit {
    * @param event event
    */
   onIncomeGroupChanged(event: MatSelectChange | MatButtonToggleChange) {
-    const selectedIncomeGroupIndex = event.value;
+    this.selectedIncomeGroupIndex = event.value;
+
     const dataSorted = new Map(
       [...this.data.entries()].sort(
         (a: [string, Party], b: [string, Party]) => {
           return (
-            b[1].changesIncomeGroups[selectedIncomeGroupIndex] -
-            a[1].changesIncomeGroups[selectedIncomeGroupIndex]
+            b[1].changesIncomeGroups[this.selectedIncomeGroupIndex] -
+            a[1].changesIncomeGroups[this.selectedIncomeGroupIndex]
           );
         },
       ),
     );
 
-    this.initializeIncomeGroupDatasets(dataSorted, selectedIncomeGroupIndex);
+    this.initializeIncomeGroupDatasets(
+      dataSorted,
+      this.selectedIncomeGroupIndex,
+    );
     this.initializeIncomeGroupLabels(dataSorted);
     this.initializeIncomeGroupSuggestedMinMax(
       dataSorted,
-      selectedIncomeGroupIndex,
+      this.selectedIncomeGroupIndex,
     );
   }
 }
