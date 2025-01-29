@@ -11,16 +11,19 @@
         >
         {{ t("description") }}
       </div>
-      <span class="question">{{ t("questions.income-group") }}</span>
+      <div class="question">{{ t("questions.income-group-year") }}</div>
 
       @if (media < mediaEnum.LARGE) {
         <div class="income-group-selection">
           <mat-form-field>
             <mat-label>{{ t("terms.income-group") }}</mat-label>
-            <mat-select (selectionChange)="onIncomeGroupChanged($event)">
+            <mat-select
+              [value]="selectedIncomeGroupIndex"
+              (selectionChange)="onIncomeGroupChanged($event)"
+            >
               @for (incomeGroup of incomeGroups; track incomeGroup) {
                 <mat-option [value]="incomeGroup.index"
-                  >{{ incomeGroup.selectText }} {{ t("terms.euros") }}
+                  >{{ incomeGroup.annual.selectText }} {{ t("terms.euros") }}
                 </mat-option>
               }
             </mat-select>
@@ -33,11 +36,51 @@
           <mat-button-toggle-group
             name="fontStyle"
             aria-label="income group"
+            [value]="selectedIncomeGroupIndex"
             (change)="onIncomeGroupChanged($event)"
           >
             @for (incomeGroup of incomeGroups; track incomeGroup) {
               <mat-button-toggle [value]="incomeGroup.index"
-                >{{ incomeGroup.buttonToggleText }} {{ t("terms.euros") }}
+                >≤ {{ incomeGroup.annual.buttonToggleText }}
+                {{ t("terms.euros") }}
+              </mat-button-toggle>
+            }
+          </mat-button-toggle-group>
+        </div>
+      }
+
+      <div class="question">{{ t("questions.income-group-month") }}</div>
+
+      @if (media < mediaEnum.LARGE) {
+        <div class="income-group-selection">
+          <mat-form-field>
+            <mat-label>{{ t("terms.income-group") }}</mat-label>
+            <mat-select
+              [value]="selectedIncomeGroupIndex"
+              (selectionChange)="onIncomeGroupChanged($event)"
+            >
+              @for (incomeGroup of incomeGroups; track incomeGroup) {
+                <mat-option [value]="incomeGroup.index"
+                  >{{ incomeGroup.monthly.selectText }} {{ t("terms.euros") }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
+
+      @if (media > mediaEnum.MEDIUM) {
+        <div class="income-group-selection">
+          <mat-button-toggle-group
+            name="fontStyle"
+            aria-label="income group"
+            [value]="selectedIncomeGroupIndex"
+            (change)="onIncomeGroupChanged($event)"
+          >
+            @for (incomeGroup of incomeGroups; track incomeGroup) {
+              <mat-button-toggle [value]="incomeGroup.index"
+                >≤ {{ incomeGroup.monthly.buttonToggleText }}
+                {{ t("terms.euros") }}
               </mat-button-toggle>
             }
           </mat-button-toggle-group>
@@ -65,6 +108,5 @@
         Mannheim)
       </div>
     </div>
-    o
   </div>
 </ng-container>
