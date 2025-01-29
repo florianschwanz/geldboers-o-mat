@@ -11,7 +11,8 @@
       },
       "questions": {
         "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
-        "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?"
+        "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
+        "parties": "Welche Parteien willst du betrachten?"
       },
       "labels": {
         "percentage-income-change": "prozentuale Veränderung im verfügbaren Einkommen"

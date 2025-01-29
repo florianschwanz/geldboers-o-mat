@@ -53,6 +53,28 @@
   margin-top: 16px;
 }
 
+.party-button {
+  padding: 8px;
+  margin: 0 8px 16px;
+  text-align: center;
+  vertical-align: center;
+  height: 96px;
+}
+
+.grayscale {
+  color: grey;
+  filter: grayscale(100%);
+}
+
+.party-logo {
+  max-height: 78px;
+  max-width: 108px;
+}
+
+.party-label {
+  font-weight: 700;
+}
+
 .footer {
   margin-top: 64px;
 }
