@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Theme, ThemeService } from '../../core/ui/services/theme.service';
 import { ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs';
+import { BehaviorSubject, combineLatestWith, first } from 'rxjs';
 import {
   getBrowserLang,
   TranslocoModule,
@@ -23,6 +23,7 @@ import {
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 import { Media, MediaService } from '../../core/ui/services/media.service';
+import { MatButton } from '@angular/material/button';
 
 /**
  * Represents an income group
@@ -40,6 +41,10 @@ export type IncomeGroup = {
  * Represents a political party
  */
 export type Party = {
+  /** Name */
+  name: string;
+  /** Image path */
+  image: string;
   /** Color */
   color: string;
   /** Relative changes in income based on income groups */
@@ -60,6 +65,7 @@ export type Party = {
     BarChartComponent,
     MatButtonToggleGroup,
     MatButtonToggle,
+    MatButton,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -141,74 +147,65 @@ export class MainComponent implements OnInit {
   ];
 
   /** Data of parties */
-  data = new Map<string, Party>([
-    [
-      'CDU',
-      {
-        color: 'rgb(0, 0, 0)',
-        changesIncomeGroups: [0.1, 0.1, 0.3, 0.6, 1.1, 1.8, 2.4, 3.2, 4.4, 5.1],
-      },
-    ],
-    [
-      'SPD',
-      {
-        color: 'rgb(227, 0, 15)',
-        changesIncomeGroups: [
-          1.9, 2.4, 3.1, 2.8, 2.5, 2.6, 2.3, 1.7, 1.0, -3.4,
-        ],
-      },
-    ],
-    [
-      'Grüne',
-      {
-        color: 'rgb(0, 152, 68)',
-        changesIncomeGroups: [
-          0.9, 2.8, 3.9, 3.6, 3.1, 2.1, 1.4, 0.7, -0.1, -3.8,
-        ],
-      },
-    ],
-    [
-      'FDP',
-      {
-        color: 'rgb(255, 204, 0)',
-        changesIncomeGroups: [
-          -2.1, -0.2, 1.4, 2.3, 3.7, 5.5, 6.8, 8.2, 9.8, 8.1,
-        ],
-      },
-    ],
-    [
-      'LINKE',
-      {
-        color: 'rgb(197, 30, 58)',
-        changesIncomeGroups: [
-          29.7, 12.4, 8.5, 6.4, 6.4, 6.7, 5.5, 2.7, -3.0, -27.0,
-        ],
-      },
-    ],
-    [
-      'AfD',
-      {
-        color: 'rgb(0, 152, 215)',
-        changesIncomeGroups: [0.0, 0.2, 1.1, 1.7, 2.8, 4.9, 6.1, 6.7, 7.7, 7.7],
-      },
-    ],
-    [
-      'BSW',
-      {
-        color: 'rgb(255, 165, 0)',
-        changesIncomeGroups: [
-          0.5, 1.4, 3.0, 2.8, 2.9, 3.0, 2.3, 1.3, 0.1, -2.2,
-        ],
-      },
-    ],
-  ]);
+  data: Party[] = [
+    {
+      name: 'CDU',
+      image: 'assets/images/party-cdu.png',
+      color: 'rgb(0, 0, 0)',
+      changesIncomeGroups: [0.1, 0.1, 0.3, 0.6, 1.1, 1.8, 2.4, 3.2, 4.4, 5.1],
+    },
+    {
+      name: 'SPD',
+      image: 'assets/images/party-spd.png',
+      color: 'rgb(227, 0, 15)',
+      changesIncomeGroups: [1.9, 2.4, 3.1, 2.8, 2.5, 2.6, 2.3, 1.7, 1.0, -3.4],
+    },
+    {
+      name: 'Bündnis 90/Die Grünen',
+      image: 'assets/images/party-gruene.png',
+      color: 'rgb(0, 152, 68)',
+      changesIncomeGroups: [0.9, 2.8, 3.9, 3.6, 3.1, 2.1, 1.4, 0.7, -0.1, -3.8],
+    },
+    {
+      name: 'FDP',
+      image: 'assets/images/party-fdp.png',
+      color: 'rgb(255, 204, 0)',
+      changesIncomeGroups: [-2.1, -0.2, 1.4, 2.3, 3.7, 5.5, 6.8, 8.2, 9.8, 8.1],
+    },
+    {
+      name: 'Die Linke',
+      image: 'assets/images/party-linke.png',
+      color: 'rgb(197, 30, 58)',
+      changesIncomeGroups: [
+        29.7, 12.4, 8.5, 6.4, 6.4, 6.7, 5.5, 2.7, -3.0, -27.0,
+      ],
+    },
+    {
+      name: 'AfD',
+      image: '',
+      color: 'rgb(0, 152, 215)',
+      changesIncomeGroups: [0.0, 0.2, 1.1, 1.7, 2.8, 4.9, 6.1, 6.7, 7.7, 7.7],
+    },
+    {
+      name: 'BSW',
+      image: 'assets/images/party-bsw.png',
+      color: 'rgb(255, 165, 0)',
+      changesIncomeGroups: [0.5, 1.4, 3.0, 2.8, 2.9, 3.0, 2.3, 1.3, 0.1, -2.2],
+    },
+  ];
 
   //
   // Selections
   //
 
-  /** Index of the selected income group */
-  selectedIncomeGroupIndex = -1;
+  selectedIncomeGroupIndexSubject = new BehaviorSubject<number>(-1);
+  selectedPartiesSubject = new BehaviorSubject<Map<string, boolean>>(
+    new Map<string, boolean>(),
+  );
+
+  //
+  // Bar Chart
+  //
 
   /** Datasets for selected income group */
   incomeGroupDatasets: Dataset[] = [];
@@ -244,6 +241,8 @@ export class MainComponent implements OnInit {
     this.handleQueryParameters();
     this.initializeMedia();
 
+    this.handleSelections();
+
     this.initializeIncomeGroupLabels(this.data);
     this.initializeIncomeGroupDatasets(this.data, -1);
   }
@@ -256,6 +255,29 @@ export class MainComponent implements OnInit {
       const theme = queryParams[this.QUERY_PARAM_THEME];
       this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
     });
+  }
+
+  /**
+   * Handles user selection
+   * @private
+   */
+  private handleSelections() {
+    this.selectedIncomeGroupIndexSubject
+      .pipe(combineLatestWith(this.selectedPartiesSubject))
+      .subscribe(([incomeGroupIndex, parties]) => {
+        const dataSorted = this.data
+          .slice()
+          .filter((party: Party) => this.isPartySelected(parties, party))
+          .sort(
+            (a: Party, b: Party) =>
+              b.changesIncomeGroups[incomeGroupIndex] -
+              a.changesIncomeGroups[incomeGroupIndex],
+          );
+
+        this.initializeIncomeGroupLabels(dataSorted);
+        this.initializeIncomeGroupDatasets(dataSorted, incomeGroupIndex);
+        this.initializeIncomeGroupSuggestedMinMax(dataSorted, incomeGroupIndex);
+      });
   }
 
   //
@@ -278,8 +300,8 @@ export class MainComponent implements OnInit {
    * @param data data
    * @private
    */
-  private initializeIncomeGroupLabels(data: Map<string, Party>) {
-    this.incomeGroupLabels = Array.from(data.keys());
+  private initializeIncomeGroupLabels(data: Party[]) {
+    this.incomeGroupLabels = data.map((party) => party.name);
   }
 
   /**
@@ -289,10 +311,10 @@ export class MainComponent implements OnInit {
    * @private
    */
   private initializeIncomeGroupSuggestedMinMax(
-    data: Map<string, Party>,
+    data: Party[],
     selectedIncomeGroupIndex: number,
   ) {
-    const values = Array.from(data.values()).map(
+    const values = data.map(
       (party) => party.changesIncomeGroups[selectedIncomeGroupIndex],
     );
 
@@ -309,7 +331,7 @@ export class MainComponent implements OnInit {
    * @private
    */
   private initializeIncomeGroupDatasets(
-    data: Map<string, Party>,
+    data: Party[],
     selectedIncomeGroupIndex: number,
   ) {
     this.incomeGroupDatasets = [
@@ -323,16 +345,25 @@ export class MainComponent implements OnInit {
                 this.lang,
               )
             : '',
-        data: Array.from(data.values()).map((party) =>
+        data: data.map((party) =>
           selectedIncomeGroupIndex != -1
             ? party.changesIncomeGroups[selectedIncomeGroupIndex]
             : 0,
         ),
-        backgroundColor: Array.from(data.values()).map((party) => party.color),
-        borderColor: Array.from(data.values()).map((_) => 'transparent'),
+        backgroundColor: data.map((party) => party.color),
+        borderColor: data.map((_) => 'transparent'),
         borderWidth: 1,
       },
     ];
+  }
+
+  /**
+   * Determines if a given party is selected
+   * @param parties parties
+   * @param party party
+   */
+  isPartySelected(parties: Map<string, boolean>, party: Party) {
+    return !parties.has(party.name) || parties.get(party.name);
   }
 
   //
@@ -344,27 +375,18 @@ export class MainComponent implements OnInit {
    * @param event event
    */
   onIncomeGroupChanged(event: MatSelectChange | MatButtonToggleChange) {
-    this.selectedIncomeGroupIndex = event.value;
+    this.selectedIncomeGroupIndexSubject.next(event.value);
+  }
 
-    const dataSorted = new Map(
-      [...this.data.entries()].sort(
-        (a: [string, Party], b: [string, Party]) => {
-          return (
-            b[1].changesIncomeGroups[this.selectedIncomeGroupIndex] -
-            a[1].changesIncomeGroups[this.selectedIncomeGroupIndex]
-          );
-        },
-      ),
-    );
+  /**
+   * Handles click on party button
+   * @param parties parties
+   * @param party party
+   */
+  onPartyToggled(parties: Map<string, boolean>, party: Party) {
+    const selectedParties = this.selectedPartiesSubject.value;
+    selectedParties.set(party.name, !this.isPartySelected(parties, party));
 
-    this.initializeIncomeGroupDatasets(
-      dataSorted,
-      this.selectedIncomeGroupIndex,
-    );
-    this.initializeIncomeGroupLabels(dataSorted);
-    this.initializeIncomeGroupSuggestedMinMax(
-      dataSorted,
-      this.selectedIncomeGroupIndex,
-    );
+    this.selectedPartiesSubject.next(selectedParties);
   }
 }

@@ -18,7 +18,7 @@
           <mat-form-field>
             <mat-label>{{ t("terms.income-group") }}</mat-label>
             <mat-select
-              [value]="selectedIncomeGroupIndex"
+              [value]="selectedIncomeGroupIndexSubject.value"
               (selectionChange)="onIncomeGroupChanged($event)"
             >
               @for (incomeGroup of incomeGroups; track incomeGroup) {
@@ -36,7 +36,7 @@
           <mat-button-toggle-group
             name="fontStyle"
             aria-label="income group"
-            [value]="selectedIncomeGroupIndex"
+            [value]="selectedIncomeGroupIndexSubject.value"
             (change)="onIncomeGroupChanged($event)"
           >
             @for (incomeGroup of incomeGroups; track incomeGroup) {
@@ -56,7 +56,7 @@
           <mat-form-field>
             <mat-label>{{ t("terms.income-group") }}</mat-label>
             <mat-select
-              [value]="selectedIncomeGroupIndex"
+              [value]="selectedIncomeGroupIndexSubject.value"
               (selectionChange)="onIncomeGroupChanged($event)"
             >
               @for (incomeGroup of incomeGroups; track incomeGroup) {
@@ -74,7 +74,7 @@
           <mat-button-toggle-group
             name="fontStyle"
             aria-label="income group"
-            [value]="selectedIncomeGroupIndex"
+            [value]="selectedIncomeGroupIndexSubject.value"
             (change)="onIncomeGroupChanged($event)"
           >
             @for (incomeGroup of incomeGroups; track incomeGroup) {
@@ -85,6 +85,36 @@
             }
           </mat-button-toggle-group>
         </div>
+      }
+
+      <div class="question">{{ t("questions.parties") }}</div>
+
+      @for (party of data.values(); track party) {
+        <button
+          mat-button
+          class="party-button"
+          (click)="onPartyToggled(selectedPartiesSubject.value, party)"
+        >
+          @if (party.image.length > 0) {
+            <img
+              [src]="party.image"
+              [alt]="party.name"
+              [class.grayscale]="
+                !isPartySelected(selectedPartiesSubject.value, party)
+              "
+              class="party-logo"
+            />
+          } @else {
+            <div
+              class="party-label"
+              [class.grayscale]="
+                !isPartySelected(selectedPartiesSubject.value, party)
+              "
+            >
+              {{ party.name }}
+            </div>
+          }
+        </button>
       }
 
       <app-bar-chart

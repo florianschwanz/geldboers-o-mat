@@ -12,7 +12,8 @@
       },
       "questions": {
         "income-group-year": "What is your gross annual income in Euros?",
-        "income-group-month": "or what is your gross monthly income in Euros?"
+        "income-group-month": "or what is your gross monthly income in Euros?",
+        "parties": "Which political parties would you like to consider?"
       },
       "labels": {
         "percentage-income-change": "percentage change in disposable income"
