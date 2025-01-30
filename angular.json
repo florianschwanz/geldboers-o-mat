@@ -28,7 +28,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "finanz": {
               "budgets": [
                 {
                   "type": "initial",
@@ -44,7 +44,28 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.finanz.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "geldboers": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "400kB",
+                  "maximumError": "800kB"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.geldboers.ts"
                 }
               ],
               "outputHashing": "all"
@@ -55,13 +76,16 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "finanz"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "finanz-o-mat:build:production"
+            "finanz": {
+              "buildTarget": "finanz-o-mat:build:finanz"
+            },
+            "geldboers": {
+              "buildTarget": "finanz-o-mat:build:geldboers"
             },
             "development": {
               "buildTarget": "finanz-o-mat:build:development"

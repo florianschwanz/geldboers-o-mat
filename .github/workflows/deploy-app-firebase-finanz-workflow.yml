@@ -1,4 +1,4 @@
-name: Build and Deploy to Firebase
+name: Build and Deploy to Firebase (Finanz-O-Mat)
 on: [pull_request, push]
 jobs:
   build:
@@ -10,13 +10,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 23
+      - name: Clean
+        run: |
+          rm -rf ./dist/*
+          rm -rf ./reports/*
+          rm -rf ./coverage/*
+          mkdir -p ./reports
       - name: Build Angular
         run: |
+          cp src/index-finanz.html src/index.html
           npm install
-          npm run build
+          npm run build --configuration=finanz
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --project finanz-o-mat --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

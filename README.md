@@ -1,5 +1,6 @@
 [![Build](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/build-app-workflow.yml/badge.svg)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/build-app-workflow.yml)
-[![Build and Deploy to Firebase](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-workflow.yml/badge.svg)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-workflow.yml)
+[![Build and Deploy to Firebase (Finanz-O-Mat)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-finanz-workflow.yml/badge.svg)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-finanz-workflow.yml)
+[![Build and Deploy to Firebase (Geldbörs-O-Mat)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-geldboers-workflow.yml/badge.svg)](https://github.com/florianschwanz/finanz-o-mat/actions/workflows/deploy-app-firebase-geldboers-workflow.yml)
 [![Issues](https://img.shields.io/github/issues/florianschwanz/finanz-o-mat)](https://github.com/florianschwanz/finanz-o-mat/issues)
 
 <br />

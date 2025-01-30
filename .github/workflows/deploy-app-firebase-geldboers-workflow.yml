@@ -1,0 +1,29 @@
+name: Build and Deploy to Firebase (Geldbörs-O-Mat)
+on: [pull_request, push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 23
+      - name: Clean
+        run: |
+          rm -rf ./dist/*
+          rm -rf ./reports/*
+          rm -rf ./coverage/*
+          mkdir -p ./reports
+      - name: Build Angular
+        run: |
+          cp src/index-geldboers.html src/index.html
+          npm install
+          npm run build --configuration=geldboers
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --project geldboers-o-mat --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
