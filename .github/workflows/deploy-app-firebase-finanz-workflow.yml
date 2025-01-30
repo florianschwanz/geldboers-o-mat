@@ -12,11 +12,12 @@ jobs:
           node-version: 23
       - name: Build Angular
         run: |
+          cp src/index-finanz.html src/index.html
           npm install
-          npm run build
+          npm run build --configuration=finanz
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --project finanz-o-mat --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

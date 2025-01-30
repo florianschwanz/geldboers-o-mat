@@ -24,6 +24,7 @@ import {
 } from '@angular/material/button-toggle';
 import { Media, MediaService } from '../../core/ui/services/media.service';
 import { MatButton } from '@angular/material/button';
+import { environment } from '../../../environments/environment';
 
 /**
  * Represents an income group
@@ -227,6 +228,8 @@ export class MainComponent implements OnInit {
   // Constants
   //
 
+  /** App name */
+  appName = environment.appName;
   /** Query parameter theme */
   private QUERY_PARAM_THEME: string = 'theme';
 
