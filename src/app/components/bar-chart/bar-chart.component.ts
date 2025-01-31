@@ -49,6 +49,10 @@ export class BarChartComponent implements OnInit, OnChanges {
   xSuggestedMin = input<number>(0);
   /** Suggested x-axis max value */
   xSuggestedMax = input<number>(1);
+  /** Whether to display grid */
+  xGrid = input<boolean>(true);
+  /** Whether to display grid */
+  yGrid = input<boolean>(true);
 
   //
   // Chart
@@ -162,6 +166,9 @@ export class BarChartComponent implements OnInit, OnChanges {
       scales: {
         x: {
           display: true,
+          grid: {
+            display: this.xGrid(),
+          },
           ticks: {
             color: theme == Theme.DARK ? '#fefefe' : '#000000',
             callback: (value, index, values) => {
@@ -173,6 +180,9 @@ export class BarChartComponent implements OnInit, OnChanges {
         },
         y: {
           display: true,
+          grid: {
+            display: this.yGrid(),
+          },
           ticks: {
             color: theme == Theme.DARK ? '#fefefe' : '#000000',
           },
