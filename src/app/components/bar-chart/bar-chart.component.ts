@@ -91,6 +91,39 @@ export class BarChartComponent implements OnInit, OnChanges {
     let chartId = 'bar-chart';
     let chart = Chart.getChart(chartId);
 
+    const xUnit = this.xUnit();
+
+    Chart.register({
+      id: 'barLabelPlugin',
+      afterDatasetsDraw(chart, args, options) {
+        const { ctx, data } = chart;
+
+        ctx.save();
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'black';
+
+        data.datasets.forEach((dataset, datasetIndex) => {
+          const meta = chart.getDatasetMeta(datasetIndex);
+          meta.data.forEach((bar, index) => {
+            const value = dataset.data[index];
+            if (value != null) {
+              const text =
+                +value != 0
+                  ? (+value > 0 ? '+' : '') + value.toString() + xUnit
+                  : '';
+              const padding = 8;
+              const x = +value > 0 ? bar.x + padding : bar.x - padding - 28;
+              const y = bar.y;
+              ctx.fillText(text, x, y);
+            }
+          });
+        });
+
+        ctx.restore();
+      },
+    });
+
     // Initialize chart
     if (!chart) {
       chart = new Chart(chartId, {

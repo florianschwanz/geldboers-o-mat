@@ -320,11 +320,11 @@ export class MainComponent implements OnInit {
     const values = data.map(
       (party) => party.changesIncomeGroups[selectedIncomeGroupIndex],
     );
+    const padding = 2.5;
 
-    this.xSuggestedMinMax = Math.max(
-      Math.abs(Math.max(...values)),
-      Math.abs(Math.min(...values)),
-    );
+    this.xSuggestedMinMax =
+      Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) +
+      padding;
   }
 
   /** Initializes datasets for income group
