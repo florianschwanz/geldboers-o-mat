@@ -42,6 +42,8 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   /** Whether to display the bar chart vertically */
   vertical = input<boolean>(true);
+  /** Whether to display a legend */
+  displayLegend = input<boolean>(true);
 
   /** Unit of x-axis */
   xUnit = input<string>('');
@@ -153,14 +155,7 @@ export class BarChartComponent implements OnInit, OnChanges {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          onClick: (_) => {},
-          labels: {
-            color: theme == Theme.DARK ? '#fefefe' : '#000000',
-            sort: (a, b) => {
-              // @ts-ignore
-              return a.index > b.index ? 1 : -1;
-            },
-          },
+          display: this.displayLegend(),
         },
       },
       scales: {
