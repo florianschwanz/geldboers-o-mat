@@ -44,7 +44,11 @@ export class BarChartComponent implements OnInit, OnChanges {
   vertical = input<boolean>(true);
   /** Whether to display a legend */
   displayLegend = input<boolean>(true);
+  /** Whether to display tooltips */
+  displayTooltip = input<boolean>(true);
 
+  /** Title of x-axis */
+  xTitle = input<string>('');
   /** Unit of x-axis */
   xUnit = input<string>('');
   /** Suggested x-axis min value */
@@ -157,10 +161,20 @@ export class BarChartComponent implements OnInit, OnChanges {
         legend: {
           display: this.displayLegend(),
         },
+        tooltip: {
+          enabled: this.displayTooltip(),
+        },
       },
       scales: {
         x: {
           display: true,
+          title: {
+            display: true,
+            text: this.xTitle(),
+            font: {
+              size: 14,
+            },
+          },
           grid: {
             display: this.xGrid(),
           },

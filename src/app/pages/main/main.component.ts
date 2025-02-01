@@ -208,6 +208,10 @@ export class MainComponent implements OnInit {
   // Bar Chart
   //
 
+  /** Title of x-axis */
+  xTitle: string = '';
+  /** Unit of x-axis */
+  xUnit: string = '';
   /** Datasets for selected income group */
   incomeGroupDatasets: Dataset[] = [];
   /** Labels for selected income group */
@@ -246,6 +250,7 @@ export class MainComponent implements OnInit {
 
     this.handleSelections();
 
+    this.initializeTitle();
     this.initializeIncomeGroupLabels(this.data);
     this.initializeIncomeGroupDatasets(this.data, -1);
   }
@@ -277,6 +282,7 @@ export class MainComponent implements OnInit {
               a.changesIncomeGroups[incomeGroupIndex],
           );
 
+        this.initializeTitle();
         this.initializeIncomeGroupLabels(dataSorted);
         this.initializeIncomeGroupDatasets(dataSorted, incomeGroupIndex);
         this.initializeIncomeGroupSuggestedMinMax(dataSorted, incomeGroupIndex);
@@ -296,6 +302,19 @@ export class MainComponent implements OnInit {
     });
 
     this.media = this.mediaService.mediaSubject.value;
+  }
+
+  /**
+   * Initializes axis title and unit
+   * @private
+   */
+  private initializeTitle() {
+    this.xTitle = this.translocoService.translate(
+      'pages.main.labels.percentage-income-change',
+      {},
+      this.lang,
+    );
+    this.xUnit = '%';
   }
 
   /**
