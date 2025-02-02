@@ -49,8 +49,19 @@ export type Party = {
   /** Color */
   color: string;
   /** Relative changes in income based on income groups */
-  changesIncomeGroups: number[];
+  changesRelative: number[];
+  /** Absolute changes in income based on income groups */
+  changesAbsoluteMonthly: number[];
 };
+
+/**
+ * Represents the results format
+ */
+export enum ResultsFormat {
+  RELATIVE,
+  ABSOLUTE_MONTHLY,
+  ABSOLUTE_ANNUALLY,
+}
 
 /**
  * Displays main component
@@ -148,50 +159,69 @@ export class MainComponent implements OnInit {
   ];
 
   /** Data of parties */
-  data: Party[] = [
+  parties: Party[] = [
     {
       name: 'CDU',
       image: 'assets/images/party-cdu.png',
       color: 'rgb(0, 0, 0)',
-      changesIncomeGroups: [0.1, 0.1, 0.3, 0.6, 1.1, 1.8, 2.4, 3.2, 4.4, 5.1],
+      changesRelative: [0.1, 0.1, 0.3, 0.6, 1.1, 1.8, 2.4, 3.2, 4.4, 5.1],
+      changesAbsoluteMonthly: [
+        11, 13, 63, 176, 414, 907, 1528, 2587, 5203, 13248,
+      ],
     },
     {
       name: 'SPD',
       image: 'assets/images/party-spd.png',
       color: 'rgb(227, 0, 15)',
-      changesIncomeGroups: [1.9, 2.4, 3.1, 2.8, 2.5, 2.6, 2.3, 1.7, 1.0, -3.4],
+      changesRelative: [1.9, 2.4, 3.1, 2.8, 2.5, 2.6, 2.3, 1.7, 1.0, -3.4],
+      changesAbsoluteMonthly: [
+        268, 373, 682, 795, 926, 1281, 1438, 1360, 1179, -8892,
+      ],
     },
     {
       name: 'Bündnis 90/Die Grünen',
       image: 'assets/images/party-gruene.png',
       color: 'rgb(0, 152, 68)',
-      changesIncomeGroups: [0.9, 2.8, 3.9, 3.6, 3.1, 2.1, 1.4, 0.7, -0.1, -3.8],
+      changesRelative: [0.9, 2.8, 3.9, 3.6, 3.1, 2.1, 1.4, 0.7, -0.1, -3.8],
+      changesAbsoluteMonthly: [
+        119, 437, 846, 1033, 1140, 1055, 867, 585, -122, -9833,
+      ],
     },
     {
       name: 'FDP',
       image: 'assets/images/party-fdp.png',
       color: 'rgb(255, 204, 0)',
-      changesIncomeGroups: [-2.1, -0.2, 1.4, 2.3, 3.7, 5.5, 6.8, 8.2, 9.8, 8.1],
+      changesRelative: [-2.1, -0.2, 1.4, 2.3, 3.7, 5.5, 6.8, 8.2, 9.8, 8.1],
+      changesAbsoluteMonthly: [
+        -289, -36, 292, 663, 1379, 2758, 4378, 6734, 11543, 21083,
+      ],
     },
     {
       name: 'Die Linke',
       image: 'assets/images/party-linke.png',
       color: 'rgb(197, 30, 58)',
-      changesIncomeGroups: [
-        29.7, 12.4, 8.5, 6.4, 6.4, 6.7, 5.5, 2.7, -3.0, -27.0,
+      changesRelative: [29.7, 12.4, 8.5, 6.4, 6.4, 6.7, 5.5, 2.7, -3.0, -27.0],
+      changesAbsoluteMonthly: [
+        4125, 1936, 1846, 1840, 2378, 3316, 3500, 2189, -3547, -70679,
       ],
     },
     {
       name: 'AfD',
       image: '',
       color: 'rgb(0, 152, 215)',
-      changesIncomeGroups: [0.0, 0.2, 1.1, 1.7, 2.8, 4.9, 6.1, 6.7, 7.7, 7.7],
+      changesRelative: [0.0, 0.2, 1.1, 1.7, 2.8, 4.9, 6.1, 6.7, 7.7, 7.7],
+      changesAbsoluteMonthly: [
+        2, 28, 245, 487, 1064, 2446, 3926, 5471, 9067, 20107,
+      ],
     },
     {
       name: 'BSW',
       image: 'assets/images/party-bsw.png',
       color: 'rgb(255, 165, 0)',
-      changesIncomeGroups: [0.5, 1.4, 3.0, 2.8, 2.9, 3.0, 2.3, 1.3, 0.1, -2.2],
+      changesRelative: [0.5, 1.4, 3.0, 2.8, 2.9, 3.0, 2.3, 1.3, 0.1, -2.2],
+      changesAbsoluteMonthly: [
+        75, 224, 654, 820, 1083, 1474, 1482, 1033, 107, -5767,
+      ],
     },
   ];
 
@@ -199,9 +229,15 @@ export class MainComponent implements OnInit {
   // Selections
   //
 
+  /** Subject providing the selected income group index */
   selectedIncomeGroupIndexSubject = new BehaviorSubject<number>(-1);
+  /** Subject providing the selected parties */
   selectedPartiesSubject = new BehaviorSubject<Map<string, boolean>>(
     new Map<string, boolean>(),
+  );
+  /** Subject providing the selected results format */
+  selectedResultsFormatSubject = new BehaviorSubject<ResultsFormat>(
+    ResultsFormat.RELATIVE,
   );
 
   //
@@ -237,6 +273,9 @@ export class MainComponent implements OnInit {
   /** Query parameter theme */
   private QUERY_PARAM_THEME: string = 'theme';
 
+  /** Enum for results format */
+  resultsFormatEnum = ResultsFormat;
+
   //
   // Lifecycle hooks
   //
@@ -250,9 +289,13 @@ export class MainComponent implements OnInit {
 
     this.handleSelections();
 
-    this.initializeTitle();
-    this.initializeIncomeGroupLabels(this.data);
-    this.initializeIncomeGroupDatasets(this.data, -1);
+    this.initializeTitle(this.selectedResultsFormatSubject.value);
+    this.initializeIncomeGroupLabels(this.parties);
+    this.initializeIncomeGroupDatasets(
+      this.parties,
+      -1,
+      this.selectedResultsFormatSubject.value,
+    );
   }
 
   /**
@@ -271,21 +314,34 @@ export class MainComponent implements OnInit {
    */
   private handleSelections() {
     this.selectedIncomeGroupIndexSubject
-      .pipe(combineLatestWith(this.selectedPartiesSubject))
-      .subscribe(([incomeGroupIndex, parties]) => {
-        const dataSorted = this.data
+      .pipe(
+        combineLatestWith(
+          this.selectedPartiesSubject,
+          this.selectedResultsFormatSubject,
+        ),
+      )
+      .subscribe(([incomeGroupIndex, parties, resultsFormat]) => {
+        const dataSorted = this.parties
           .slice()
           .filter((party: Party) => this.isPartySelected(parties, party))
           .sort(
             (a: Party, b: Party) =>
-              b.changesIncomeGroups[incomeGroupIndex] -
-              a.changesIncomeGroups[incomeGroupIndex],
+              b.changesRelative[incomeGroupIndex] -
+              a.changesRelative[incomeGroupIndex],
           );
 
-        this.initializeTitle();
+        this.initializeTitle(resultsFormat);
         this.initializeIncomeGroupLabels(dataSorted);
-        this.initializeIncomeGroupDatasets(dataSorted, incomeGroupIndex);
-        this.initializeIncomeGroupSuggestedMinMax(dataSorted, incomeGroupIndex);
+        this.initializeIncomeGroupDatasets(
+          dataSorted,
+          incomeGroupIndex,
+          resultsFormat,
+        );
+        this.initializeIncomeGroupSuggestedMinMax(
+          dataSorted,
+          incomeGroupIndex,
+          resultsFormat,
+        );
       });
   }
 
@@ -306,15 +362,39 @@ export class MainComponent implements OnInit {
 
   /**
    * Initializes axis title and unit
+   * @param selectedResultsFormat selected results format
    * @private
    */
-  private initializeTitle() {
-    this.xTitle = this.translocoService.translate(
-      'pages.main.labels.percentage-income-change',
-      {},
-      this.lang,
-    );
-    this.xUnit = '%';
+  private initializeTitle(selectedResultsFormat: ResultsFormat) {
+    switch (selectedResultsFormat) {
+      case ResultsFormat.RELATIVE: {
+        this.xTitle = this.translocoService.translate(
+          'pages.main.labels.relative-income-change',
+          {},
+          this.lang,
+        );
+        this.xUnit = '%';
+        break;
+      }
+      case ResultsFormat.ABSOLUTE_MONTHLY: {
+        this.xTitle = this.translocoService.translate(
+          'pages.main.labels.absolute-income-change-monthly',
+          {},
+          this.lang,
+        );
+        this.xUnit = '€';
+        break;
+      }
+      case ResultsFormat.ABSOLUTE_ANNUALLY: {
+        this.xTitle = this.translocoService.translate(
+          'pages.main.labels.absolute-income-change-annually',
+          {},
+          this.lang,
+        );
+        this.xUnit = '€';
+        break;
+      }
+    }
   }
 
   /**
@@ -330,50 +410,119 @@ export class MainComponent implements OnInit {
    * Initialize suggested min-max for income group
    * @param data data
    * @param selectedIncomeGroupIndex selected income group index
+   * @param selectedResultsFormat selected results format
    * @private
    */
   private initializeIncomeGroupSuggestedMinMax(
     data: Party[],
     selectedIncomeGroupIndex: number,
+    selectedResultsFormat: ResultsFormat,
   ) {
-    const values = data.map(
-      (party) => party.changesIncomeGroups[selectedIncomeGroupIndex],
-    );
-    const padding = 2.5;
+    let values: number[] = [];
+
+    switch (selectedResultsFormat) {
+      case ResultsFormat.RELATIVE: {
+        values = data.map(
+          (party) => party.changesRelative[selectedIncomeGroupIndex],
+        );
+        break;
+      }
+      case ResultsFormat.ABSOLUTE_MONTHLY: {
+        values = data.map(
+          (party) => party.changesAbsoluteMonthly[selectedIncomeGroupIndex],
+        );
+        break;
+      }
+      case ResultsFormat.ABSOLUTE_ANNUALLY: {
+        values = data
+          .map(
+            (party) => party.changesAbsoluteMonthly[selectedIncomeGroupIndex],
+          )
+          .map((value) => value * 12);
+        break;
+      }
+    }
 
     this.xSuggestedMinMax =
-      Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) +
-      padding;
+      Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
+      1.1;
   }
 
   /** Initializes datasets for income group
    *
-   * @param data data
+   * @param parties parties
    * @param selectedIncomeGroupIndex selected income group index
+   @param selectedResultsFormat selected results format
    * @private
    */
   private initializeIncomeGroupDatasets(
-    data: Party[],
+    parties: Party[],
     selectedIncomeGroupIndex: number,
+    selectedResultsFormat: ResultsFormat,
   ) {
-    this.incomeGroupDatasets = [
-      {
-        axis: 'y',
-        label:
+    let label: string = '';
+    let data: number[] = [];
+
+    switch (selectedResultsFormat) {
+      case ResultsFormat.RELATIVE: {
+        label =
           selectedIncomeGroupIndex != -1
             ? this.translocoService.translate(
-                'pages.main.labels.percentage-income-change',
+                'pages.main.labels.relative-income-change',
                 {},
                 this.lang,
               )
-            : '',
-        data: data.map((party) =>
+            : '';
+        data = parties.map((party) =>
           selectedIncomeGroupIndex != -1
-            ? party.changesIncomeGroups[selectedIncomeGroupIndex]
+            ? party.changesRelative[selectedIncomeGroupIndex]
             : 0,
-        ),
-        backgroundColor: data.map((party) => party.color),
-        borderColor: data.map((_) => 'transparent'),
+        );
+        break;
+      }
+      case ResultsFormat.ABSOLUTE_MONTHLY: {
+        label =
+          selectedIncomeGroupIndex != -1
+            ? this.translocoService.translate(
+                'pages.main.labels.absolute-income-change-monthly',
+                {},
+                this.lang,
+              )
+            : '';
+        data = parties.map((party) =>
+          selectedIncomeGroupIndex != -1
+            ? party.changesAbsoluteMonthly[selectedIncomeGroupIndex]
+            : 0,
+        );
+        break;
+      }
+      case ResultsFormat.ABSOLUTE_ANNUALLY: {
+        label =
+          selectedIncomeGroupIndex != -1
+            ? this.translocoService.translate(
+                'pages.main.labels.absolute-income-change-annually',
+                {},
+                this.lang,
+              )
+            : '';
+        data = parties
+          .map((party) =>
+            selectedIncomeGroupIndex != -1
+              ? party.changesAbsoluteMonthly[selectedIncomeGroupIndex]
+              : 0,
+          )
+          .map((value) => value * 12);
+        break;
+      }
+    }
+
+    this.incomeGroupDatasets = [
+      {
+        axis: 'y',
+        label: label,
+        data: data,
+        backgroundColor: parties.map((party) => party.color),
+        borderColor: parties.map((_) => 'transparent'),
         borderWidth: 1,
       },
     ];
@@ -410,5 +559,13 @@ export class MainComponent implements OnInit {
     selectedParties.set(party.name, !this.isPartySelected(parties, party));
 
     this.selectedPartiesSubject.next(selectedParties);
+  }
+
+  /**
+   * Handles selection of results format
+   * @param event event
+   */
+  onResultsFormatChanged(event: MatButtonToggleChange) {
+    this.selectedResultsFormatSubject.next(event.value);
   }
 }

@@ -6,15 +6,23 @@
       "terms": {
         "income-group": "Einkommensgruppe",
         "euros": "€",
-        "source": "Quelle"
+        "source": "Quelle",
+        "results-format": {
+          "relative": "relativ",
+          "absolute-monthly": "absolut (monatlich)",
+          "absolute-annual": "absolut (jährlich)"
+        }
       },
       "questions": {
         "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
         "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
-        "parties": "Welche Parteien willst du betrachten?"
+        "parties": "Welche Parteien willst du betrachten?",
+        "result-format": "Wie sollen die Ergebnisse dargestellt werden?"
       },
       "labels": {
-        "percentage-income-change": "prozentuale Veränderung im verfügbaren Einkommen"
+        "relative-income-change": "prozentuale Veränderung im verfügbaren Einkommen",
+        "absolute-income-change-monthly": "absolute Veränderung im verfügbaren Einkommen pro Monat",
+        "absolute-income-change-annually": "absolute Veränderung im verfügbaren Einkommen pro Jahr"
       }
     }
   }

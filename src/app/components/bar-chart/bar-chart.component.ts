@@ -120,10 +120,11 @@ export class BarChartComponent implements OnInit, OnChanges {
             if (value != null) {
               const text =
                 +value != 0
-                  ? (+value > 0 ? '+' : '') + value.toString() + xUnit
+                  ? (+value > 0 ? '+' : '') +
+                    value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
                   : '';
               const padding = 8;
-              const x = +value > 0 ? bar.x + padding : bar.x - padding - 28;
+              const x = +value > 0 ? bar.x + padding : bar.x - padding - 32;
               const y = bar.y;
               ctx.fillText(text, x, y);
             }

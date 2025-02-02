@@ -89,7 +89,7 @@
 
       <div class="question">{{ t("questions.parties") }}</div>
 
-      @for (party of data.values(); track party) {
+      @for (party of parties.values(); track party) {
         <button
           mat-button
           class="party-button"
@@ -116,6 +116,27 @@
           }
         </button>
       }
+
+      <div class="question">{{ t("questions.result-format") }}</div>
+
+      <div class="result-format-selection">
+        <mat-button-toggle-group
+          name="fontStyle"
+          aria-label="result format"
+          [value]="selectedResultsFormatSubject.value"
+          (change)="onResultsFormatChanged($event)"
+        >
+          <mat-button-toggle [value]="resultsFormatEnum.RELATIVE"
+            >{{ t("terms.results-format.relative") }}
+          </mat-button-toggle>
+          <mat-button-toggle [value]="resultsFormatEnum.ABSOLUTE_MONTHLY"
+            >{{ t("terms.results-format.absolute-monthly") }}
+          </mat-button-toggle>
+          <mat-button-toggle [value]="resultsFormatEnum.ABSOLUTE_ANNUALLY"
+            >{{ t("terms.results-format.absolute-annual") }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
 
       <app-bar-chart
         [datasets]="incomeGroupDatasets"
