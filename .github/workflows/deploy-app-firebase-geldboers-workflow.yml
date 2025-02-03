@@ -19,6 +19,7 @@ jobs:
       - name: Build Angular
         run: |
           cp src/index-geldboers.html src/index.html
+          cp src/environments/environment.geldboers.ts src/environments/environment.ts
           npm install
           npm run build --configuration=geldboers
       - name: Deploy to Firebase

@@ -19,6 +19,7 @@ jobs:
       - name: Build Angular
         run: |
           cp src/index-finanz.html src/index.html
+          cp src/environments/environment.finanz.ts src/environments/environment.ts
           npm install
           npm run build --configuration=finanz
       - name: Deploy to Firebase
