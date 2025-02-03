@@ -179,7 +179,7 @@ export class MainComponent implements OnInit {
       ],
     },
     {
-      name: 'Bündnis 90/Die Grünen',
+      name: 'Die Grünen',
       image: 'assets/images/party-gruene.png',
       color: 'rgb(0, 152, 68)',
       changesRelative: [0.9, 2.8, 3.9, 3.6, 3.1, 2.1, 1.4, 0.7, -0.1, -3.8],
