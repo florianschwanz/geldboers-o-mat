@@ -10,11 +10,17 @@ import { Theme } from '../../core/ui/services/theme.service';
 
 /** Represents a dataset */
 export interface Dataset {
+  /** Axis */
   axis: string;
+  /** Label */
   label: string;
+  /** Data */
   data: number[];
+  /** Background color */
   backgroundColor: string[];
+  /** Border color */
   borderColor: string[];
+  /** Border width */
   borderWidth: number;
 }
 
@@ -220,7 +226,9 @@ export class BarChartComponent implements OnInit, OnChanges {
   // Actions
   //
 
-  onElementClicked(label: string) {
-    console.log(label);
-  }
+  /**
+   * Handles click on an element
+   * @param label label
+   */
+  onElementClicked(label: string) {}
 }

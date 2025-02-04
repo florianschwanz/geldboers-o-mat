@@ -19,6 +19,9 @@ import { TranslocoUndefMissingHandler } from './transloco-missing-handler';
 import { provideHttpClient } from '@angular/common/http';
 import { TranslocoHttpLoader } from './transloco-loader';
 
+/**
+ * Application config
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(BrowserModule, TranslocoModule),
