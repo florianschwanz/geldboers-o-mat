@@ -1,155 +1,185 @@
 <ng-container *transloco="let t; lang: lang; read: 'pages.main'">
   <div class="flex-container">
     <div class="main-container flex-box">
-      <div class="tag">{{ t("tag") }}</div>
-      <h1 class="header">{{ appName }}</h1>
-      <div class="description">
-        <a
-          href="https://www.leibniz-gemeinschaft.de/institute/leibniz-institute-alle-listen/zew-leibniz-zentrum-fuer-europaeische-wirtschaftsforschung"
-          target="_blank"
-          >ZEW</a
-        >
-        {{ t("description") }}
-      </div>
-      <div class="question">{{ t("questions.income-group-year") }}</div>
-
-      @if (media < mediaEnum.LARGE) {
-        <div class="income-group-selection">
-          <mat-form-field>
-            <mat-label>{{ t("terms.income-group") }}</mat-label>
-            <mat-select
-              [value]="selectedIncomeGroupIndexSubject.value"
-              (selectionChange)="onIncomeGroupChanged($event)"
-            >
-              @for (incomeGroup of incomeGroups; track incomeGroup) {
-                <mat-option [value]="incomeGroup.index"
-                  >{{ incomeGroup.annual.selectText }} {{ t("terms.euros") }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-      }
-
-      @if (media > mediaEnum.MEDIUM) {
-        <div class="income-group-selection">
-          <mat-button-toggle-group
-            name="fontStyle"
-            aria-label="income group"
-            [value]="selectedIncomeGroupIndexSubject.value"
-            (change)="onIncomeGroupChanged($event)"
+      <div class="header">
+        <div class="tag">{{ t("tag") }}</div>
+        <h1 class="header">{{ appName }}</h1>
+        <div class="description">
+          <a
+            href="https://www.leibniz-gemeinschaft.de/institute/leibniz-institute-alle-listen/zew-leibniz-zentrum-fuer-europaeische-wirtschaftsforschung"
+            target="_blank"
+            >ZEW</a
           >
-            @for (incomeGroup of incomeGroups; track incomeGroup) {
-              <mat-button-toggle [value]="incomeGroup.index"
-                >≤ {{ incomeGroup.annual.buttonToggleText }}
-                {{ t("terms.euros") }}
-              </mat-button-toggle>
-            }
-          </mat-button-toggle-group>
+          {{ t("description") }}
         </div>
-      }
-
-      <div class="question">{{ t("questions.income-group-month") }}</div>
-
-      @if (media < mediaEnum.LARGE) {
-        <div class="income-group-selection">
-          <mat-form-field>
-            <mat-label>{{ t("terms.income-group") }}</mat-label>
-            <mat-select
-              [value]="selectedIncomeGroupIndexSubject.value"
-              (selectionChange)="onIncomeGroupChanged($event)"
-            >
-              @for (incomeGroup of incomeGroups; track incomeGroup) {
-                <mat-option [value]="incomeGroup.index"
-                  >{{ incomeGroup.monthly.selectText }} {{ t("terms.euros") }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-      }
-
-      @if (media > mediaEnum.MEDIUM) {
-        <div class="income-group-selection">
-          <mat-button-toggle-group
-            name="fontStyle"
-            aria-label="income group"
-            [value]="selectedIncomeGroupIndexSubject.value"
-            (change)="onIncomeGroupChanged($event)"
-          >
-            @for (incomeGroup of incomeGroups; track incomeGroup) {
-              <mat-button-toggle [value]="incomeGroup.index"
-                >≤ {{ incomeGroup.monthly.buttonToggleText }}
-                {{ t("terms.euros") }}
-              </mat-button-toggle>
-            }
-          </mat-button-toggle-group>
-        </div>
-      }
-
-      <div class="question">{{ t("questions.parties") }}</div>
-
-      @for (party of parties.values(); track party) {
-        <button
-          mat-button
-          class="party-button"
-          (click)="onPartyToggled(selectedPartiesSubject.value, party)"
-        >
-          @if (party.image.length > 0) {
-            <img
-              [src]="party.image"
-              [alt]="party.name"
-              [class.grayscale]="
-                !isPartySelected(selectedPartiesSubject.value, party)
-              "
-              class="party-logo"
-            />
-          } @else {
-            <div
-              class="party-label"
-              [class.grayscale]="
-                !isPartySelected(selectedPartiesSubject.value, party)
-              "
-            >
-              {{ party.name }}
-            </div>
-          }
-        </button>
-      }
-
-      <div class="question">{{ t("questions.result-format") }}</div>
-
-      <div class="result-format-selection">
-        <mat-button-toggle-group
-          name="fontStyle"
-          aria-label="result format"
-          [value]="selectedResultsFormatSubject.value"
-          (change)="onResultsFormatChanged($event)"
-        >
-          <mat-button-toggle [value]="resultsFormatEnum.RELATIVE"
-            >{{ t("terms.results-format.relative") }}
-          </mat-button-toggle>
-          <mat-button-toggle [value]="resultsFormatEnum.ABSOLUTE_MONTHLY"
-            >{{ t("terms.results-format.absolute-monthly") }}
-          </mat-button-toggle>
-          <mat-button-toggle [value]="resultsFormatEnum.ABSOLUTE_ANNUALLY"
-            >{{ t("terms.results-format.absolute-annual") }}
-          </mat-button-toggle>
-        </mat-button-toggle-group>
       </div>
 
-      <app-bar-chart
-        [datasets]="incomeGroupDatasets"
-        [labels]="incomeGroupLabels"
-        [vertical]="false"
-        [displayLegend]="false"
-        [displayTooltip]="false"
-        [xTitle]="xTitle"
-        [xUnit]="xUnit"
-        [xSuggestedMin]="-xSuggestedMinMax"
-        [xSuggestedMax]="xSuggestedMinMax"
-        [yGrid]="false"
-      ></app-bar-chart>
+      <div class="selection-container">
+        <div class="question">{{ t("questions.income-group-year") }}</div>
+
+        @if (media < mediaEnum.LARGE) {
+          <div class="income-group-selection">
+            <mat-form-field>
+              <mat-label>{{ t("terms.income-group") }}</mat-label>
+              <mat-select
+                [value]="selectedIncomeGroupIndexSubject.value"
+                (selectionChange)="onIncomeGroupChanged($event)"
+              >
+                @for (incomeGroup of incomeGroups; track incomeGroup) {
+                  <mat-option [value]="incomeGroup.index"
+                    >{{ incomeGroup.annual.selectText }} {{ t("terms.euros") }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+
+        @if (media > mediaEnum.MEDIUM) {
+          <div class="income-group-selection">
+            <mat-button-toggle-group
+              name="fontStyle"
+              aria-label="income group"
+              [value]="selectedIncomeGroupIndexSubject.value"
+              (change)="onIncomeGroupChanged($event)"
+            >
+              @for (incomeGroup of incomeGroups; track incomeGroup) {
+                <mat-button-toggle [value]="incomeGroup.index"
+                  >≤ {{ incomeGroup.annual.buttonToggleText }}
+                  {{ t("terms.euros") }}
+                </mat-button-toggle>
+              }
+            </mat-button-toggle-group>
+          </div>
+        }
+
+        <div class="question">{{ t("questions.income-group-month") }}</div>
+
+        @if (media < mediaEnum.LARGE) {
+          <div class="income-group-selection">
+            <mat-form-field>
+              <mat-label>{{ t("terms.income-group") }}</mat-label>
+              <mat-select
+                [value]="selectedIncomeGroupIndexSubject.value"
+                (selectionChange)="onIncomeGroupChanged($event)"
+              >
+                @for (incomeGroup of incomeGroups; track incomeGroup) {
+                  <mat-option [value]="incomeGroup.index"
+                    >{{ incomeGroup.monthly.selectText }} {{ t("terms.euros") }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+
+        @if (media > mediaEnum.MEDIUM) {
+          <div class="income-group-selection">
+            <mat-button-toggle-group
+              name="fontStyle"
+              aria-label="income group"
+              [value]="selectedIncomeGroupIndexSubject.value"
+              (change)="onIncomeGroupChanged($event)"
+            >
+              @for (incomeGroup of incomeGroups; track incomeGroup) {
+                <mat-button-toggle [value]="incomeGroup.index"
+                  >≤ {{ incomeGroup.monthly.buttonToggleText }}
+                  {{ t("terms.euros") }}
+                </mat-button-toggle>
+              }
+            </mat-button-toggle-group>
+          </div>
+        }
+
+        <div class="question">{{ t("questions.parties") }}</div>
+
+        @for (party of parties.values(); track party) {
+          <button
+            mat-button
+            class="party-button"
+            (click)="onPartyToggled(selectedPartiesSubject.value, party)"
+          >
+            @if (party.image.length > 0) {
+              <img
+                [src]="party.image"
+                [alt]="party.name"
+                [class.grayscale]="
+                  !isPartySelected(selectedPartiesSubject.value, party)
+                "
+                class="party-logo"
+              />
+            } @else {
+              <div
+                class="party-label"
+                [class.grayscale]="
+                  !isPartySelected(selectedPartiesSubject.value, party)
+                "
+              >
+                {{ party.name }}
+              </div>
+            }
+          </button>
+        }
+
+        <div class="question">{{ t("questions.results-format") }}</div>
+        @if (media < mediaEnum.LARGE) {
+          <div class="results-format-selection">
+            <mat-form-field>
+              <mat-label>{{ t("terms.results-format") }}</mat-label>
+              <mat-select
+                [value]="selectedIncomeGroupIndexSubject.value"
+                (selectionChange)="onResultsFormatChanged($event)"
+              >
+                <mat-option [value]="resultsFormatEnum.RELATIVE"
+                  >{{ t("terms.results-formats.relative") }}
+                </mat-option>
+                <mat-option [value]="resultsFormatEnum.ABSOLUTE_MONTHLY"
+                  >{{ t("terms.results-formats.absolute-monthly") }}
+                </mat-option>
+                <mat-option [value]="resultsFormatEnum.ABSOLUTE_ANNUALLY"
+                  >{{ t("terms.results-formats.absolute-annual") }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+
+        @if (media > mediaEnum.MEDIUM) {
+          <div class="results-format-selection">
+            <mat-button-toggle-group
+              name="fontStyle"
+              aria-label="result format"
+              [value]="selectedResultsFormatSubject.value"
+              (change)="onResultsFormatChanged($event)"
+            >
+              <mat-button-toggle [value]="resultsFormatEnum.RELATIVE"
+                >{{ t("terms.results-formats.relative") }}
+              </mat-button-toggle>
+              <mat-button-toggle [value]="resultsFormatEnum.ABSOLUTE_MONTHLY"
+                >{{ t("terms.results-formats.absolute-monthly") }}
+              </mat-button-toggle>
+              <mat-button-toggle [value]="resultsFormatEnum.ABSOLUTE_ANNUALLY"
+                >{{ t("terms.results-formats.absolute-annual") }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        }
+      </div>
+
+      <div class="chart-container">
+        <app-bar-chart
+          [datasets]="incomeGroupDatasets"
+          [labels]="incomeGroupLabels"
+          [vertical]="false"
+          [displayLegend]="false"
+          [displayTooltip]="false"
+          [xTitle]="xTitle"
+          [xUnit]="xUnit"
+          [xSuggestedMin]="-xSuggestedMinMax"
+          [xSuggestedMax]="xSuggestedMinMax"
+          [yGrid]="false"
+        ></app-bar-chart>
+      </div>
 
       <div class="footer">
         {{ t("terms.source") }}:

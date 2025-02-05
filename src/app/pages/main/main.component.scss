@@ -24,62 +24,86 @@
   }
 }
 
-.main-container > * {
+.main-container > * > * {
   max-width: 100%;
 }
 
-.tag {
-  color: mat.m2-get-color-from-palette($accent, 600);
-  column-gap: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  text-align: center;
+.header,
+.selection-container,
+.chart-container,
+.footer {
+  @media #{$breakpoint-large} {
+    margin-bottom: 96px;
+  }
+
+  @media #{$breakpoint-medium} {
+    margin-bottom: 72px;
+  }
+
+  @media #{$breakpoint-small} {
+    margin-bottom: 48px;
+  }
 }
 
 .header {
-  font-size: 42px;
-  font-weight: 700;
-  margin-top: 4px;
-  text-align: center;
+  .tag {
+    color: mat.m2-get-color-from-palette($accent, 600);
+    column-gap: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .header {
+    font-size: 42px;
+    font-weight: 700;
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+    margin: 0 auto 32px;
+    width: 41.25rem;
+  }
 }
 
-.description {
-  text-align: center;
-  margin: 0 auto 32px;
-  width: 41.25rem;
+.selection-container {
+  .question {
+    margin: 24px 0 16px;
+  }
+
+  .income-group-selection,
+  .results-format-selection {
+    margin-top: 16px;
+  }
+
+  .party-button {
+    padding: 8px;
+    margin: 0 8px 16px;
+    text-align: center;
+    vertical-align: center;
+    height: 96px;
+  }
+
+  .grayscale {
+    color: grey;
+    filter: grayscale(100%);
+  }
+
+  .party-logo {
+    max-height: 78px;
+    max-width: 108px;
+  }
+
+  .party-label {
+    font-weight: 700;
+  }
 }
 
-.question {
-  margin: 24px 0 16px;
-}
-
-.income-group-selection,
-.result-format-selection {
-  margin-top: 16px;
-}
-
-.party-button {
-  padding: 8px;
-  margin: 0 8px 16px;
-  text-align: center;
-  vertical-align: center;
-  height: 96px;
-}
-
-.grayscale {
-  color: grey;
-  filter: grayscale(100%);
-}
-
-.party-logo {
-  max-height: 78px;
-  max-width: 108px;
-}
-
-.party-label {
-  font-weight: 700;
+.chart-container {
+  min-height: 256px;
 }
 
 .footer {
-  margin-top: 64px;
 }

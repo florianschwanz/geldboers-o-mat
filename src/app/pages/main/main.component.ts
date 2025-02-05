@@ -565,7 +565,7 @@ export class MainComponent implements OnInit {
    * Handles selection of results format
    * @param event event
    */
-  onResultsFormatChanged(event: MatButtonToggleChange) {
+  onResultsFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
     this.selectedResultsFormatSubject.next(event.value);
   }
 }

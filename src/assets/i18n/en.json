@@ -7,7 +7,8 @@
         "income-group": "income group",
         "euros": "€",
         "source": "source",
-        "results-format": {
+        "results-format": "results format",
+        "results-formats": {
           "relative": "relative",
           "absolute-monthly": "absolute (monthly)",
           "absolute-annual": "absolute (annual)"
@@ -17,7 +18,7 @@
         "income-group-year": "What is your gross annual income in Euros?",
         "income-group-month": "or what is your gross monthly income in Euros?",
         "parties": "Which political parties would you like to consider?",
-        "result-format": "How should the results be presented?"
+        "results-format": "How should the results be presented?"
       },
       "labels": {
         "relative-income-change": "relative change in disposable income",
