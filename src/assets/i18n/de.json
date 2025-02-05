@@ -10,8 +10,8 @@
         "source": "Quelle"
       },
       "questions": {
-        "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
-        "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
+        "income-group-year": "Wie hoch ist dein Brutto_jahres_einkommen?",
+        "income-group-month": "oder wie hoch ist dein Brutto_monats_einkommen?",
         "parties": "Welche Parteien willst du betrachten?"
       },
       "labels": {
