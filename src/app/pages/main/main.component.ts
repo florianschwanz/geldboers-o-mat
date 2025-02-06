@@ -51,7 +51,7 @@ export type Party = {
   /** Relative changes in income based on income groups */
   changesRelative: number[];
   /** Absolute changes in income based on income groups */
-  changesAbsoluteMonthly: number[];
+  changesAbsoluteAnnually: number[];
 };
 
 /**
@@ -165,7 +165,7 @@ export class MainComponent implements OnInit {
       image: 'assets/images/party-cdu.png',
       color: 'rgb(0, 0, 0)',
       changesRelative: [0.1, 0.1, 0.3, 0.6, 1.1, 1.8, 2.4, 3.2, 4.4, 5.1],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         11, 13, 63, 176, 414, 907, 1528, 2587, 5203, 13248,
       ],
     },
@@ -174,7 +174,7 @@ export class MainComponent implements OnInit {
       image: 'assets/images/party-spd.png',
       color: 'rgb(227, 0, 15)',
       changesRelative: [1.9, 2.4, 3.1, 2.8, 2.5, 2.6, 2.3, 1.7, 1.0, -3.4],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         268, 373, 682, 795, 926, 1281, 1438, 1360, 1179, -8892,
       ],
     },
@@ -183,7 +183,7 @@ export class MainComponent implements OnInit {
       image: 'assets/images/party-gruene.png',
       color: 'rgb(0, 152, 68)',
       changesRelative: [0.9, 2.8, 3.9, 3.6, 3.1, 2.1, 1.4, 0.7, -0.1, -3.8],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         119, 437, 846, 1033, 1140, 1055, 867, 585, -122, -9833,
       ],
     },
@@ -192,7 +192,7 @@ export class MainComponent implements OnInit {
       image: 'assets/images/party-fdp.png',
       color: 'rgb(255, 204, 0)',
       changesRelative: [-2.1, -0.2, 1.4, 2.3, 3.7, 5.5, 6.8, 8.2, 9.8, 8.1],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         -289, -36, 292, 663, 1379, 2758, 4378, 6734, 11543, 21083,
       ],
     },
@@ -201,7 +201,7 @@ export class MainComponent implements OnInit {
       image: 'assets/images/party-linke.png',
       color: 'rgb(197, 30, 58)',
       changesRelative: [29.7, 12.4, 8.5, 6.4, 6.4, 6.7, 5.5, 2.7, -3.0, -27.0],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         4125, 1936, 1846, 1840, 2378, 3316, 3500, 2189, -3547, -70679,
       ],
     },
@@ -210,7 +210,7 @@ export class MainComponent implements OnInit {
       image: '',
       color: 'rgb(0, 152, 215)',
       changesRelative: [0.0, 0.2, 1.1, 1.7, 2.8, 4.9, 6.1, 6.7, 7.7, 7.7],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         2, 28, 245, 487, 1064, 2446, 3926, 5471, 9067, 20107,
       ],
     },
@@ -219,7 +219,7 @@ export class MainComponent implements OnInit {
       image: 'assets/images/party-bsw.png',
       color: 'rgb(255, 165, 0)',
       changesRelative: [0.5, 1.4, 3.0, 2.8, 2.9, 3.0, 2.3, 1.3, 0.1, -2.2],
-      changesAbsoluteMonthly: [
+      changesAbsoluteAnnually: [
         75, 224, 654, 820, 1083, 1474, 1482, 1033, 107, -5767,
       ],
     },
@@ -428,17 +428,17 @@ export class MainComponent implements OnInit {
         break;
       }
       case ResultsFormat.ABSOLUTE_MONTHLY: {
-        values = data.map(
-          (party) => party.changesAbsoluteMonthly[selectedIncomeGroupIndex],
-        );
+        values = data
+          .map(
+            (party) => party.changesAbsoluteAnnually[selectedIncomeGroupIndex],
+          )
+          .map((value) => Math.floor(value / 12));
         break;
       }
       case ResultsFormat.ABSOLUTE_ANNUALLY: {
-        values = data
-          .map(
-            (party) => party.changesAbsoluteMonthly[selectedIncomeGroupIndex],
-          )
-          .map((value) => value * 12);
+        values = data.map(
+          (party) => party.changesAbsoluteAnnually[selectedIncomeGroupIndex],
+        );
         break;
       }
     }
@@ -489,11 +489,13 @@ export class MainComponent implements OnInit {
                 this.lang,
               )
             : '';
-        data = parties.map((party) =>
-          selectedIncomeGroupIndex != -1
-            ? party.changesAbsoluteMonthly[selectedIncomeGroupIndex]
-            : 0,
-        );
+        data = parties
+          .map((party) =>
+            selectedIncomeGroupIndex != -1
+              ? party.changesAbsoluteAnnually[selectedIncomeGroupIndex]
+              : 0,
+          )
+          .map((value) => Math.floor(value / 12));
         break;
       }
       case ResultsFormat.ABSOLUTE_ANNUALLY: {
@@ -505,13 +507,11 @@ export class MainComponent implements OnInit {
                 this.lang,
               )
             : '';
-        data = parties
-          .map((party) =>
-            selectedIncomeGroupIndex != -1
-              ? party.changesAbsoluteMonthly[selectedIncomeGroupIndex]
-              : 0,
-          )
-          .map((value) => value * 12);
+        data = parties.map((party) =>
+          selectedIncomeGroupIndex != -1
+            ? party.changesAbsoluteAnnually[selectedIncomeGroupIndex]
+            : 0,
+        );
         break;
       }
     }
