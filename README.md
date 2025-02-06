@@ -18,7 +18,7 @@
 
 ## About The Project
 
-The aim of this app is to visualize financial impacts as bar charts.
+The aim of this app is to visualize financial impacts as bar charts. It is hosted on Firebase and can be accessed via https://geldboers-o-mat.web.app/.
 
 ### Built With
 
