@@ -31,6 +31,7 @@
 .header,
 .selection-container,
 .chart-container,
+.context-container,
 .footer {
   @media #{$breakpoint-large} {
     margin-bottom: 96px;

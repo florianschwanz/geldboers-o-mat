@@ -181,6 +181,19 @@
         ></app-bar-chart>
       </div>
 
+      <div class="context-container">
+        <mat-accordion multi>
+          <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{
+                t("questions.disposable-income")
+              }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>{{ t("context.disposable-income") }}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
       <div class="footer">
         {{ t("terms.source") }}:
         <a

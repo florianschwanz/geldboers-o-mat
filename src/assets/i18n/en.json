@@ -21,12 +21,16 @@
         "income-group-year": "What is your gross annual income in Euros?",
         "income-group-month": "or what is your gross monthly income in Euros?",
         "parties": "Which political parties would you like to consider?",
-        "results-format": "How should the results be presented?"
+        "results-format": "How should the results be presented?",
+        "disposable-income": "What is disposable income?"
       },
       "labels": {
         "relative-income-change": "relative change in disposable income",
         "absolute-income-change-monthly": "absolute change in disposable income per month",
         "absolute-income-change-annually": "absolute change in disposable income per year"
+      },
+      "context": {
+        "disposable-income": "The disposable income describes the amount that actually ends up in your bank account. It is made up of your gross income minus the taxes and contributions deducted from it (= net income) as well as any additional transfer payments (such as child benefit, housing benefit or citizen's allowance)."
       }
     }
   }

@@ -21,12 +21,16 @@
         "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
         "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
         "parties": "Welche Parteien willst du betrachten?",
-        "results-format": "Wie sollen die Ergebnisse dargestellt werden?"
+        "results-format": "Wie sollen die Ergebnisse dargestellt werden?",
+        "disposable-income": "Was ist verfügbares Einkommen?"
       },
       "labels": {
         "relative-income-change": "prozentuale Veränderung im verfügbaren Einkommen",
         "absolute-income-change-monthly": "absolute Veränderung im verfügbaren Einkommen pro Monat",
         "absolute-income-change-annually": "absolute Veränderung im verfügbaren Einkommen pro Jahr"
+      },
+      "context": {
+        "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich der davon abgezogenen Steuern und Beiträge (=Nettoeinkommen) sowie etwaigen hinzukommenden Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld)."
       }
     }
   }

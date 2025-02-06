@@ -25,6 +25,13 @@ import {
 import { Media, MediaService } from '../../core/ui/services/media.service';
 import { MatButton } from '@angular/material/button';
 import { environment } from '../../../environments/environment';
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+} from '@angular/material/expansion';
 
 /**
  * Represents an income group
@@ -78,6 +85,11 @@ export enum ResultsFormat {
     MatButtonToggleGroup,
     MatButtonToggle,
     MatButton,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
