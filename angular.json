@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "finanz-o-mat": {
+    "geldboers-o-mat": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/finanz-o-mat",
+            "outputPath": "dist/geldboers-o-mat",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -81,13 +81,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "finanz": {
-              "buildTarget": "finanz-o-mat:build:finanz"
+              "buildTarget": "geldboers-o-mat:build:finanz"
             },
             "geldboers": {
-              "buildTarget": "finanz-o-mat:build:geldboers"
+              "buildTarget": "geldboers-o-mat:build:geldboers"
             },
             "development": {
-              "buildTarget": "finanz-o-mat:build:development"
+              "buildTarget": "geldboers-o-mat:build:development"
             }
           },
           "defaultConfiguration": "development"
