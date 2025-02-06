@@ -30,7 +30,7 @@
         "absolute-income-change-annually": "absolute Veränderung im verfügbaren Einkommen pro Jahr"
       },
       "context": {
-        "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich der davon abgezogenen Steuern und Beiträge (=Nettoeinkommen) sowie etwaigen hinzukommenden Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld)."
+        "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld)."
       }
     }
   }

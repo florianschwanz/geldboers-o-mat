@@ -30,7 +30,7 @@
         "absolute-income-change-annually": "absolute change in disposable income per year"
       },
       "context": {
-        "disposable-income": "The disposable income describes the amount that actually ends up in your bank account. It is made up of your gross income minus the taxes and contributions deducted from it (= net income) as well as any additional transfer payments (such as child benefit, housing benefit or citizen's allowance)."
+        "disposable-income": "The disposable income describes the amount that actually ends up in your account. It is made up of your gross income minus taxes and contributions (= net income) and plus any transfer payments (such as child benefit, housing benefit or citizen's allowance)."
       }
     }
   }
