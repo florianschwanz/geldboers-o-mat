@@ -75,8 +75,7 @@
               "extractLicenses": false,
               "sourceMap": true
             }
-          },
-          "defaultConfiguration": "finanz"
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
