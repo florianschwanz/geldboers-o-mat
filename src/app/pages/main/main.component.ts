@@ -333,14 +333,29 @@ export class MainComponent implements OnInit {
         ),
       )
       .subscribe(([incomeGroupIndex, parties, resultsFormat]) => {
-        const dataSorted = this.parties
+        let dataSorted = this.parties
           .slice()
-          .filter((party: Party) => this.isPartySelected(parties, party))
-          .sort(
-            (a: Party, b: Party) =>
-              b.changesRelative[incomeGroupIndex] -
-              a.changesRelative[incomeGroupIndex],
-          );
+          .filter((party: Party) => this.isPartySelected(parties, party));
+
+        switch (resultsFormat) {
+          case ResultsFormat.RELATIVE: {
+            dataSorted = dataSorted.sort(
+              (a: Party, b: Party) =>
+                b.changesRelative[incomeGroupIndex] -
+                a.changesRelative[incomeGroupIndex],
+            );
+            break;
+          }
+          case ResultsFormat.ABSOLUTE_MONTHLY:
+          case ResultsFormat.ABSOLUTE_ANNUALLY: {
+            dataSorted = dataSorted.sort(
+              (a: Party, b: Party) =>
+                b.changesAbsoluteAnnually[incomeGroupIndex] -
+                a.changesAbsoluteAnnually[incomeGroupIndex],
+            );
+            break;
+          }
+        }
 
         this.initializeTitle(resultsFormat);
         this.initializeIncomeGroupLabels(dataSorted);
