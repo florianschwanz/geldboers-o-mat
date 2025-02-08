@@ -112,38 +112,6 @@
             }
           }
         </div>
-
-        <div class="question">{{ t("questions.parties") }}</div>
-
-        <div class="party-selection">
-          @for (party of parties.values(); track party) {
-            <button
-              mat-button
-              class="party-button"
-              (click)="onPartyToggled(selectedPartiesSubject.value, party)"
-            >
-              @if (party.image.length > 0) {
-                <img
-                  [src]="party.image"
-                  [alt]="party.name"
-                  [class.grayscale]="
-                    !isPartySelected(selectedPartiesSubject.value, party)
-                  "
-                  class="party-logo"
-                />
-              } @else {
-                <div
-                  class="party-label"
-                  [class.grayscale]="
-                    !isPartySelected(selectedPartiesSubject.value, party)
-                  "
-                >
-                  {{ party.name }}
-                </div>
-              }
-            </button>
-          }
-        </div>
       </div>
 
       <div class="chart-container">
@@ -215,6 +183,40 @@
             <p>{{ t("context.disposable-income") }}</p>
           </mat-expansion-panel>
         </mat-accordion>
+      </div>
+
+      <div class="selection-container">
+        <div class="question">{{ t("questions.parties") }}</div>
+
+        <div class="party-selection">
+          @for (party of parties.values(); track party) {
+            <button
+              mat-button
+              class="party-button"
+              (click)="onPartyToggled(selectedPartiesSubject.value, party)"
+            >
+              @if (party.image.length > 0) {
+                <img
+                  [src]="party.image"
+                  [alt]="party.name"
+                  [class.grayscale]="
+                    !isPartySelected(selectedPartiesSubject.value, party)
+                  "
+                  class="party-logo"
+                />
+              } @else {
+                <div
+                  class="party-label"
+                  [class.grayscale]="
+                    !isPartySelected(selectedPartiesSubject.value, party)
+                  "
+                >
+                  {{ party.name }}
+                </div>
+              }
+            </button>
+          }
+        </div>
       </div>
 
       <div class="footer">
