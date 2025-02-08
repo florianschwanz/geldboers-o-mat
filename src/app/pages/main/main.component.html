@@ -17,9 +17,10 @@
       <div class="selection-container">
         <div class="question">{{ t("questions.income-group") }}</div>
 
-        <div class="flex-container" style="gap: 32px">
-          <div class="time-selection">
+        <div class="flex-container flex-horizontal-center" style="gap: 32px">
+          <div class="time-format-selection">
             <mat-button-toggle-group
+              class="time-format-button-group"
               name="time-format-selection"
               aria-label="time format"
               [value]="selectedTimeFormatSubject.value"

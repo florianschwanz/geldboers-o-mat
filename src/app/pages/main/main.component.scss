@@ -72,13 +72,25 @@
 .selection-container {
   .question {
     margin: 24px 0 16px;
+    text-align: center;
   }
 
-  .time-selection,
+  .time-format-selection,
   .income-group-selection,
   .party-selection,
   .results-format-selection {
     margin-top: 16px;
+  }
+
+  .time-format-selection,
+  .time-format-button-group {
+    @media #{$breakpoint-medium} {
+      height: 56px;
+    }
+
+    @media #{$breakpoint-small} {
+      height: 56px;
+    }
   }
 
   .party-button {
