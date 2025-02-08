@@ -263,7 +263,7 @@ export class MainComponent implements OnInit {
   );
   /** Subject providing the selected results format */
   selectedResultsFormatSubject = new BehaviorSubject<ResultsFormat>(
-    ResultsFormat.RELATIVE,
+    ResultsFormat.ABSOLUTE_MONTHLY,
   );
 
   //
