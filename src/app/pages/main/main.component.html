@@ -144,11 +144,26 @@
             </button>
           }
         </div>
+      </div>
 
-        <div class="question">{{ t("questions.results-format") }}</div>
+      <div class="chart-container">
+        <app-bar-chart
+          [datasets]="incomeGroupDatasets"
+          [labels]="incomeGroupLabels"
+          [vertical]="false"
+          [displayLegend]="false"
+          [displayTooltip]="false"
+          [xTitle]="xTitle"
+          [xUnit]="xUnit"
+          [xSuggestedMin]="-xSuggestedMinMax"
+          [xSuggestedMax]="xSuggestedMinMax"
+          [yGrid]="false"
+        ></app-bar-chart>
+      </div>
 
-        @if (media < mediaEnum.LARGE) {
-          <div class="results-format-selection">
+      <div class="selection-container">
+        <div class="results-format-selection">
+          @if (media < mediaEnum.LARGE) {
             <mat-form-field>
               <mat-label>{{ t("terms.results-format") }}</mat-label>
               <mat-select
@@ -166,11 +181,9 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
-        }
+          }
 
-        @if (media > mediaEnum.MEDIUM) {
-          <div class="results-format-selection">
+          @if (media > mediaEnum.MEDIUM) {
             <mat-button-toggle-group
               name="results-format-selection"
               aria-label="results format"
@@ -187,23 +200,8 @@
                 >{{ t("terms.results-formats.absolute-annually") }}
               </mat-button-toggle>
             </mat-button-toggle-group>
-          </div>
-        }
-      </div>
-
-      <div class="chart-container">
-        <app-bar-chart
-          [datasets]="incomeGroupDatasets"
-          [labels]="incomeGroupLabels"
-          [vertical]="false"
-          [displayLegend]="false"
-          [displayTooltip]="false"
-          [xTitle]="xTitle"
-          [xUnit]="xUnit"
-          [xSuggestedMin]="-xSuggestedMinMax"
-          [xSuggestedMax]="xSuggestedMinMax"
-          [yGrid]="false"
-        ></app-bar-chart>
+          }
+        </div>
       </div>
 
       <div class="context-container">
