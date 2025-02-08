@@ -115,123 +115,125 @@
         </div>
       </div>
 
-      <div class="chart-container">
-        <app-bar-chart
-          [datasets]="incomeGroupDatasets"
-          [labels]="incomeGroupLabels"
-          [vertical]="false"
-          [displayLegend]="false"
-          [displayTooltip]="false"
-          [xTitle]="xTitle"
-          [xUnit]="xUnit"
-          [xSuggestedMin]="-xSuggestedMinMax"
-          [xSuggestedMax]="xSuggestedMinMax"
-          [yGrid]="false"
-        ></app-bar-chart>
-      </div>
-
-      <div class="selection-container">
-        <div class="results-format-selection">
-          @if (media < mediaEnum.LARGE) {
-            <mat-form-field>
-              <mat-label>{{ t("terms.results-format") }}</mat-label>
-              <mat-select
-                [value]="selectedIncomeGroupIndexSubject.value"
-                (selectionChange)="onTimeFormatChanged($event)"
-              >
-                <mat-option [value]="timeEnum.MONTHLY"
-                  >{{ t("terms.results-formats.absolute-monthly") }}
-                </mat-option>
-                <mat-option [value]="timeEnum.ANNUALLY"
-                  >{{ t("terms.results-formats.absolute-annually") }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          }
-
-          @if (media > mediaEnum.MEDIUM) {
-            <mat-button-toggle-group
-              name="results-format-selection"
-              aria-label="results format"
-              [value]="selectedTimeFormatSubject.value"
-              (change)="onTimeFormatChanged($event)"
-            >
-              <mat-button-toggle [value]="timeEnum.MONTHLY"
-                >{{ t("terms.results-formats.absolute-monthly") }}
-              </mat-button-toggle>
-              <mat-button-toggle [value]="timeEnum.ANNUALLY"
-                >{{ t("terms.results-formats.absolute-annually") }}
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-          }
+      @if ((selectedIncomeGroupIndexSubject | async) != -1) {
+        <div class="chart-container">
+          <app-bar-chart
+            [datasets]="incomeGroupDatasets"
+            [labels]="incomeGroupLabels"
+            [vertical]="false"
+            [displayLegend]="false"
+            [displayTooltip]="false"
+            [xTitle]="xTitle"
+            [xUnit]="xUnit"
+            [xSuggestedMin]="-xSuggestedMinMax"
+            [xSuggestedMax]="xSuggestedMinMax"
+            [yGrid]="false"
+          ></app-bar-chart>
         </div>
-      </div>
 
-      <div class="context-container">
-        <mat-accordion multi>
-          <mat-expansion-panel expanded="true">
-            <mat-expansion-panel-header>
-              <mat-panel-title
-                >{{ t("questions.disposable-income") }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <p>{{ t("context.disposable-income") }}</p>
-          </mat-expansion-panel>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title
-                >{{ t("questions.why-dont-i-see-the-afd") }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <p>{{ t("context.no-afd") }}</p>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-
-      <div class="selection-container">
-        <div class="question">{{ t("questions.parties") }}</div>
-
-        <div class="party-selection">
-          @for (party of parties.values(); track party) {
-            <button
-              mat-button
-              class="party-button"
-              (click)="onPartyToggled(selectedPartiesSubject.value, party)"
-            >
-              @if (party.image.length > 0) {
-                <img
-                  [src]="party.image"
-                  [alt]="party.name"
-                  [class.grayscale]="
-                    !isPartySelected(selectedPartiesSubject.value, party)
-                  "
-                  class="party-logo"
-                />
-              } @else {
-                <div
-                  class="party-label"
-                  [class.grayscale]="
-                    !isPartySelected(selectedPartiesSubject.value, party)
-                  "
+        <div class="selection-container">
+          <div class="results-format-selection">
+            @if (media < mediaEnum.LARGE) {
+              <mat-form-field>
+                <mat-label>{{ t("terms.results-format") }}</mat-label>
+                <mat-select
+                  [value]="selectedIncomeGroupIndexSubject.value"
+                  (selectionChange)="onTimeFormatChanged($event)"
                 >
-                  {{ party.name }}
-                </div>
-              }
-            </button>
-          }
-        </div>
-      </div>
+                  <mat-option [value]="timeEnum.MONTHLY"
+                    >{{ t("terms.results-formats.absolute-monthly") }}
+                  </mat-option>
+                  <mat-option [value]="timeEnum.ANNUALLY"
+                    >{{ t("terms.results-formats.absolute-annually") }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            }
 
-      <div class="footer">
-        {{ t("terms.source") }}:
-        <a
-          href="https://ftp.zew.de/pub/zew-docs/gutachten/Bundestagswahlprogramme_ZEW_2025.pdf"
-          target="_blank"
-        >
-          {{ t("terms.paper-title") }}</a
-        >
-        {{ t("terms.paper-author") }}
-      </div>
+            @if (media > mediaEnum.MEDIUM) {
+              <mat-button-toggle-group
+                name="results-format-selection"
+                aria-label="results format"
+                [value]="selectedTimeFormatSubject.value"
+                (change)="onTimeFormatChanged($event)"
+              >
+                <mat-button-toggle [value]="timeEnum.MONTHLY"
+                  >{{ t("terms.results-formats.absolute-monthly") }}
+                </mat-button-toggle>
+                <mat-button-toggle [value]="timeEnum.ANNUALLY"
+                  >{{ t("terms.results-formats.absolute-annually") }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            }
+          </div>
+        </div>
+
+        <div class="context-container">
+          <mat-accordion multi>
+            <mat-expansion-panel expanded="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title
+                  >{{ t("questions.disposable-income") }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>{{ t("context.disposable-income") }}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title
+                  >{{ t("questions.why-dont-i-see-the-afd") }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>{{ t("context.no-afd") }}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="selection-container">
+          <div class="question">{{ t("questions.parties") }}</div>
+
+          <div class="party-selection">
+            @for (party of parties.values(); track party) {
+              <button
+                mat-button
+                class="party-button"
+                (click)="onPartyToggled(selectedPartiesSubject.value, party)"
+              >
+                @if (party.image.length > 0) {
+                  <img
+                    [src]="party.image"
+                    [alt]="party.name"
+                    [class.grayscale]="
+                      !isPartySelected(selectedPartiesSubject.value, party)
+                    "
+                    class="party-logo"
+                  />
+                } @else {
+                  <div
+                    class="party-label"
+                    [class.grayscale]="
+                      !isPartySelected(selectedPartiesSubject.value, party)
+                    "
+                  >
+                    {{ party.name }}
+                  </div>
+                }
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="footer">
+          {{ t("terms.source") }}:
+          <a
+            href="https://ftp.zew.de/pub/zew-docs/gutachten/Bundestagswahlprogramme_ZEW_2025.pdf"
+            target="_blank"
+          >
+            {{ t("terms.paper-title") }}</a
+          >
+          {{ t("terms.paper-author") }}
+        </div>
+      }
     </div>
   </div>
 </ng-container>
