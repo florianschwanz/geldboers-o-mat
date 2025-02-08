@@ -34,15 +34,15 @@
 .context-container,
 .footer {
   @media #{$breakpoint-large} {
-    margin-bottom: 72px;
+    margin-bottom: 36px;
   }
 
   @media #{$breakpoint-medium} {
-    margin-bottom: 72px;
+    margin-bottom: 24px;
   }
 
   @media #{$breakpoint-small} {
-    margin-bottom: 48px;
+    margin-bottom: 16px;
   }
 }
 
