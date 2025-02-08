@@ -25,7 +25,8 @@
         "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
         "parties": "Welche Parteien willst du betrachten?",
         "results-format": "Wie sollen die Ergebnisse dargestellt werden?",
-        "disposable-income": "Was ist verfügbares Einkommen?"
+        "disposable-income": "Was ist verfügbares Einkommen?",
+        "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?"
       },
       "labels": {
         "relative-income-change": "prozentuale Veränderung im verfügbaren Einkommen",
@@ -33,7 +34,8 @@
         "absolute-income-change-annually": "absolute Veränderung im verfügbaren Einkommen pro Jahr"
       },
       "context": {
-        "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld)."
+        "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld).",
+        "no-afd": "Die Autoren dieser Seite haben sich entschieden, die Vorschläge der in Teilen rechtsextremen Partei AfD nicht aufzunehmen. Auf dieser Seite werden nur Parteien abgebildet, die sich glaubwürdig zu Demokratie, Rechtsstaat und Menschenwürde bekennen. Die nicht gegenfinanzierten Versprechen der AfD, welche klar wohlhabende und reiche Menschen bevorzugen, sind bei Interesse in der Originalstudie des ZEW nachzulesen."
       }
     }
   }

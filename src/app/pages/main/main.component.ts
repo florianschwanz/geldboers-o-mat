@@ -228,15 +228,6 @@ export class MainComponent implements OnInit {
       ],
     },
     {
-      name: 'AfD',
-      image: '',
-      color: 'rgb(0, 152, 215)',
-      changesRelative: [0.0, 0.2, 1.1, 1.7, 2.8, 4.9, 6.1, 6.7, 7.7, 7.7],
-      changesAbsoluteAnnually: [
-        2, 28, 245, 487, 1064, 2446, 3926, 5471, 9067, 20107,
-      ],
-    },
-    {
       name: 'BSW',
       image: 'assets/images/party-bsw.png',
       color: 'rgb(255, 165, 0)',
