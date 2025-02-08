@@ -439,7 +439,7 @@ export class MainComponent implements OnInit {
 
     this.xSuggestedMinMax =
       Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
-      1.1;
+      1.25;
   }
 
   /** Initializes datasets for income group
@@ -456,6 +456,7 @@ export class MainComponent implements OnInit {
   ) {
     let label: string = '';
     let data: number[] = [];
+    let dataContext: number[] = [];
 
     switch (selectedTimeFormat) {
       case TimeFormat.MONTHLY: {
@@ -494,11 +495,18 @@ export class MainComponent implements OnInit {
       }
     }
 
+    dataContext = parties.map((party) =>
+      selectedIncomeGroupIndex != -1
+        ? party.changesRelative[selectedIncomeGroupIndex]
+        : 0,
+    );
+
     this.incomeGroupDatasets = [
       {
         axis: 'y',
         label: label,
         data: data,
+        dataContext: dataContext,
         backgroundColor: parties.map((party) => party.color),
         borderColor: parties.map((_) => 'transparent'),
         borderWidth: 1,

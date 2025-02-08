@@ -16,6 +16,8 @@ export interface Dataset {
   label: string;
   /** Data */
   data: number[];
+  /** Data context */
+  dataContext: number[];
   /** Background color */
   backgroundColor: string[];
   /** Border color */
@@ -24,7 +26,10 @@ export interface Dataset {
   borderWidth: number;
 }
 
+/** Unit */
 let unit = '';
+/** Data context */
+let dataContext: any[] = [];
 
 /**
  * Displays bar chart
@@ -110,6 +115,7 @@ export class BarChartComponent implements OnInit, OnChanges {
     let chart = Chart.getChart(chartId);
 
     unit = this.xUnit();
+    dataContext = datasets[0].dataContext;
 
     Chart.register({
       id: 'barLabelPlugin',
@@ -125,18 +131,20 @@ export class BarChartComponent implements OnInit, OnChanges {
           const meta = chart.getDatasetMeta(datasetIndex);
           meta.data.forEach((bar, index) => {
             const value = dataset.data[index];
+            const context = dataContext[index];
+
             if (value != null && value != 0) {
               const sign = +value > 0 ? '+' : '';
               const valueWithDelimiters = value
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-              const text = `${sign}${valueWithDelimiters} ${unit}`;
+              const text = `${sign}${valueWithDelimiters} ${unit} (${context}%)`;
 
               const padding = 8;
               const x =
                 +value > 0
                   ? bar.x + padding
-                  : bar.x - padding - value.toString().length * 8;
+                  : bar.x - padding - text.toString().length * 6;
               const y = bar.y;
 
               ctx.fillText(text, x, y);
