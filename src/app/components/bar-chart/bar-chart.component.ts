@@ -24,6 +24,8 @@ export interface Dataset {
   borderWidth: number;
 }
 
+let unit = '';
+
 /**
  * Displays bar chart
  */
@@ -107,7 +109,7 @@ export class BarChartComponent implements OnInit, OnChanges {
     let chartId = 'bar-chart';
     let chart = Chart.getChart(chartId);
 
-    const xUnit = this.xUnit();
+    unit = this.xUnit();
 
     Chart.register({
       id: 'barLabelPlugin',
@@ -123,15 +125,20 @@ export class BarChartComponent implements OnInit, OnChanges {
           const meta = chart.getDatasetMeta(datasetIndex);
           meta.data.forEach((bar, index) => {
             const value = dataset.data[index];
-            if (value != null) {
-              const text =
-                +value != 0
-                  ? (+value > 0 ? '+' : '') +
-                    value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                  : '';
+            if (value != null && value != 0) {
+              const sign = +value > 0 ? '+' : '';
+              const valueWithDelimiters = value
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+              const text = `${sign}${valueWithDelimiters} ${unit}`;
+
               const padding = 8;
-              const x = +value > 0 ? bar.x + padding : bar.x - padding - 32;
+              const x =
+                +value > 0
+                  ? bar.x + padding
+                  : bar.x - padding - value.toString().length * 8;
               const y = bar.y;
+
               ctx.fillText(text, x, y);
             }
           });
@@ -186,6 +193,7 @@ export class BarChartComponent implements OnInit, OnChanges {
             display: this.xGrid(),
           },
           ticks: {
+            display: false,
             color: theme == Theme.DARK ? '#fefefe' : '#000000',
             callback: (value, index, values) => {
               return value + this.xUnit();
