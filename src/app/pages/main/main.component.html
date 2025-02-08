@@ -135,16 +135,16 @@
           <div class="results-format-selection">
             @if (media < mediaEnum.LARGE) {
               <mat-form-field>
-                <mat-label>{{ t("terms.results-format") }}</mat-label>
+                <mat-label>{{ t("terms.time-format") }}</mat-label>
                 <mat-select
                   [value]="selectedIncomeGroupIndexSubject.value"
                   (selectionChange)="onTimeFormatChanged($event)"
                 >
                   <mat-option [value]="timeEnum.MONTHLY"
-                    >{{ t("terms.results-formats.absolute-monthly") }}
+                    >{{ t("terms.monthly") }}
                   </mat-option>
                   <mat-option [value]="timeEnum.ANNUALLY"
-                    >{{ t("terms.results-formats.absolute-annually") }}
+                    >{{ t("terms.annually") }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -152,16 +152,16 @@
 
             @if (media > mediaEnum.MEDIUM) {
               <mat-button-toggle-group
-                name="results-format-selection"
+                name="results-time-selection"
                 aria-label="results format"
                 [value]="selectedTimeFormatSubject.value"
                 (change)="onTimeFormatChanged($event)"
               >
                 <mat-button-toggle [value]="timeEnum.MONTHLY"
-                  >{{ t("terms.results-formats.absolute-monthly") }}
+                  >{{ t("terms.monthly") }}
                 </mat-button-toggle>
                 <mat-button-toggle [value]="timeEnum.ANNUALLY"
-                  >{{ t("terms.results-formats.absolute-annually") }}
+                  >{{ t("terms.annually") }}
                 </mat-button-toggle>
               </mat-button-toggle-group>
             }

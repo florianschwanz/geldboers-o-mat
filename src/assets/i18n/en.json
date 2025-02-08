@@ -10,12 +10,6 @@
         "income-group": "income group",
         "euros": "€",
         "source": "source",
-        "results-format": "results format",
-        "results-formats": {
-          "relative": "relative",
-          "absolute-monthly": "absolute (monthly)",
-          "absolute-annually": "absolute (annually)"
-        },
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
         "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)"
       },
@@ -37,6 +31,13 @@
         "disposable-income": "The disposable income describes the amount that actually ends up in your account. It is made up of your gross income minus taxes and contributions (= net income) and plus any transfer payments (such as child benefit, housing benefit or citizen's allowance).",
         "no-afd": "The authors of this page have decided not to include the proposals of the AfD party, which is partly on the extreme right. Only parties that are credibly committed to democracy, the rule of law and human dignity are shown on this page. The AfD's unfunded promises, which clearly favor wealthy and rich people, can be found in the original ZEW study if you are interested."
       }
+    },
+    "imprint": {
+      "title": "Imprint",
+      "information": "Information according to § 5 TMG",
+      "contact": "Contact",
+      "email": "e-mail",
+      "editorially-responsible": "Editorially responsible"
     }
   }
 }

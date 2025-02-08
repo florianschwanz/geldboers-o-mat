@@ -10,12 +10,6 @@
         "income-group": "Einkommensgruppe",
         "euros": "€",
         "source": "Quelle",
-        "results-format": "Ergebnisformat",
-        "results-formats": {
-          "relative": "relativ",
-          "absolute-monthly": "absolut (monatlich)",
-          "absolute-annually": "absolut (jährlich)"
-        },
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
         "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)"
       },
@@ -37,6 +31,13 @@
         "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld).",
         "no-afd": "Die Autoren dieser Seite haben sich entschieden, die Vorschläge der in Teilen rechtsextremen Partei AfD nicht aufzunehmen. Auf dieser Seite werden nur Parteien abgebildet, die sich glaubwürdig zu Demokratie, Rechtsstaat und Menschenwürde bekennen. Die nicht gegenfinanzierten Versprechen der AfD, welche klar wohlhabende und reiche Menschen bevorzugen, sind bei Interesse in der Originalstudie des ZEW nachzulesen."
       }
+    },
+    "imprint": {
+      "title": "Impressum",
+      "information": "Angaben gemäß § 5 TMG",
+      "contact": "Kontakt",
+      "email": "E-Mail",
+      "editorially-responsible": "Redaktionell verantwortlich"
     }
   }
 }
