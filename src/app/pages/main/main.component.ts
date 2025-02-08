@@ -71,15 +71,6 @@ export type Party = {
 };
 
 /**
- * Represents the results format
- */
-export enum ResultsFormat {
-  RELATIVE,
-  ABSOLUTE_MONTHLY,
-  ABSOLUTE_ANNUALLY,
-}
-
-/**
  * Displays main component
  */
 @Component({
@@ -252,10 +243,6 @@ export class MainComponent implements OnInit {
   selectedPartiesSubject = new BehaviorSubject<Map<string, boolean>>(
     new Map<string, boolean>(),
   );
-  /** Subject providing the selected results format */
-  selectedResultsFormatSubject = new BehaviorSubject<ResultsFormat>(
-    ResultsFormat.ABSOLUTE_MONTHLY,
-  );
 
   //
   // Bar Chart
@@ -283,8 +270,6 @@ export class MainComponent implements OnInit {
 
   /** Time enum */
   timeEnum = TimeFormat;
-  /** Results format enum */
-  resultsFormatEnum = ResultsFormat;
 
   //
   // Constants
@@ -308,12 +293,12 @@ export class MainComponent implements OnInit {
 
     this.handleSelections();
 
-    this.initializeTitle(this.selectedResultsFormatSubject.value);
+    this.initializeTitle(this.selectedTimeFormatSubject.value);
     this.initializeIncomeGroupLabels(this.parties);
     this.initializeIncomeGroupDatasets(
       this.parties,
       -1,
-      this.selectedResultsFormatSubject.value,
+      this.selectedTimeFormatSubject.value,
     );
   }
 
@@ -336,45 +321,31 @@ export class MainComponent implements OnInit {
       .pipe(
         combineLatestWith(
           this.selectedPartiesSubject,
-          this.selectedResultsFormatSubject,
+          this.selectedTimeFormatSubject,
         ),
       )
-      .subscribe(([incomeGroupIndex, parties, resultsFormat]) => {
+      .subscribe(([incomeGroupIndex, parties, timeFormat]) => {
         let dataSorted = this.parties
           .slice()
           .filter((party: Party) => this.isPartySelected(parties, party));
 
-        switch (resultsFormat) {
-          case ResultsFormat.RELATIVE: {
-            dataSorted = dataSorted.sort(
-              (a: Party, b: Party) =>
-                b.changesRelative[incomeGroupIndex] -
-                a.changesRelative[incomeGroupIndex],
-            );
-            break;
-          }
-          case ResultsFormat.ABSOLUTE_MONTHLY:
-          case ResultsFormat.ABSOLUTE_ANNUALLY: {
-            dataSorted = dataSorted.sort(
-              (a: Party, b: Party) =>
-                b.changesAbsoluteAnnually[incomeGroupIndex] -
-                a.changesAbsoluteAnnually[incomeGroupIndex],
-            );
-            break;
-          }
-        }
+        dataSorted = dataSorted.sort(
+          (a: Party, b: Party) =>
+            b.changesAbsoluteAnnually[incomeGroupIndex] -
+            a.changesAbsoluteAnnually[incomeGroupIndex],
+        );
 
-        this.initializeTitle(resultsFormat);
+        this.initializeTitle(timeFormat);
         this.initializeIncomeGroupLabels(dataSorted);
         this.initializeIncomeGroupDatasets(
           dataSorted,
           incomeGroupIndex,
-          resultsFormat,
+          timeFormat,
         );
         this.initializeIncomeGroupSuggestedMinMax(
           dataSorted,
           incomeGroupIndex,
-          resultsFormat,
+          timeFormat,
         );
       });
   }
@@ -396,24 +367,15 @@ export class MainComponent implements OnInit {
 
   /**
    * Initializes axis title and unit
-   * @param selectedResultsFormat selected results format
+   * @param selectedTimeFormat selected time format
    * @private
    */
-  private initializeTitle(selectedResultsFormat: ResultsFormat) {
+  private initializeTitle(selectedTimeFormat: TimeFormat) {
     this.translocoService
       .load(this.translocoService.getActiveLang())
       .subscribe(() => {
-        switch (selectedResultsFormat) {
-          case ResultsFormat.RELATIVE: {
-            this.xTitle = this.translocoService.translate(
-              'pages.main.labels.relative-income-change',
-              {},
-              this.lang,
-            );
-            this.xUnit = '%';
-            break;
-          }
-          case ResultsFormat.ABSOLUTE_MONTHLY: {
+        switch (selectedTimeFormat) {
+          case TimeFormat.MONTHLY: {
             this.xTitle = this.translocoService.translate(
               'pages.main.labels.absolute-income-change-monthly',
               {},
@@ -422,7 +384,7 @@ export class MainComponent implements OnInit {
             this.xUnit = '€';
             break;
           }
-          case ResultsFormat.ABSOLUTE_ANNUALLY: {
+          case TimeFormat.ANNUALLY: {
             this.xTitle = this.translocoService.translate(
               'pages.main.labels.absolute-income-change-annually',
               {},
@@ -448,24 +410,18 @@ export class MainComponent implements OnInit {
    * Initialize suggested min-max for income group
    * @param data data
    * @param selectedIncomeGroupIndex selected income group index
-   * @param selectedResultsFormat selected results format
+   * @param selectedTimeFormat selected time format
    * @private
    */
   private initializeIncomeGroupSuggestedMinMax(
     data: Party[],
     selectedIncomeGroupIndex: number,
-    selectedResultsFormat: ResultsFormat,
+    selectedTimeFormat: TimeFormat,
   ) {
     let values: number[] = [];
 
-    switch (selectedResultsFormat) {
-      case ResultsFormat.RELATIVE: {
-        values = data.map(
-          (party) => party.changesRelative[selectedIncomeGroupIndex],
-        );
-        break;
-      }
-      case ResultsFormat.ABSOLUTE_MONTHLY: {
+    switch (selectedTimeFormat) {
+      case TimeFormat.MONTHLY: {
         values = data
           .map(
             (party) => party.changesAbsoluteAnnually[selectedIncomeGroupIndex],
@@ -473,7 +429,7 @@ export class MainComponent implements OnInit {
           .map((value) => Math.floor(value / 12));
         break;
       }
-      case ResultsFormat.ABSOLUTE_ANNUALLY: {
+      case TimeFormat.ANNUALLY: {
         values = data.map(
           (party) => party.changesAbsoluteAnnually[selectedIncomeGroupIndex],
         );
@@ -490,35 +446,19 @@ export class MainComponent implements OnInit {
    *
    * @param parties parties
    * @param selectedIncomeGroupIndex selected income group index
-   @param selectedResultsFormat selected results format
+   @param selectedTimeFormat selected results format
    * @private
    */
   private initializeIncomeGroupDatasets(
     parties: Party[],
     selectedIncomeGroupIndex: number,
-    selectedResultsFormat: ResultsFormat,
+    selectedTimeFormat: TimeFormat,
   ) {
     let label: string = '';
     let data: number[] = [];
 
-    switch (selectedResultsFormat) {
-      case ResultsFormat.RELATIVE: {
-        label =
-          selectedIncomeGroupIndex != -1
-            ? this.translocoService.translate(
-                'pages.main.labels.relative-income-change',
-                {},
-                this.lang,
-              )
-            : '';
-        data = parties.map((party) =>
-          selectedIncomeGroupIndex != -1
-            ? party.changesRelative[selectedIncomeGroupIndex]
-            : 0,
-        );
-        break;
-      }
-      case ResultsFormat.ABSOLUTE_MONTHLY: {
+    switch (selectedTimeFormat) {
+      case TimeFormat.MONTHLY: {
         label =
           selectedIncomeGroupIndex != -1
             ? this.translocoService.translate(
@@ -536,7 +476,7 @@ export class MainComponent implements OnInit {
           .map((value) => Math.floor(value / 12));
         break;
       }
-      case ResultsFormat.ABSOLUTE_ANNUALLY: {
+      case TimeFormat.ANNUALLY: {
         label =
           selectedIncomeGroupIndex != -1
             ? this.translocoService.translate(
@@ -580,10 +520,10 @@ export class MainComponent implements OnInit {
   //
 
   /**
-   * Handles time format change of time
+   * Handles time format change
    * @param event event
    */
-  onTimeFormatChanged(event: MatButtonToggleChange) {
+  onTimeFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
     this.selectedTimeFormatSubject.next(event.value);
   }
 
@@ -605,13 +545,5 @@ export class MainComponent implements OnInit {
     selectedParties.set(party.name, !this.isPartySelected(parties, party));
 
     this.selectedPartiesSubject.next(selectedParties);
-  }
-
-  /**
-   * Handles selection of results format
-   * @param event event
-   */
-  onResultsFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
-    this.selectedResultsFormatSubject.next(event.value);
   }
 }
