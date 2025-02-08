@@ -32,6 +32,15 @@ import {
   MatExpansionPanelHeader,
   MatExpansionPanelTitle,
 } from '@angular/material/expansion';
+import { AsyncPipe } from '@angular/common';
+
+/**
+ * Represents a time format
+ */
+export enum TimeFormat {
+  MONTHLY,
+  ANNUALLY,
+}
 
 /**
  * Represents an income group
@@ -40,7 +49,7 @@ export type IncomeGroup = {
   /** Index */
   index: number;
   /** Texts for annual income  */
-  annual: { selectText: string; buttonToggleText: string };
+  annually: { selectText: string; buttonToggleText: string };
   /** Texts for monthly income  */
   monthly: { selectText: string; buttonToggleText: string };
 };
@@ -90,6 +99,7 @@ export enum ResultsFormat {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
     MatExpansionPanelDescription,
+    AsyncPipe,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -120,52 +130,52 @@ export class MainComponent implements OnInit {
   incomeGroups: IncomeGroup[] = [
     {
       index: 0,
-      annual: { selectText: '1 - 10.000', buttonToggleText: '10T' },
+      annually: { selectText: '1 - 10.000', buttonToggleText: '10T' },
       monthly: { selectText: '1 - 833', buttonToggleText: '833' },
     },
     {
       index: 1,
-      annual: { selectText: '10.001 - 20.000', buttonToggleText: '20T' },
+      annually: { selectText: '10.001 - 20.000', buttonToggleText: '20T' },
       monthly: { selectText: '834 - 1.666', buttonToggleText: '1.666' },
     },
     {
       index: 2,
-      annual: { selectText: '20.001 - 30.000', buttonToggleText: '30T' },
+      annually: { selectText: '20.001 - 30.000', buttonToggleText: '30T' },
       monthly: { selectText: '1.667 - 2.500', buttonToggleText: '2.500' },
     },
     {
       index: 3,
-      annual: { selectText: '30.001 - 40.000', buttonToggleText: '40T' },
+      annually: { selectText: '30.001 - 40.000', buttonToggleText: '40T' },
       monthly: { selectText: '2.500 - 3.333', buttonToggleText: '3.333' },
     },
     {
       index: 4,
-      annual: { selectText: '40.001 - 55.000', buttonToggleText: '55T' },
+      annually: { selectText: '40.001 - 55.000', buttonToggleText: '55T' },
       monthly: { selectText: '3.334 - 4.583', buttonToggleText: '4.583' },
     },
     {
       index: 5,
-      annual: { selectText: '55.001 - 80.000', buttonToggleText: '80T' },
+      annually: { selectText: '55.001 - 80.000', buttonToggleText: '80T' },
       monthly: { selectText: '4.584 - 6.666', buttonToggleText: '6.666' },
     },
     {
       index: 6,
-      annual: { selectText: '80.001 - 100.000', buttonToggleText: '100T' },
+      annually: { selectText: '80.001 - 100.000', buttonToggleText: '100T' },
       monthly: { selectText: '6.667 - 8.333', buttonToggleText: '8.333' },
     },
     {
       index: 7,
-      annual: { selectText: '100.001 - 150.000', buttonToggleText: '150T' },
+      annually: { selectText: '100.001 - 150.000', buttonToggleText: '150T' },
       monthly: { selectText: '8.334 - 12.500', buttonToggleText: '12.5T' },
     },
     {
       index: 8,
-      annual: { selectText: '150.001 - 250.000', buttonToggleText: '250T' },
+      annually: { selectText: '150.001 - 250.000', buttonToggleText: '250T' },
       monthly: { selectText: '12.501 - 20.833', buttonToggleText: '20.8T' },
     },
     {
       index: 9,
-      annual: { selectText: '250.001 - 2.000.000', buttonToggleText: '2Mio' },
+      annually: { selectText: '250.001 - 2.000.000', buttonToggleText: '2Mio' },
       monthly: { selectText: '20.834 - 166.666', buttonToggleText: '166.6T' },
     },
   ];
@@ -241,6 +251,10 @@ export class MainComponent implements OnInit {
   // Selections
   //
 
+  /** Subject providing the selected time format */
+  selectedTimeFormatSubject = new BehaviorSubject<TimeFormat>(
+    TimeFormat.ANNUALLY,
+  );
   /** Subject providing the selected income group index */
   selectedIncomeGroupIndexSubject = new BehaviorSubject<number>(-1);
   /** Subject providing the selected parties */
@@ -276,6 +290,11 @@ export class MainComponent implements OnInit {
   /** Media enum */
   mediaEnum = Media;
 
+  /** Time enum */
+  timeEnum = TimeFormat;
+  /** Results format enum */
+  resultsFormatEnum = ResultsFormat;
+
   //
   // Constants
   //
@@ -284,9 +303,6 @@ export class MainComponent implements OnInit {
   appName = environment.appName;
   /** Query parameter theme */
   private QUERY_PARAM_THEME: string = 'theme';
-
-  /** Enum for results format */
-  resultsFormatEnum = ResultsFormat;
 
   //
   // Lifecycle hooks
@@ -393,35 +409,39 @@ export class MainComponent implements OnInit {
    * @private
    */
   private initializeTitle(selectedResultsFormat: ResultsFormat) {
-    switch (selectedResultsFormat) {
-      case ResultsFormat.RELATIVE: {
-        this.xTitle = this.translocoService.translate(
-          'pages.main.labels.relative-income-change',
-          {},
-          this.lang,
-        );
-        this.xUnit = '%';
-        break;
-      }
-      case ResultsFormat.ABSOLUTE_MONTHLY: {
-        this.xTitle = this.translocoService.translate(
-          'pages.main.labels.absolute-income-change-monthly',
-          {},
-          this.lang,
-        );
-        this.xUnit = '€';
-        break;
-      }
-      case ResultsFormat.ABSOLUTE_ANNUALLY: {
-        this.xTitle = this.translocoService.translate(
-          'pages.main.labels.absolute-income-change-annually',
-          {},
-          this.lang,
-        );
-        this.xUnit = '€';
-        break;
-      }
-    }
+    this.translocoService
+      .load(this.translocoService.getActiveLang())
+      .subscribe(() => {
+        switch (selectedResultsFormat) {
+          case ResultsFormat.RELATIVE: {
+            this.xTitle = this.translocoService.translate(
+              'pages.main.labels.relative-income-change',
+              {},
+              this.lang,
+            );
+            this.xUnit = '%';
+            break;
+          }
+          case ResultsFormat.ABSOLUTE_MONTHLY: {
+            this.xTitle = this.translocoService.translate(
+              'pages.main.labels.absolute-income-change-monthly',
+              {},
+              this.lang,
+            );
+            this.xUnit = '€';
+            break;
+          }
+          case ResultsFormat.ABSOLUTE_ANNUALLY: {
+            this.xTitle = this.translocoService.translate(
+              'pages.main.labels.absolute-income-change-annually',
+              {},
+              this.lang,
+            );
+            this.xUnit = '€';
+            break;
+          }
+        }
+      });
   }
 
   /**
@@ -567,6 +587,14 @@ export class MainComponent implements OnInit {
   //
   // Actions
   //
+
+  /**
+   * Handles time format change of time
+   * @param event event
+   */
+  onTimeFormatChanged(event: MatButtonToggleChange) {
+    this.selectedTimeFormatSubject.next(event.value);
+  }
 
   /**
    * Handles change of income group

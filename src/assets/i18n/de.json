@@ -5,6 +5,8 @@
       "description": "hat ausgerechnet, welche Partei wem wie viel Geld ins Portemonnaie spülen möchte. Schau jetzt, was für dich dabei rausspringt.",
       "terms": {
         "the-zew": "Das ZEW",
+        "monthly": "monatlich",
+        "annually": "jährlich",
         "income-group": "Einkommensgruppe",
         "euros": "€",
         "source": "Quelle",
@@ -12,12 +14,13 @@
         "results-formats": {
           "relative": "relativ",
           "absolute-monthly": "absolut (monatlich)",
-          "absolute-annual": "absolut (jährlich)"
+          "absolute-annually": "absolut (jährlich)"
         },
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
         "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)"
       },
       "questions": {
+        "income-group": "Wie hoch ist dein Bruttoeinkommen?",
         "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
         "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
         "parties": "Welche Parteien willst du betrachten?",

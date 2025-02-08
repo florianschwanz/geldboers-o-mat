@@ -5,6 +5,8 @@
       "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you.",
       "terms": {
         "the-zew": "The ZEW",
+        "monthly": "monthly",
+        "annually": "annually",
         "income-group": "income group",
         "euros": "€",
         "source": "source",
@@ -12,12 +14,13 @@
         "results-formats": {
           "relative": "relative",
           "absolute-monthly": "absolute (monthly)",
-          "absolute-annual": "absolute (annual)"
+          "absolute-annually": "absolute (annually)"
         },
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
         "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)"
       },
       "questions": {
+        "income-group": "What is your gross income in Euros?",
         "income-group-year": "What is your gross annual income in Euros?",
         "income-group-month": "or what is your gross monthly income in Euros?",
         "parties": "Which political parties would you like to consider?",
