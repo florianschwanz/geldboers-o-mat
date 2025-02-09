@@ -133,30 +133,9 @@
           ></app-bar-chart>
         </div>
 
-        <div class="context-container">
-          <mat-accordion multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title
-                  >{{ t("questions.disposable-income") }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>{{ t("context.disposable-income") }}</p>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title
-                  >{{ t("questions.why-dont-i-see-the-afd") }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>{{ t("context.no-afd") }}</p>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-
         <div class="selection-container">
           <div class="question">{{ t("questions.parties") }}</div>
-
+          
           <div class="party-selection">
             @for (party of parties.values(); track party) {
               <button
@@ -186,6 +165,27 @@
               </button>
             }
           </div>
+        </div>
+  
+        <div class="context-container">
+          <mat-accordion multi>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title
+                  >{{ t("questions.disposable-income") }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>{{ t("context.disposable-income") }}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title
+                  >{{ t("questions.why-dont-i-see-the-afd") }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>{{ t("context.no-afd") }}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
         </div>
 
         <div class="footer">
