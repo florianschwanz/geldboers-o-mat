@@ -439,9 +439,26 @@ export class MainComponent implements OnInit {
       }
     }
 
+    let strechFactor = 1;
+
+    switch (this.mediaService.mediaSubject.value) {
+      case Media.SMALL: {
+        strechFactor = 2;
+        break;
+      }
+      case Media.MEDIUM: {
+        strechFactor = 1.5;
+        break;
+      }
+      case Media.LARGE: {
+        strechFactor = 1.25;
+        break;
+      }
+    }
+
     this.xSuggestedMinMax =
       Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
-      1.25;
+      strechFactor;
   }
 
   /** Initializes datasets for income group
