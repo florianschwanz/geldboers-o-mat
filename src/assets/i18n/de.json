@@ -25,8 +25,8 @@
       },
       "labels": {
         "relative-income-change": "prozentuale Veränderung im verfügbaren Einkommen",
-        "absolute-income-change-monthly": "absolute Veränderung im verfügbaren Einkommen pro Monat",
-        "absolute-income-change-annually": "absolute Veränderung im verfügbaren Einkommen pro Jahr"
+        "absolute-income-change-monthly": "Veränderung im verfügbaren Einkommen pro Monat",
+        "absolute-income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr"
       },
       "context": {
         "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld).",

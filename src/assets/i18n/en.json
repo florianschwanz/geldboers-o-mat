@@ -25,8 +25,8 @@
       },
       "labels": {
         "relative-income-change": "relative change in disposable income",
-        "absolute-income-change-monthly": "absolute change in disposable income per month",
-        "absolute-income-change-annually": "absolute change in disposable income per year"
+        "absolute-income-change-monthly": "change in disposable income per month",
+        "absolute-income-change-annually": "change in disposable income per year"
       },
       "context": {
         "disposable-income": "The disposable income describes the amount that actually ends up in your account. It is made up of your gross income minus taxes and contributions (= net income) and plus any transfer payments (such as child benefit, housing benefit or citizen's allowance).",
