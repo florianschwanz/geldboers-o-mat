@@ -443,7 +443,7 @@ export class MainComponent implements OnInit {
 
     switch (this.mediaService.mediaSubject.value) {
       case Media.SMALL: {
-        strechFactor = 2;
+        strechFactor = 2.5;
         break;
       }
       case Media.MEDIUM: {
