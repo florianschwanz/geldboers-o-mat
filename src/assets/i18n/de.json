@@ -11,7 +11,8 @@
         "euros": "€",
         "source": "Quelle",
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
-        "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)"
+        "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)",
+        "imprint": "Impressum"
       },
       "questions": {
         "income-group": "Wie hoch ist dein Bruttoeinkommen?",
@@ -33,11 +34,15 @@
       }
     },
     "imprint": {
+      "tag": "Bundestagswahl 2025",
       "title": "Impressum",
       "information": "Angaben gemäß § 5 TMG",
       "contact": "Kontakt",
       "email": "E-Mail",
-      "editorially-responsible": "Redaktionell verantwortlich"
+      "editorially-responsible": "Redaktionell verantwortlich",
+      "actions": {
+        "back": "zurück"
+      }
     }
   }
 }

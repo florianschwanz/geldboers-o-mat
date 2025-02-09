@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Theme, ThemeService } from '../../core/ui/services/theme.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { BehaviorSubject, combineLatestWith, first } from 'rxjs';
 import {
   getBrowserLang,
@@ -91,6 +91,8 @@ export type Party = {
     MatExpansionPanelTitle,
     MatExpansionPanelDescription,
     AsyncPipe,
+    RouterModule,
+    RouterLink,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',

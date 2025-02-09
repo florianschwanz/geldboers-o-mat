@@ -11,7 +11,8 @@
         "euros": "€",
         "source": "source",
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
-        "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)"
+        "paper-author": "(ZEW – Leibniz-Zentrum für Europäische Wirtschaftsforschung GmbH Mannheim)",
+        "imprint": "Imprint"
       },
       "questions": {
         "income-group": "What is your gross income in Euros?",
@@ -33,11 +34,15 @@
       }
     },
     "imprint": {
+      "tag": "Federal Election 2025",
       "title": "Imprint",
       "information": "Information according to § 5 TMG",
       "contact": "Contact",
       "email": "e-mail",
-      "editorially-responsible": "Editorially responsible"
+      "editorially-responsible": "Editorially responsible",
+      "actions": {
+        "back": "back"
+      }
     }
   }
 }
