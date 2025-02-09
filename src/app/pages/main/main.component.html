@@ -20,23 +20,6 @@
         <div
           class="flex-container flex-justify-center time-income-group-selection"
         >
-          <div class="time-format-selection">
-            <mat-button-toggle-group
-              class="time-format-button-group"
-              name="time-format-selection"
-              aria-label="time format"
-              [value]="selectedTimeFormatSubject.value"
-              (change)="onTimeFormatChanged($event)"
-            >
-              <mat-button-toggle [value]="timeEnum.MONTHLY">
-                {{ t("terms.monthly") }}
-              </mat-button-toggle>
-              <mat-button-toggle [value]="timeEnum.ANNUALLY">
-                {{ t("terms.annually") }}
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
-
           @if ((selectedTimeFormatSubject | async) == timeEnum.MONTHLY) {
             @if (media < mediaEnum.LARGE) {
               <div class="income-group-selection">
@@ -114,6 +97,23 @@
               </div>
             }
           }
+
+          <div class="time-format-selection">
+            <mat-button-toggle-group
+              class="time-format-button-group"
+              name="time-format-selection"
+              aria-label="time format"
+              [value]="selectedTimeFormatSubject.value"
+              (change)="onTimeFormatChanged($event)"
+            >
+              <mat-button-toggle [value]="timeEnum.MONTHLY">
+                {{ t("terms.monthly") }}
+              </mat-button-toggle>
+              <mat-button-toggle [value]="timeEnum.ANNUALLY">
+                {{ t("terms.annually") }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
         </div>
       </div>
 
