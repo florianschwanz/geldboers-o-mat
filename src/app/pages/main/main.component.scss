@@ -24,7 +24,7 @@
   }
 }
 
-.main-container > * {
+.main-container > * > * {
   max-width: 100%;
 }
 
@@ -42,7 +42,7 @@
   }
 
   @media #{$breakpoint-small} {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 }
 
@@ -73,6 +73,16 @@
   .question {
     margin: 24px 0 16px;
     text-align: center;
+  }
+
+  .time-income-group-selection {
+    gap: 32px;
+
+    @media #{$breakpoint-small} {
+      gap: 8px;
+      align-items: center;
+      flex-direction: column;
+    }
   }
 
   .time-format-selection,
