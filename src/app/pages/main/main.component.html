@@ -29,7 +29,10 @@
                     [value]="selectedIncomeGroupIndexSubject.value"
                     (selectionChange)="onIncomeGroupChanged($event)"
                   >
-                    @for (incomeGroup of incomeGroups; track incomeGroup) {
+                    @for (
+                      incomeGroup of incomeGroupsSubject | async;
+                      track incomeGroup
+                    ) {
                       <mat-option [value]="incomeGroup.index"
                         >{{ incomeGroup.monthly.selectText }}
                         {{ t("terms.euros") }}
@@ -48,7 +51,10 @@
                   [value]="selectedIncomeGroupIndexSubject.value"
                   (change)="onIncomeGroupChanged($event)"
                 >
-                  @for (incomeGroup of incomeGroups; track incomeGroup) {
+                  @for (
+                    incomeGroup of incomeGroupsSubject | async;
+                    track incomeGroup
+                  ) {
                     <mat-button-toggle [value]="incomeGroup.index"
                       >≤ {{ incomeGroup.monthly.buttonToggleText }}
                       {{ t("terms.euros") }}
@@ -68,7 +74,10 @@
                     [value]="selectedIncomeGroupIndexSubject.value"
                     (selectionChange)="onIncomeGroupChanged($event)"
                   >
-                    @for (incomeGroup of incomeGroups; track incomeGroup) {
+                    @for (
+                      incomeGroup of incomeGroupsSubject | async;
+                      track incomeGroup
+                    ) {
                       <mat-option [value]="incomeGroup.index"
                         >{{ incomeGroup.annually.selectText }}
                         {{ t("terms.euros") }}
@@ -87,7 +96,10 @@
                   [value]="selectedIncomeGroupIndexSubject.value"
                   (change)="onIncomeGroupChanged($event)"
                 >
-                  @for (incomeGroup of incomeGroups; track incomeGroup) {
+                  @for (
+                    incomeGroup of incomeGroupsSubject | async;
+                    track incomeGroup
+                  ) {
                     <mat-button-toggle [value]="incomeGroup.index"
                       >≤ {{ incomeGroup.annually.buttonToggleText }}
                       {{ t("terms.euros") }}
@@ -137,7 +149,7 @@
           <div class="question">{{ t("questions.parties") }}</div>
 
           <div class="party-selection">
-            @for (party of parties.values(); track party) {
+            @for (party of partiesSubject | async; track party) {
               <button
                 mat-button
                 class="party-button"
@@ -189,7 +201,7 @@
         </div>
         <div class="context-container">
           <mat-accordion>
-            @for (party of parties; track party) {
+            @for (party of partiesSubject | async; track party) {
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
@@ -199,7 +211,11 @@
                     }
                   </mat-panel-title>
                   <mat-panel-description>
-                    <img class="accordion-image" [src]="party.image" />
+                    <img
+                      class="accordion-image"
+                      [src]="party.image"
+                      [alt]="party.name"
+                    />
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <ul>
