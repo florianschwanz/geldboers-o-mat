@@ -37,10 +37,15 @@
     "imprint": {
       "tag": "Bundestagswahl 2025",
       "title": "Impressum",
-      "information": "Angaben gemäß § 5 TMG",
-      "contact": "Kontakt",
-      "email": "E-Mail",
-      "editorially-responsible": "Redaktionell verantwortlich",
+      "terms": {
+        "information": "Angaben gemäß § 5 TMG",
+        "contact": "Kontakt",
+        "email": "E-Mail",
+        "editorially-responsible": "Redaktionell verantwortlich",
+        "idea-and-concept": "Idee und Konzept",
+        "implementation": "Implementierung",
+        "and": "und"
+      },
       "actions": {
         "back": "zurück"
       }

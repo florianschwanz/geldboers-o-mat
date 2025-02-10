@@ -37,10 +37,15 @@
     "imprint": {
       "tag": "Federal Election 2025",
       "title": "Imprint",
-      "information": "Information according to § 5 TMG",
-      "contact": "Contact",
-      "email": "e-mail",
-      "editorially-responsible": "Editorially responsible",
+      "terms": {
+        "information": "Information according to § 5 TMG",
+        "contact": "Contact",
+        "email": "e-mail",
+        "editorially-responsible": "Editorially responsible",
+        "idea-and-concept": "Idea und Concept",
+        "implementation": "Implementation",
+        "and": "and"
+      },
       "actions": {
         "back": "back"
       }
