@@ -1,3 +1,16 @@
-<div style="min-height: 100%" [class]="themeService.themeSubject | async">
-  <router-outlet></router-outlet>
-</div>
+<ng-container *transloco="let t; lang: lang; read: 'pages.main'">
+  <div class="wrapper" [class]="themeService.themeSubject | async">
+    <div style="min-height: 100%">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="push"></div>
+  </div>
+  <div
+    class="footer-imprint flex-container flex-container-vertical flex-align-center"
+    [class]="themeService.themeSubject | async"
+  >
+    <span>
+      <a routerLink="/impressum">{{ t("terms.imprint") }}</a>
+    </span>
+  </div>
+</ng-container>

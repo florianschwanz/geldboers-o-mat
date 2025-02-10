@@ -1,16 +1,17 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { Theme, ThemeService } from './core/ui/services/theme.service';
 import { Meta } from '@angular/platform-browser';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { getBrowserLang, TranslocoModule } from '@jsverse/transloco';
 
 /**
  * Displays app component
  */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AsyncPipe],
+  imports: [RouterOutlet, AsyncPipe, RouterLink, TranslocoModule],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss',
@@ -28,6 +29,9 @@ export class AppComponent implements OnInit {
   private changeDetector = inject(ChangeDetectorRef);
   /** Meta service */
   private meta = inject(Meta);
+
+  /** Language */
+  lang = getBrowserLang();
 
   //
   // Lifecycle hooks

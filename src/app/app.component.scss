@@ -1,0 +1,14 @@
+@use "@angular/material" as mat;
+@import "../styles";
+
+$footer-height: 100px;
+
+.wrapper {
+  min-height: 100%;
+  margin-bottom: -$footer-height;
+}
+
+.footer,
+.push {
+  height: $footer-height;
+}
