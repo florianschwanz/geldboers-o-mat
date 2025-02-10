@@ -150,12 +150,12 @@ export class MainComponent implements OnInit {
   // Selections
   //
 
-  /** Subject providing the selected time format */
-  selectedTimeFormatSubject = new BehaviorSubject<TimeFormat>(
-    TimeFormat.ANNUALLY,
-  );
   /** Subject providing the selected income group index */
   selectedIncomeGroupIndexSubject = new BehaviorSubject<number>(-1);
+  /** Subject providing the selected time format */
+  selectedTimeFormatSubject = new BehaviorSubject<TimeFormat>(
+    TimeFormat.MONTHLY,
+  );
   /** Subject providing the selected parties */
   selectedPartiesSubject = new BehaviorSubject<Map<string, boolean>>(
     new Map<string, boolean>(),
@@ -198,6 +198,8 @@ export class MainComponent implements OnInit {
   private QUERY_PARAM_THEME: string = 'theme';
   /** Query parameter income-group */
   private QUERY_PARAM_INCOME_GROUP: string = 'income-group';
+  /** Query parameter time-format */
+  private QUERY_PARAM_TIME_FORMAT: string = 'time-format';
 
   //
   // Lifecycle hooks
@@ -226,9 +228,13 @@ export class MainComponent implements OnInit {
       this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
 
       const incomeGroupIndex = +queryParams[this.QUERY_PARAM_INCOME_GROUP];
+      const timeFormat = +queryParams[this.QUERY_PARAM_TIME_FORMAT];
 
       if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
         this.selectedIncomeGroupIndexSubject.next(incomeGroupIndex);
+      }
+      if (timeFormat != null && !isNaN(timeFormat)) {
+        this.selectedTimeFormatSubject.next(timeFormat);
       }
     });
   }
@@ -523,19 +529,20 @@ export class MainComponent implements OnInit {
   //
 
   /**
-   * Handles time format change
-   * @param event event
-   */
-  onTimeFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
-    this.selectedTimeFormatSubject.next(event.value);
-  }
-
-  /**
    * Handles change of income group
    * @param event event
    */
   onIncomeGroupChanged(event: MatSelectChange | MatButtonToggleChange) {
     this.selectedIncomeGroupIndexSubject.next(event.value);
+    this.updateQueryParameters();
+  }
+
+  /**
+   * Handles time format change
+   * @param event event
+   */
+  onTimeFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
+    this.selectedTimeFormatSubject.next(event.value);
     this.updateQueryParameters();
   }
 
@@ -565,6 +572,7 @@ export class MainComponent implements OnInit {
         [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
         [this.QUERY_PARAM_INCOME_GROUP]:
           this.selectedIncomeGroupIndexSubject.value,
+        [this.QUERY_PARAM_TIME_FORMAT]: this.selectedTimeFormatSubject.value,
       },
     });
   }
