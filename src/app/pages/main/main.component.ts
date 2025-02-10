@@ -1,6 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Theme, ThemeService } from '../../core/ui/services/theme.service';
-import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import { BehaviorSubject, combineLatestWith, filter, first } from 'rxjs';
 import {
   getBrowserLang,
@@ -120,6 +125,8 @@ export class MainComponent implements OnInit {
   private http = inject(HttpClient);
   /** Activated route */
   private route = inject(ActivatedRoute);
+  /** Router */
+  private router = inject(Router);
   /** Theme service */
   private themeService = inject(ThemeService);
   /** Media service */
@@ -189,6 +196,8 @@ export class MainComponent implements OnInit {
   appName = environment.appName;
   /** Query parameter theme */
   private QUERY_PARAM_THEME: string = 'theme';
+  /** Query parameter income-group */
+  private QUERY_PARAM_INCOME_GROUP: string = 'income-group';
 
   //
   // Lifecycle hooks
@@ -215,6 +224,12 @@ export class MainComponent implements OnInit {
     this.route.queryParams.pipe(first()).subscribe((queryParams) => {
       const theme = queryParams[this.QUERY_PARAM_THEME];
       this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
+
+      const incomeGroupIndex = +queryParams[this.QUERY_PARAM_INCOME_GROUP];
+
+      if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
+        this.selectedIncomeGroupIndexSubject.next(incomeGroupIndex);
+      }
     });
   }
 
@@ -521,6 +536,7 @@ export class MainComponent implements OnInit {
    */
   onIncomeGroupChanged(event: MatSelectChange | MatButtonToggleChange) {
     this.selectedIncomeGroupIndexSubject.next(event.value);
+    this.updateQueryParameters();
   }
 
   /**
@@ -533,5 +549,23 @@ export class MainComponent implements OnInit {
     selectedParties.set(party.name, !this.isPartySelected(parties, party));
 
     this.selectedPartiesSubject.next(selectedParties);
+  }
+
+  //
+  // Helpers
+  //
+
+  /**
+   * Updates query parameters
+   */
+  private updateQueryParameters() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
+        [this.QUERY_PARAM_INCOME_GROUP]:
+          this.selectedIncomeGroupIndexSubject.value,
+      },
+    });
   }
 }
