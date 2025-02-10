@@ -135,7 +135,7 @@
 
         <div class="selection-container">
           <div class="question">{{ t("questions.parties") }}</div>
-          
+
           <div class="party-selection">
             @for (party of parties.values(); track party) {
               <button
@@ -166,7 +166,7 @@
             }
           </div>
         </div>
-  
+
         <div class="context-container">
           <mat-accordion multi>
             <mat-expansion-panel>
@@ -185,6 +185,40 @@
               </mat-expansion-panel-header>
               <p>{{ t("context.no-afd") }}</p>
             </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <div class="context-container">
+          <mat-accordion>
+            @for (party of parties; track party) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ t("terms.reform-proposals") }}
+                    @if (media > mediaEnum.SMALL) {
+                      {{ party.name }}
+                    }
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <img class="accordion-image" [src]="party.image" />
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ul>
+                  @for (level1 of party.reformProposals; track level1) {
+                    <li>{{ level1.text }}</li>
+                    <ul>
+                      @for (level2 of level1.subTexts; track level2) {
+                        <li>{{ level2.text }}</li>
+                        <ul>
+                          @for (level3 of level2.subTexts; track level3) {
+                            <li>{{ level3.text }}</li>
+                          }
+                        </ul>
+                      }
+                    </ul>
+                  }
+                </ul>
+              </mat-expansion-panel>
+            }
           </mat-accordion>
         </div>
 

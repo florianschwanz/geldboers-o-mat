@@ -55,6 +55,16 @@ export type IncomeGroup = {
 };
 
 /**
+ * Bullet point
+ */
+export type BulletPoint = {
+  /** Text */
+  text: string;
+  /** Sub-texts */
+  subTexts?: BulletPoint[];
+};
+
+/**
  * Represents a political party
  */
 export type Party = {
@@ -68,6 +78,8 @@ export type Party = {
   changesRelative: number[];
   /** Absolute changes in income based on income groups */
   changesAbsoluteAnnually: number[];
+  /** Reform proposals */
+  reformProposals: BulletPoint[];
 };
 
 /**
@@ -183,6 +195,30 @@ export class MainComponent implements OnInit {
       changesAbsoluteAnnually: [
         11, 13, 63, 176, 414, 907, 1528, 2587, 5203, 13248,
       ],
+      reformProposals: [
+        {
+          text: '"Einkommen entlasten. Dazu flachen wir den Einkommensteuertarif schrittweise spürbar ab und erhöhen den Grundfreibetrag. Die Einkommensgrenze für den Spitzensteuersatz erhöhen wir deutlich" (Wahlprogramm, S. 12), umgesetzt als',
+          subTexts: [
+            { text: 'Anstieg Grundfreibetrag um 100 Euro,' },
+            {
+              text: 'Einstiegssteuersatz in der 2. Progressionszone 21 % statt 23,97%,',
+            },
+            {
+              text: 'Beginn Spitzensteuersatz bei 80.000 Euro zu versteuerndem Einkommen.',
+            },
+            {
+              text: 'Entlastungsbetrag für Alleinerziehende steigt auf 4.500 Euro.',
+            },
+          ],
+        },
+        {
+          text: '"Steigende Preise dürfen nicht zu höherer Einkommensteuerlast führen. Deshalb passen wir den Einkommensteuertarif regelmäßig an die Inflation an und gleichen so die kalte Progression aus. Dabei berücksichtigen wir auch alle inflationssensiblen Abzugsbeträge" (Wahlprogramm, S. 12), umgesetzt [...] als Erhöhung Eckwert Reichensteuer um 6,3 %',
+        },
+        { text: 'Abschaffung Solidaritätszuschlag' },
+        {
+          text: '"Familien finanziell entlasten. Unser Ziel ist, den Kinderfreibetrag in Richtung des Grundfreibetrags der Eltern zu entwickeln. Entsprechend heben wir auch das Kindergeld an, das künftig nach der Geburt automatisch ausgezahlt werden soll" (Wahlprogramm, S. 61), umgesetzt als Anstieg des Kinderfreibetrags auf 11.000 Euro.',
+        },
+      ],
     },
     {
       name: 'SPD',
@@ -191,6 +227,33 @@ export class MainComponent implements OnInit {
       changesRelative: [1.9, 2.4, 3.1, 2.8, 2.5, 2.6, 2.3, 1.7, 1.0, -3.4],
       changesAbsoluteAnnually: [
         268, 373, 682, 795, 926, 1281, 1438, 1360, 1179, -8892,
+      ],
+      reformProposals: [
+        {
+          text: '"Wir wollen die große Mehrheit der Einkommensteuerpflichtigen entlasten (etwa 95 Prozent) und dafür unter anderem Spitzeneinkommen und -vermögen stärker an der Finanzierung des Gemeinwohls und der Modernisierung unseres Landes beteiligen" (Wahlprogramm, S. 20), umgesetzt als}',
+          subTexts: [
+            {
+              text: 'Anstieg des Grundfreibetrags und des Eckwerts der zweiten Progressionszone um je 1.446 Euro (auf 13.230 Euro bzw. 18.451 Euro zu versteuerndes Einkommen),',
+            },
+            {
+              text: 'Spitzensteuersatz von 45 % ab 77.021 Euro zu versteuerndem Einkommen (statt 42 % ab 66.760 Euro) und',
+            },
+            {
+              text: 'Reichensteuersatz von 47 % ab 210.000 Euro zu versteuerndem Einkommen (statt 45 % ab 277.825 Euro).',
+            },
+          ],
+        },
+        {
+          text: 'Erhöhung des Freibetrags beim Solidaritätszuschlag von 18.130 Euro auf 21.189 Euro.',
+        },
+        { text: 'Abschaffung der Abgeltungsteuer' },
+        {
+          text: '"Die ausgesetzte Vermögensteuer wollen wir für sehr hohe Vermögen revitalisieren" (Parteiprogramm, S. 16), umgesetzt als 2% Vermögensteuer auf Vermögen über 100 Mio. Euro.',
+        },
+        { text: 'Anhebung des Mindestlohns auf 15 Euro in 2026.' },
+        {
+          text: 'Klimageld. Es gibt in der SPD Überlegungen für eine soziale gestaffelte Auszahlung, z. B. nach Einkommen. Zur Ausgestaltung der sozialen Staffelung liegen uns aber keine Informationen vor. Wir simulieren daher ein pauschales Klimageld von 136 Euro pro Person.',
+        },
       ],
     },
     {
@@ -201,6 +264,34 @@ export class MainComponent implements OnInit {
       changesAbsoluteAnnually: [
         119, 437, 846, 1033, 1140, 1055, 867, 585, -122, -9833,
       ],
+      reformProposals: [
+        {
+          text: '"Den Grundfreibetrag erhöhen wir. Den Solidaritätszuschlag werden wir in den Einkommensteuertarif integrieren" (Wahlprogramm, S. 32).',
+          subTexts: [
+            { text: 'Abschaffung des Solidaritätszuschlags, im Gegenzug' },
+            {
+              text: 'Anhebung der Spitzensteuersatzes auf 46,5 % (ab 73.500 Euro)',
+            },
+            { text: 'und des Reichensteuersatzes auf 50 % (ab 250.000 Euro).' },
+            {
+              text: 'Zwischen Spitzensteuer und Reichensteuer gilt ab 100.000 Euro ein Steuersatz von 48 %.',
+            },
+            { text: 'Der Grundfreibetrag steigt auf 12.500 Euro.' },
+          ],
+        },
+        { text: 'Werbungskostenpauschale steigt auf 1.500 Euro.' },
+        { text: 'Abschaffung der Abgeltungsteuer' },
+        {
+          text: '"Um insbesondere niedrige Einkommen zielgenau und unbürokratisch zu entlasten, führen wir Steuergutschriften ein. Das ist ein Baustein, um die Arbeitsanreize im Bürgergeldsystem zu erhöhen" (Wahlprogramm, S. 34), umgesetzt als Steuergutschrift, sobald das zu versteuernde Einkommen den Grundfreibetrag übersteigt. Die maximale Steuergutschrift entspricht dem sächlichen Existenzminimum. Sie wird mit einer Rate von 65 % des zu versteuernden Einkommens abgeschmolzen. Die Einkommensteuer wird vom bei der Steuergutschrift anzurechnenden Einkommen abgezogen. Beim Hinzuverdienst im Bürgergeld nehmen wir an, dass die Freibetragsrate von 30 % bis 2.000 Euro ausgedehnt wird und darüber hinaus eine Rate von 35 % gilt.a',
+        },
+        {
+          text: '"Aktiver Einsatz für die Einführung der globalen Milliardärssteuer" (Wahlprogramm, S. 34), Aufkommensschätzung von 6 Mrd. Euro pro Jahr (Bild am Sonntag, 15.12.24).',
+        },
+        { text: 'Anhebung des Mindestlohns auf 15 Euro in 2026.' },
+        {
+          text: '"Klimageld. Alle Menschen mit niedrigen und mittleren Einkommen bekommen zum Ausgleich einen Großteil der Einnahmen der CO2-Bepreisung von Gebäudewärme und Transport als Klimageld zurück" (Wahlprogramm, S. 21). Genaue Ausgestaltung unbekannt, deswegen pauschales Klimageld von 136 Euro pro Person.',
+        },
+      ],
     },
     {
       name: 'FDP',
@@ -209,6 +300,33 @@ export class MainComponent implements OnInit {
       changesRelative: [-2.1, -0.2, 1.4, 2.3, 3.7, 5.5, 6.8, 8.2, 9.8, 8.1],
       changesAbsoluteAnnually: [
         -289, -36, 292, 663, 1379, 2758, 4378, 6734, 11543, 21083,
+      ],
+      reformProposals: [
+        {
+          text: 'Grundfreibetrag bei der Einkommensteuer steigt um 1.000 Euro',
+        },
+        {
+          text: 'Spitzensteuersatz greift erst ab 96.600 Euro zu versteuerndem Einkommen',
+        },
+        {
+          text: '"Freibeträge und Eckwerte der Einkommensteuer automatisch an die allgemeine Preisentwicklung anpassen (Tarif auf Rädern)" (Wahlprogramm, S. 13), umgesetzt [...] als Erhöhung Eckwert Reichensteuer um 6,3 %. Daneben Anstieg Grundfreibetrag und Eckwert Spitzensteuersatz',
+        },
+        {
+          text: '"Abschaffung Mittelstandsbauch": nur noch eine Progressionszone',
+        },
+        { text: 'Abschaffung Solidaritätszuschlag' },
+        {
+          text: '"Sparer-Freibetrag für Kapitaleinkünfte deutlich erhöhen" (Wahlprogramm, S. 15), umgesetzt als Verdopplung auf 2.000 Euro.',
+        },
+        {
+          text: '"Steuerfinanzierte Sozialleistungen wie das Bürgergeld und das Wohngeld in einer Leistung und an einer staatlichen Stelle zusammenfassen" (Wahlprogramm, S. 19), umgesetzt als Abschaffung des Wohngelds und als Freibetragsrate von 25% ab dem ersten Euro im Bürgergeld',
+        },
+        {
+          text: '"Der Regelsatz liegt im Jahr 2025 weiter über dem Bedarf. Deshalb wollen wir mit der Abschaffung der sogenannten Besitzstandsregelung die Voraussetzung dafür schaffen, den Regelsatz abzusenken" (Wahlprogramm, S. 19), in der Simulation den Regelsatz im Jahr 2024 auf das im 14. Existenzminimum ausgewiesene Bedarfsniveau gesenkt.',
+        },
+        {
+          text: '"Klimadividende einführen, um Einnahmen aus dem Emissionshandel direkt und pauschal pro Kopf an die Bürgerinnen und Bürger zurückzuzahlen" (Wahlprogramm, S.39), umgesetzt als jährliche Zahlung von 136 Euro pro Person.',
+        },
       ],
     },
     {
@@ -219,6 +337,57 @@ export class MainComponent implements OnInit {
       changesAbsoluteAnnually: [
         4125, 1936, 1846, 1840, 2378, 3316, 3500, 2189, -3547, -70679,
       ],
+      reformProposals: [
+        {
+          text: '"Alle zu versteuernden Einkommen unter 16.800 Euro im Jahr bleiben steuerfrei - das entspricht der Höhe unseres Modells des Existenzminimums. Hohe Einkommen wollen wir stärker besteuern.',
+        },
+        {
+          text: 'Ab 70.000 Euro zu versteuerndem Einkommen im Jahr beträgt der Steuersatz 53 Prozent [. . . ]',
+        },
+        {
+          text: 'Für die Reichensteuer fordern wir zwei Stufen:',
+          subTexts: [
+            { text: '60 Prozent für Einkommen oberhalb von 260.533 Euro und' },
+            {
+              text: '75 Prozent für Einkommen oberhalb von 1 Million Euro zu versteuerndem Einkommen" (Antrag Wahlprogramm, S. 8).',
+            },
+          ],
+        },
+        { text: 'Abschaffung Abgeltungsteuer' },
+        {
+          text: 'Die Linke fordert die Wiedereinführung der Vermögensteuer. Damit wir nur die Reichsten 2,5 Prozent unserer Gesellschaft belasten, fordern wir',
+          subTexts: [
+            {
+              text: 'einen Freibetrag für Privatvermögen von 1 Million Euro pro Person (abzüglich aller Schulden, wie zum Beispiel Hypotheken auf ein Eigenheim).',
+            },
+            {
+              text: 'Der Freibetrag für Betriebsvermögen liegt bei 5 Millionen Euro.',
+            },
+            {
+              text: 'Unser Steuersatz ist progressiv, steigt also mit höheren Vermögen:',
+              subTexts: [
+                { text: 'ab 1 Million 1 Prozent,' },
+                { text: 'ab 50 Millionen 5 Prozent.' },
+                {
+                  text: 'Für Vermögen oberhalb der Grenze von 1 Milliarde Euro legen wir einen Sondersteuersatz von 12 Prozent fest - die Milliardärsteuer" (Antrag Wahlprogramm, S. 7).',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          text: '"Der Regelsatz im Bürgergeld ist kleingerechnet: Der Paritätische Wohlfahrtsverband zeigt, dass der Regelsatz bei mindestens 813 Euro liegen müsste" (Antrag Wahlprogramm, S. 13).',
+        },
+        {
+          text: '"Wir wollen das Bürgergeld zu einer sanktionsfreien Mindestsicherung umbauen. [. . . ] Eine alleinlebende Person würde demnach gegenwärtig rund 1.400 Euro monatlich bekommen (inkl. Miete und sonstige Wohnkosten; in Regionen mit hohen Mieten entsprechend mehr)" (Antrag Wahlprogramm, S. 13).',
+        },
+        {
+          text: 'Kindergeld für alle Kinder (379 Euro monatlich; entspricht der maximalen monatlichen Entlastungswirkung des Steuerfreibetrags für Kinder und Jugendliche im Jahr 2024)" (Antrag Wahlprogramm, S. 14).',
+        },
+        {
+          text: 'Soziales Klimageld von aktuell 320 Euro jährlich pro Person als Direktzahlung einführen, von dem Haushalte mit kleinem und mittleren Einkommen besonders profitieren" (Antrag Wahlprogramm, S. 4).',
+        },
+      ],
     },
     {
       name: 'BSW',
@@ -227,6 +396,27 @@ export class MainComponent implements OnInit {
       changesRelative: [0.5, 1.4, 3.0, 2.8, 2.9, 3.0, 2.3, 1.3, 0.1, -2.2],
       changesAbsoluteAnnually: [
         75, 224, 654, 820, 1083, 1474, 1482, 1033, 107, -5767,
+      ],
+      reformProposals: [
+        {
+          text: '"Wir fordern eine deutliche Erhöhung des steuerlichen Grundfreibetrages, der sich an der Armutsgefährdungsschwelle orientieren sollte" (Wahlprogramm, S. 17), liegt bei 16.600€',
+        },
+        {
+          text: '"Wir wollen Einkommen bis zu 7.500 Euro brutto steuerlich entlasten" (Wahlprogramm, S. 16).',
+          subTexts: [
+            {
+              text: 'Der Schwellenwert für die Spitzensteuer liegt in unserem Tarif bei einem zu versteuernden Einkommen von 56.630 Euro.',
+            },
+            {
+              text: 'Der Spitzen- und Reichensteuersatz bleiben, ebenso wie die Eingangssteuersätze in den beiden Progressionszonen, unverändert.',
+            },
+          ],
+        },
+        { text: 'Abschaffung Abgeltungsteuer' },
+        { text: 'Anhebung des Mindestlohns auf 15 Euro.' },
+        {
+          text: '"Die Vermögenssteuer wollen wir für Vermögen ab 25 Millionen Euro mit einem Steuersatz von 1 Prozent reaktivieren, der ab 100 Millionen Euro Vermögen auf 2 Prozent und ab 1 Mrd. Euro auf 3 Prozent steigt" (Wahlprogramm, S. 17).',
+        },
       ],
     },
   ];
