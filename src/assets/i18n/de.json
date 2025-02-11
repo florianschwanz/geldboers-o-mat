@@ -9,6 +9,7 @@
         "annually": "jährlich",
         "income-group": "Einkommensgruppe",
         "euros": "€",
+        "billion-euros": "Mrd. €",
         "reform-proposals": "Reformvorschläge",
         "source": "Quelle",
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
@@ -27,7 +28,8 @@
       "labels": {
         "relative-income-change": "prozentuale Veränderung im verfügbaren Einkommen",
         "absolute-income-change-monthly": "Veränderung im verfügbaren Einkommen pro Monat",
-        "absolute-income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr"
+        "absolute-income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr",
+        "fiscal-impact-on-the-overall-federal-budget": "fiskalische Auswirkungen auf den Gesamthaushalt"
       },
       "context": {
         "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld).",

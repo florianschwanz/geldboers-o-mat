@@ -35,9 +35,12 @@ export type Party = {
   /** Color */
   color: string;
   /** Relative changes in income based on income groups */
-  changesRelative: number[];
+  changesIncomeRelative: number[];
   /** Absolute changes in income based on income groups */
-  changesAbsoluteAnnually: number[];
+  changesIncomeAbsoluteAnnually: number[];
+  /** Change in overall federal budget */
+  changeFederalBudget: number;
+
   /** Reform proposals */
   reformProposals: BulletPoint[];
 };

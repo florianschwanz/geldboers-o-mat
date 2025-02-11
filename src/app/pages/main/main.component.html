@@ -108,16 +108,31 @@
       @if ((selectionService.incomeGroupIndexSubject | async) != -1) {
         <div class="chart-container">
           <app-bar-chart
+            [id]="'bar-chart-income-group'"
             [datasets]="incomeGroupDatasets"
             [labels]="incomeGroupLabels"
             [horizontal]="false"
             [displayLegend]="false"
             [displayTooltip]="false"
-            [xTitle]="incomeGroupXTitle"
-            [xUnit]="incomeGroupXUnit"
             [xSuggestedMin]="-incomeGroupXSuggestedMinMax"
             [xSuggestedMax]="incomeGroupXSuggestedMinMax"
+            [xTicks]="false"
             [yGrid]="false"
+          ></app-bar-chart>
+        </div>
+
+        <div class="chart-container">
+          <app-bar-chart
+            [id]="'bar-chart-federal-budget'"
+            [datasets]="federalBudgetDatasets"
+            [labels]="federalBudgetLabels"
+            [horizontal]="true"
+            [displayLegend]="false"
+            [displayTooltip]="false"
+            [xGrid]="false"
+            [ySuggestedMin]="-federalBudgetYSuggestedMinMax"
+            [ySuggestedMax]="federalBudgetYSuggestedMinMax"
+            [yTicks]="false"
           ></app-bar-chart>
         </div>
 
@@ -221,21 +236,6 @@
               </mat-expansion-panel>
             }
           </mat-accordion>
-        </div>
-
-        <div class="chart-container">
-          <app-bar-chart
-            [datasets]="federalBudgetDatasets"
-            [labels]="federalBudgetLabels"
-            [horizontal]="true"
-            [displayLegend]="false"
-            [displayTooltip]="false"
-            [xTitle]="federalBudgetXTitle"
-            [xUnit]="federalBudgetXUnit"
-            [xSuggestedMin]="-federalBudgetXSuggestedMinMax"
-            [xSuggestedMax]="federalBudgetXSuggestedMinMax"
-            [yGrid]="false"
-          ></app-bar-chart>
         </div>
 
         <div class="footer">

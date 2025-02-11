@@ -9,6 +9,7 @@
         "annually": "annually",
         "income-group": "income group",
         "euros": "€",
+        "billion-euros": "b€",
         "reform-proposals": "reform proposals (German only)",
         "source": "source",
         "paper-title": "Reformvorschläge der Parteien zur Bundestagswahl 2025: Finanzielle Auswirkungen",
@@ -27,7 +28,8 @@
       "labels": {
         "relative-income-change": "relative change in disposable income",
         "absolute-income-change-monthly": "change in disposable income per month",
-        "absolute-income-change-annually": "change in disposable income per year"
+        "absolute-income-change-annually": "change in disposable income per year",
+        "fiscal-impact-on-the-overall-federal-budget": "fiscal impact on the overall federal budget"
       },
       "context": {
         "disposable-income": "The disposable income describes the amount that actually ends up in your account. It is made up of your gross income minus taxes and contributions (= net income) and plus any transfer payments (such as child benefit, housing benefit or citizen's allowance).",

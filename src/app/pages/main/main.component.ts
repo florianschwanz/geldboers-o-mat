@@ -6,7 +6,7 @@ import {
   RouterLink,
   RouterModule,
 } from '@angular/router';
-import { combineLatestWith, filter, first } from 'rxjs';
+import { combineLatestWith, debounceTime, filter, first } from 'rxjs';
 import {
   getBrowserLang,
   TranslocoModule,
@@ -97,19 +97,26 @@ export class MainComponent implements OnInit {
   lang = getBrowserLang();
 
   //
-  // Bar Chart
+  // Bar Chart (income group)
   //
 
-  /** Title of x-axis */
-  xTitle: string = '';
-  /** Unit of x-axis */
-  xUnit: string = '';
   /** Datasets for selected income group */
   incomeGroupDatasets: Dataset[] = [];
   /** Labels for selected income group */
   incomeGroupLabels: string[] = [];
   /** Suggested min-max value on the x-axis */
-  xSuggestedMinMax = 30;
+  incomeGroupXSuggestedMinMax = 30;
+
+  //
+  // Bar Chart (federal budget)
+  //
+
+  /** Datasets for federal budgets */
+  federalBudgetDatasets: Dataset[] = [];
+  /** Labels for federal budgets */
+  federalBudgetLabels: string[] = [];
+  /** Suggested min-max value on the x-axis */
+  federalBudgetYSuggestedMinMax = 30;
 
   //
   // Media
@@ -177,7 +184,7 @@ export class MainComponent implements OnInit {
   }
 
   /**
-   * Handles initial serice values (in case you come from another page)
+   * Handles initial service values (in case you come from another page)
    * @private
    */
   private handleServiceValues() {
@@ -208,7 +215,9 @@ export class MainComponent implements OnInit {
           this.selectionService.incomeGroupIndexSubject,
           this.selectionService.partiesSubject,
           this.selectionService.timeFormatSubject,
+          this.translocoService.load(this.translocoService.getActiveLang()),
         ),
+        debounceTime(100),
       )
       .subscribe(
         ([
@@ -216,33 +225,51 @@ export class MainComponent implements OnInit {
           selectedIncomeGroupIndex,
           selectedParties,
           selectedTimeFormat,
+          ,
         ]) => {
-          let dataSorted = parties
+          const partiesSelected = parties
             .slice()
             .filter((party: Party) =>
               this.isPartySelected(selectedParties, party),
             );
 
-          dataSorted = dataSorted.sort(
+          const partiesSortedByIncomeChanges = partiesSelected.sort(
             (a: Party, b: Party) =>
-              b.changesAbsoluteAnnually[selectedIncomeGroupIndex] -
-              a.changesAbsoluteAnnually[selectedIncomeGroupIndex],
+              b.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex] -
+              a.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
           );
 
-          this.initializeTitle(selectedTimeFormat);
-          this.initializeIncomeGroupLabels(dataSorted);
-          this.initializeIncomeGroupDatasets(
-            dataSorted,
-            selectedIncomeGroupIndex,
-            selectedTimeFormat,
-          );
-          this.initializeIncomeGroupSuggestedMinMax(
-            dataSorted,
+          this.initializeIncomeGroupData(
+            partiesSortedByIncomeChanges,
             selectedIncomeGroupIndex,
             selectedTimeFormat,
           );
         },
       );
+
+    this.dataService.partiesSubject
+      .pipe(
+        filter((parties) => {
+          return parties != null;
+        }),
+        combineLatestWith(
+          this.selectionService.partiesSubject,
+          this.translocoService.load(this.translocoService.getActiveLang()),
+        ),
+        debounceTime(100),
+      )
+      .subscribe(([parties, selectedParties, ,]) => {
+        const partiesSelected = parties
+          .slice()
+          .filter((party: Party) =>
+            this.isPartySelected(selectedParties, party),
+          );
+
+        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
+          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
+        );
+        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
+      });
   }
 
   /**
@@ -252,20 +279,28 @@ export class MainComponent implements OnInit {
   private handleData() {
     this.dataService.incomeGroupsSubject
       .pipe(
-        combineLatestWith(this.dataService.partiesSubject),
+        combineLatestWith(
+          this.dataService.partiesSubject,
+          this.translocoService.load(this.translocoService.getActiveLang()),
+        ),
         filter(([incomeGroups, parties]) => {
-          return incomeGroups != null && parties != null;
+          return (
+            incomeGroups != null &&
+            incomeGroups.length > 0 &&
+            parties != null &&
+            parties.length > 0
+          );
         }),
         first(),
       )
       .subscribe(([_, parties]) => {
-        this.initializeTitle(this.selectionService.timeFormatSubject.value);
-        this.initializeIncomeGroupLabels(parties);
-        this.initializeIncomeGroupDatasets(
-          parties,
-          -1,
-          this.selectionService.timeFormatSubject.value,
+        const partiesSelected = parties.slice();
+
+        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
+          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
         );
+
+        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
       });
   }
 
@@ -285,114 +320,53 @@ export class MainComponent implements OnInit {
   }
 
   /**
-   * Initializes axis title and unit
-   * @param selectedTimeFormat selected time format
-   * @private
-   */
-  private initializeTitle(selectedTimeFormat: TimeFormat) {
-    this.translocoService
-      .load(this.translocoService.getActiveLang())
-      .subscribe(() => {
-        switch (selectedTimeFormat) {
-          case TimeFormat.MONTHLY: {
-            this.xTitle = this.translocoService.translate(
-              'pages.main.labels.absolute-income-change-monthly',
-              {},
-              this.lang,
-            );
-            this.xUnit = '€';
-            break;
-          }
-          case TimeFormat.ANNUALLY: {
-            this.xTitle = this.translocoService.translate(
-              'pages.main.labels.absolute-income-change-annually',
-              {},
-              this.lang,
-            );
-            this.xUnit = '€';
-            break;
-          }
-        }
-      });
-  }
-
-  /**
-   * Initialize labels for income group
-   * @param data data
-   * @private
-   */
-  private initializeIncomeGroupLabels(data: Party[]) {
-    this.incomeGroupLabels = data.map((party) => party.name);
-  }
-
-  /**
-   * Initialize suggested min-max for income group
-   * @param data data
+   * Initializes income group data
+   * @param parties parties
    * @param selectedIncomeGroupIndex selected income group index
    * @param selectedTimeFormat selected time format
    * @private
    */
-  private initializeIncomeGroupSuggestedMinMax(
-    data: Party[],
+  private initializeIncomeGroupData(
+    parties: Party[],
     selectedIncomeGroupIndex: number,
     selectedTimeFormat: TimeFormat,
   ) {
+    this.incomeGroupLabels = parties.map((party) => party.name);
+
     let values: number[] = [];
 
     switch (selectedTimeFormat) {
       case TimeFormat.MONTHLY: {
-        values = data
+        values = parties
           .map(
-            (party) => party.changesAbsoluteAnnually[selectedIncomeGroupIndex],
+            (party) =>
+              party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
           )
           .map((value) => Math.floor(value / 12));
         break;
       }
       case TimeFormat.ANNUALLY: {
-        values = data.map(
-          (party) => party.changesAbsoluteAnnually[selectedIncomeGroupIndex],
+        values = parties.map(
+          (party) =>
+            party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
         );
         break;
       }
     }
 
-    let strechFactor = 1;
+    const stretchFactor = this.getStretchFactor(
+      this.mediaService.mediaSubject.value,
+    );
 
-    switch (this.mediaService.mediaSubject.value) {
-      case Media.SMALL: {
-        strechFactor = 2.5;
-        break;
-      }
-      case Media.MEDIUM: {
-        strechFactor = 1.5;
-        break;
-      }
-      case Media.LARGE: {
-        strechFactor = 1.25;
-        break;
-      }
-    }
-
-    this.xSuggestedMinMax =
+    this.incomeGroupXSuggestedMinMax =
       Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
-      strechFactor;
-  }
+      stretchFactor;
 
-  /** Initializes datasets for income group
-   *
-   * @param parties parties
-   * @param selectedIncomeGroupIndex selected income group index
-   @param selectedTimeFormat selected results format
-   * @private
-   */
-  private initializeIncomeGroupDatasets(
-    parties: Party[],
-    selectedIncomeGroupIndex: number,
-    selectedTimeFormat: TimeFormat,
-  ) {
     let label: string = '';
     let data: number[] = [];
-    let dataContext: number[] = [];
+    let dataContext: number[];
+    let dataTitle: string;
+    let dataUnit: string;
 
     switch (selectedTimeFormat) {
       case TimeFormat.MONTHLY: {
@@ -407,7 +381,7 @@ export class MainComponent implements OnInit {
         data = parties
           .map((party) =>
             selectedIncomeGroupIndex != -1
-              ? party.changesAbsoluteAnnually[selectedIncomeGroupIndex]
+              ? party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex]
               : 0,
           )
           .map((value) => Math.floor(value / 12));
@@ -424,7 +398,7 @@ export class MainComponent implements OnInit {
             : '';
         data = parties.map((party) =>
           selectedIncomeGroupIndex != -1
-            ? party.changesAbsoluteAnnually[selectedIncomeGroupIndex]
+            ? party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex]
             : 0,
         );
         break;
@@ -433,8 +407,33 @@ export class MainComponent implements OnInit {
 
     dataContext = parties.map((party) =>
       selectedIncomeGroupIndex != -1
-        ? party.changesRelative[selectedIncomeGroupIndex]
+        ? party.changesIncomeRelative[selectedIncomeGroupIndex]
         : 0,
+    );
+
+    switch (selectedTimeFormat) {
+      case TimeFormat.MONTHLY: {
+        dataTitle = this.translocoService.translate(
+          'pages.main.labels.absolute-income-change-monthly',
+          {},
+          this.lang,
+        );
+        break;
+      }
+      case TimeFormat.ANNUALLY: {
+        dataTitle = this.translocoService.translate(
+          'pages.main.labels.absolute-income-change-annually',
+          {},
+          this.lang,
+        );
+        break;
+      }
+    }
+
+    dataUnit = this.translocoService.translate(
+      'pages.main.terms.euros',
+      {},
+      this.lang,
     );
 
     this.incomeGroupDatasets = [
@@ -443,6 +442,58 @@ export class MainComponent implements OnInit {
         label: label,
         data: data,
         dataContext: dataContext,
+        dataTitle: dataTitle,
+        dataUnit: dataUnit,
+        backgroundColor: parties.map((party) => party.color),
+        borderColor: parties.map((_) => 'transparent'),
+        borderWidth: 1,
+      },
+    ];
+  }
+
+  /**
+   * Initializes federal budget data
+   * @param parties parties
+   * @private
+   */
+  private initializeFederalBudgetData(parties: Party[]) {
+    this.federalBudgetLabels = parties.map((party) => party.name);
+
+    const values: number[] = parties.map((party) => party.changeFederalBudget);
+    const stretchFactor = this.getStretchFactor(
+      this.mediaService.mediaSubject.value,
+    );
+
+    this.federalBudgetYSuggestedMinMax =
+      Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
+      stretchFactor;
+
+    const label = this.translocoService.translate(
+      'pages.main.labels.fiscal-impact-on-the-overall-federal-budget',
+      {},
+      this.lang,
+    );
+    const data = parties.map((party) => party.changeFederalBudget);
+    const dataContext = parties.map(() => 0);
+    const dataTitle = this.translocoService.translate(
+      'pages.main.labels.fiscal-impact-on-the-overall-federal-budget',
+      {},
+      this.lang,
+    );
+    const dataUnit = this.translocoService.translate(
+      'pages.main.terms.billion-euros',
+      {},
+      this.lang,
+    );
+
+    this.federalBudgetDatasets = [
+      {
+        axis: 'y',
+        label: label,
+        data: data,
+        dataContext: dataContext,
+        dataTitle: dataTitle,
+        dataUnit: dataUnit,
         backgroundColor: parties.map((party) => party.color),
         borderColor: parties.map((_) => 'transparent'),
         borderWidth: 1,
@@ -501,15 +552,39 @@ export class MainComponent implements OnInit {
    * Updates query parameters
    */
   private updateQueryParameters() {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
-        [this.QUERY_PARAM_INCOME_GROUP]:
-          this.selectionService.incomeGroupIndexSubject.value,
-        [this.QUERY_PARAM_TIME_FORMAT]:
-          this.selectionService.timeFormatSubject.value,
-      },
-    });
+    this.router
+      .navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
+          [this.QUERY_PARAM_INCOME_GROUP]:
+            this.selectionService.incomeGroupIndexSubject.value,
+          [this.QUERY_PARAM_TIME_FORMAT]:
+            this.selectionService.timeFormatSubject.value,
+        },
+      })
+      .then(() => {});
+  }
+
+  /**
+   * Calculates stretch factor to make sure labels are displayed
+   * @param media media
+   * @private
+   */
+  private getStretchFactor(media: Media) {
+    switch (media) {
+      case Media.SMALL: {
+        return 2.5;
+      }
+      case Media.MEDIUM: {
+        return 1.5;
+      }
+      case Media.LARGE: {
+        return 1.25;
+      }
+      default: {
+        return 1.0;
+      }
+    }
   }
 }

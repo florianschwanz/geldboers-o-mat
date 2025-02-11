@@ -1,11 +1,5 @@
 import Chart, { ChartData, ChartOptions } from 'chart.js/auto';
-import {
-  Component,
-  input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { Theme } from '../../core/ui/services/theme.service';
 
 /** Represents a dataset */
@@ -18,6 +12,10 @@ export interface Dataset {
   data: number[];
   /** Data context */
   dataContext: number[];
+  /** Data title */
+  dataTitle: string;
+  /** Data unit */
+  dataUnit: string;
   /** Background color */
   backgroundColor: string[];
   /** Border color */
@@ -25,11 +23,6 @@ export interface Dataset {
   /** Border width */
   borderWidth: number;
 }
-
-/** Unit */
-let unit = '';
-/** Data context */
-let dataContext: any[] = [];
 
 /**
  * Displays bar chart
@@ -41,11 +34,13 @@ let dataContext: any[] = [];
   standalone: true,
   styleUrl: './bar-chart.component.scss',
 })
-export class BarChartComponent implements OnInit, OnChanges {
+export class BarChartComponent {
   //
   // Signals
   //
 
+  /** Chart ID */
+  id = input<string>(`bar-chart`);
   /** Theme */
   theme = input<Theme>(Theme.LIGHT);
   /** Labels */
@@ -53,25 +48,30 @@ export class BarChartComponent implements OnInit, OnChanges {
   /** Datasets */
   datasets = input<Dataset[]>([]);
 
-  /** Whether to display the bar chart vertically */
-  vertical = input<boolean>(true);
+  /** Whether to display the bar chart horizontally */
+  horizontal = input<boolean>(true);
   /** Whether to display a legend */
   displayLegend = input<boolean>(true);
   /** Whether to display tooltips */
   displayTooltip = input<boolean>(true);
 
-  /** Title of x-axis */
-  xTitle = input<string>('');
-  /** Unit of x-axis */
-  xUnit = input<string>('');
   /** Suggested x-axis min value */
   xSuggestedMin = input<number>(0);
   /** Suggested x-axis max value */
   xSuggestedMax = input<number>(1);
   /** Whether to display grid */
   xGrid = input<boolean>(true);
+  /** Whether to display ticks */
+  xTicks = input<boolean>(true);
+
+  /** Suggested x-axis min value */
+  ySuggestedMin = input<number>(0);
+  /** Suggested x-axis max value */
+  ySuggestedMax = input<number>(1);
   /** Whether to display grid */
   yGrid = input<boolean>(true);
+  /** Whether to display ticks */
+  yTicks = input<boolean>(true);
 
   //
   // Chart
@@ -82,22 +82,18 @@ export class BarChartComponent implements OnInit, OnChanges {
   /** Chart options */
   chartOptions: ChartOptions | undefined;
 
-  //
-  // Lifecycle hooks
-  //
-
   /**
-   * Handles on-init phase
+   * Constructor
    */
-  ngOnInit() {
-    this.initializeChart(this.theme(), this.labels(), this.datasets());
-  }
-
-  /**
-   * Handles on-changes phase
-   */
-  ngOnChanges(_: SimpleChanges): void {
-    this.initializeChart(this.theme(), this.labels(), this.datasets());
+  constructor() {
+    effect(() => {
+      this.initializeChart(
+        this.id(),
+        this.theme(),
+        this.labels(),
+        this.datasets(),
+      );
+    });
   }
 
   //
@@ -106,145 +102,149 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   /**
    * Initializes chart
+   * @param chartId chart ID
    * @param theme theme
    * @param labels labels
    * @param datasets datasets
    */
-  private initializeChart(theme: Theme, labels: any[], datasets: any[]) {
-    let chartId = 'bar-chart';
-    let chart = Chart.getChart(chartId);
+  private initializeChart(
+    chartId: string,
+    theme: Theme,
+    labels: any[],
+    datasets: any[],
+  ) {
+    if (datasets.length > 0) {
+      let chart = Chart.getChart(chartId);
 
-    unit = this.xUnit();
-    dataContext = datasets[0].dataContext;
+      const horizontal = this.horizontal();
+      const dataContext = datasets[0].dataContext;
+      const dataUnit = datasets[0].dataUnit;
 
-    Chart.register({
-      id: 'barLabelPlugin',
-      afterDatasetsDraw(chart, args, options) {
-        const { ctx, data } = chart;
+      // Initialize chart
+      if (!chart) {
+        chart = new Chart(chartId, {
+          type: 'bar',
+          plugins: [
+            {
+              id: `barLabelPlugin-${chartId}`,
+              afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
 
-        ctx.save();
-        ctx.font = '12px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillStyle = 'black';
+                ctx.save();
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'black';
 
-        data.datasets.forEach((dataset, datasetIndex) => {
-          const meta = chart.getDatasetMeta(datasetIndex);
-          meta.data.forEach((bar, index) => {
-            const value = dataset.data[index];
-            const context = dataContext[index];
+                data.datasets.forEach((dataset, datasetIndex) => {
+                  chart
+                    .getDatasetMeta(datasetIndex)
+                    .data.forEach((bar, index) => {
+                      const value = dataset.data[index];
+                      const context = dataContext[index];
 
-            if (value != null && value != 0) {
-              const sign = +value > 0 ? '+' : '';
-              const valueWithDelimiters = value
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-              const text = `${sign}${valueWithDelimiters} ${unit} (${context}%)`;
+                      if (value != null && value != 0) {
+                        const sign = +value > 0 ? '+' : '';
+                        const valueWithDelimiters = value
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                        const contextText = context != 0 ? `(${context}%)` : '';
 
-              const padding = 8;
-              const x =
-                +value > 0
-                  ? bar.x + padding
-                  : bar.x - padding - text.toString().length * 6;
-              const y = bar.y;
+                        if (horizontal) {
+                          const text = `${sign}${valueWithDelimiters} ${dataUnit} ${contextText}`;
+                          const padding = 16;
+                          const x = bar.x - text.toString().length * 2.5;
+                          const y =
+                            +value > 0 ? bar.y - padding : bar.y + padding;
 
-              ctx.fillText(text, x, y);
-            }
-          });
+                          ctx.fillText(text, x, y);
+                        } else {
+                          const text = `${sign}${valueWithDelimiters} ${dataUnit} ${contextText}`;
+                          const padding = 8;
+                          const x =
+                            +value > 0
+                              ? bar.x + padding
+                              : bar.x - padding - text.toString().length * 6;
+                          const y = bar.y;
+
+                          ctx.fillText(text, x, y);
+                        }
+                      }
+                    });
+                });
+
+                ctx.restore();
+              },
+            },
+          ],
+          data: {
+            labels: [],
+            datasets: [],
+          },
+          options: {},
         });
+      }
 
-        ctx.restore();
-      },
-    });
+      this.chartData = {
+        labels: labels,
+        datasets: datasets,
+      };
 
-    // Initialize chart
-    if (!chart) {
-      chart = new Chart(chartId, {
-        type: 'bar',
-        data: {
-          labels: [],
-          datasets: [],
+      this.chartOptions = {
+        animation: {
+          duration: 500,
         },
-        options: {},
-      });
-    }
-
-    this.chartData = {
-      labels: labels,
-      datasets: datasets,
-    };
-
-    this.chartOptions = {
-      animation: {
-        duration: 500,
-      },
-      indexAxis: this.vertical() ? 'x' : 'y',
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: this.displayLegend(),
+        indexAxis: this.horizontal() ? 'x' : 'y',
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: this.displayLegend(),
+          },
+          tooltip: {
+            enabled: this.displayTooltip(),
+          },
         },
-        tooltip: {
-          enabled: this.displayTooltip(),
-        },
-      },
-      scales: {
-        x: {
-          display: true,
-          title: {
+        scales: {
+          x: {
             display: true,
-            text: this.xTitle(),
-            font: {
-              size: 14,
+            title: {
+              display: true,
+              text: datasets[0].dataTitle,
+              font: {
+                size: 14,
+              },
             },
-          },
-          grid: {
-            display: this.xGrid(),
-          },
-          ticks: {
-            display: false,
-            color: theme == Theme.DARK ? '#fefefe' : '#000000',
-            callback: (value, index, values) => {
-              return value + this.xUnit();
+            grid: {
+              display: this.xGrid(),
             },
+            ticks: {
+              display: this.xTicks(),
+              color: theme == Theme.DARK ? '#fefefe' : '#000000',
+            },
+            suggestedMin: this.xSuggestedMin(),
+            suggestedMax: this.xSuggestedMax(),
           },
-          suggestedMin: this.xSuggestedMin(),
-          suggestedMax: this.xSuggestedMax(),
+          y: {
+            display: true,
+            grid: {
+              display: this.yGrid(),
+            },
+            ticks: {
+              display: this.yTicks(),
+              color: theme == Theme.DARK ? '#fefefe' : '#000000',
+            },
+            suggestedMin: this.ySuggestedMin(),
+            suggestedMax: this.ySuggestedMax(),
+          },
         },
-        y: {
-          display: true,
-          grid: {
-            display: this.yGrid(),
-          },
-          ticks: {
-            color: theme == Theme.DARK ? '#fefefe' : '#000000',
-          },
-        },
-      },
-      onClick: (_, elements, chart) => {
-        if (elements[0]) {
-          const index = elements[0].index;
-          // @ts-ignore
-          this.onElementClicked(chart.data.labels[index].toString());
-        }
-      },
-    };
+      };
 
-    // Update chart data and options
-    chart.data = this.chartData;
-    chart.options = this.chartOptions;
+      // Update chart data and options
+      chart.data = this.chartData;
+      chart.options = this.chartOptions;
 
-    try {
-      chart.update();
-    } catch (_) {}
+      try {
+        chart.update();
+      } catch (_) {}
+    }
   }
-
-  //
-  // Actions
-  //
-
-  /**
-   * Handles click on an element
-   * @param label label
-   */
-  onElementClicked(label: string) {}
 }
