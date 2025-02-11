@@ -7,6 +7,15 @@
     "changesIncomeAbsoluteAnnually": [
       11, 13, 63, 176, 414, 907, 1528, 2587, 5203, 13248
     ],
+    "changesIncomeSingle": [48, 538, 1119, 1854, 3999],
+    "changesIncomeSingleParentWithOneChild": [120, 583, 1128, 1877, 4034],
+    "changesIncomeSingleParentWithTwoChildren": [240, 698, 1256, 1959, 4158],
+    "changesIncomeSingleEarnerCoupleWithoutChildren": [
+      111, 589, 1179, 2623, 5796
+    ],
+    "changesIncomeSingleEarnerCoupleWithTwoChildren": [
+      304, 846, 1437, 2765, 5840
+    ],
     "changeFederalBudget": -47,
     "reformProposals": [
       {
@@ -46,6 +55,15 @@
     ],
     "changesIncomeAbsoluteAnnually": [
       268, 373, 682, 795, 926, 1281, 1438, 1360, 1179, -8892
+    ],
+    "changesIncomeSingle": [410, 554, 650, 765, 156],
+    "changesIncomeSingleParentWithOneChild": [272, 668, 733, 844, 582],
+    "changesIncomeSingleParentWithTwoChildren": [408, 803, 874, 949, 881],
+    "changesIncomeSingleEarnerCoupleWithoutChildren": [
+      840, 1027, 1126, 1361, 1791
+    ],
+    "changesIncomeSingleEarnerCoupleWithTwoChildren": [
+      860, 1302, 1401, 1518, 2203
     ],
     "changeFederalBudget": 1,
     "reformProposals": [
@@ -90,6 +108,11 @@
     "changesIncomeAbsoluteAnnually": [
       119, 437, 846, 1033, 1140, 1055, 867, 585, -122, -9833
     ],
+    "changesIncomeSingle": [520, 316, 204, -32, 79],
+    "changesIncomeSingleParentWithOneChild": [1131, 465, 412, 233, 228],
+    "changesIncomeSingleParentWithTwoChildren": [9, 1665, 576, 429, 240],
+    "changesIncomeSingleEarnerCoupleWithoutChildren": [619, 600, 538, 199, -74],
+    "changesIncomeSingleEarnerCoupleWithTwoChildren": [867, 957, 807, 667, 102],
     "changeFederalBudget": 4,
     "reformProposals": [
       {
@@ -142,6 +165,15 @@
     "changesIncomeAbsoluteAnnually": [
       -289, -36, 292, 663, 1379, 2758, 4378, 6734, 11543, 21083
     ],
+    "changesIncomeSingle": [158, 1729, 3209, 4940, 8378],
+    "changesIncomeSingleParentWithOneChild": [-2451, 1507, 2925, 5134, 8019],
+    "changesIncomeSingleParentWithTwoChildren": [-3148, 3036, 3084, 4177, 7913],
+    "changesIncomeSingleEarnerCoupleWithoutChildren": [
+      786, 2141, 3730, 7348, 13841
+    ],
+    "changesIncomeSingleEarnerCoupleWithTwoChildren": [
+      -1518, 4794, 4050, 7893, 11993
+    ],
     "changeFederalBudget": -116,
     "reformProposals": [
       {
@@ -182,6 +214,15 @@
     ],
     "changesIncomeAbsoluteAnnually": [
       4125, 1936, 1846, 1840, 2378, 3316, 3500, 2189, -3547, -70679
+    ],
+    "changesIncomeSingle": [3756, 2379, 1314, 170, -4335],
+    "changesIncomeSingleParentWithOneChild": [2233, 1934, 1723, 441, -3961],
+    "changesIncomeSingleParentWithTwoChildren": [3609, 4610, 2077, 488, -3817],
+    "changesIncomeSingleEarnerCoupleWithoutChildren": [
+      1928, 3222, 3319, 2158, -3722
+    ],
+    "changesIncomeSingleEarnerCoupleWithTwoChildren": [
+      6147, 6979, 7052, 5184, -799
     ],
     "changeFederalBudget": 46,
     "reformProposals": [
@@ -253,6 +294,15 @@
     ],
     "changesIncomeAbsoluteAnnually": [
       75, 224, 654, 820, 1083, 1474, 1482, 1033, 107, -5767
+    ],
+    "changesIncomeSingle": [914, 824, 495, 6, 0],
+    "changesIncomeSingleParentWithOneChild": [0, 869, 702, 197, 0],
+    "changesIncomeSingleParentWithTwoChildren": [0, 870, 787, 363, 0],
+    "changesIncomeSingleEarnerCoupleWithoutChildren": [
+      1288, 1789, 1607, 694, 0
+    ],
+    "changesIncomeSingleEarnerCoupleWithTwoChildren": [
+      1005, 1786, 1599, 1216, 0
     ],
     "changeFederalBudget": 4,
     "reformProposals": [

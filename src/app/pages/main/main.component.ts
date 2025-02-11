@@ -220,12 +220,13 @@ export class MainComponent implements OnInit {
       .pipe(
         combineLatestWith(
           this.selectionService.incomeGroupIndexSubject,
+          this.selectionService.incomeGroupExampleHouseholdIndexSubject,
           this.selectionService.timeFormatSubject,
           this.selectionService.partiesSubject,
         ),
         first(),
       )
-      .subscribe(([parties, , , selectedParties]) => {
+      .subscribe(([parties, , , , selectedParties]) => {
         this.updateQueryParameters();
 
         const partiesSelected = parties
@@ -284,14 +285,32 @@ export class MainComponent implements OnInit {
             selectedIncomeGroupIndex,
             selectedTimeFormat,
           );
-
-          const partiesSortedByFederalBudgetChange = partiesSelected.sort(
-            (a: Party, b: Party) =>
-              b.changeFederalBudget - a.changeFederalBudget,
-          );
-          this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
         },
       );
+
+    this.dataService.partiesSubject
+      .pipe(
+        filter((parties) => {
+          return parties != null;
+        }),
+        combineLatestWith(
+          this.selectionService.partiesSubject,
+          this.translocoService.load(this.translocoService.getActiveLang()),
+        ),
+        debounceTime(200),
+      )
+      .subscribe(([parties, selectedParties, ,]) => {
+        const partiesSelected = parties
+          .slice()
+          .filter((party: Party) =>
+            this.isPartySelected(selectedParties, party),
+          );
+
+        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
+          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
+        );
+        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
+      });
   }
 
   /**
@@ -599,14 +618,13 @@ export class MainComponent implements OnInit {
           relativeTo: this.route,
           queryParams: {
             [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
-            [this.QUERY_PARAM_INCOME_GROUP]:
-              this.selectionService.incomeGroupIndexSubject.value,
             [this.QUERY_PARAM_EXAMPLE_HOUSEHOLD]:
               this.selectionService.exampleHouseholdSubject.value,
             [this.QUERY_PARAM_INCOME_GROUP]:
               this.selectionService.incomeGroupIndexSubject.value,
             [this.QUERY_PARAM_INCOME_GROUP_EXAMPLE_HOUSEHOLD]:
-              this.selectionService.incomeGroupIndexSubject.value,
+              this.selectionService.incomeGroupExampleHouseholdIndexSubject
+                .value,
             [this.QUERY_PARAM_TIME_FORMAT]:
               this.selectionService.timeFormatSubject.value,
           },

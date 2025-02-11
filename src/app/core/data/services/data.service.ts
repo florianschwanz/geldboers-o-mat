@@ -38,6 +38,16 @@ export type Party = {
   changesIncomeRelative: number[];
   /** Absolute changes in income based on income groups */
   changesIncomeAbsoluteAnnually: number[];
+  /** Absolute changes for single household */
+  changesIncomeSingle: number[];
+  /** Absolute changes for single-parent household with one child  */
+  changesIncomeSingleParentWithOneChild: number[];
+  /** Absolute changes for single-parent household with two children */
+  changesIncomeSingleParentWithTwoChildren: number[];
+  /** Absolute changes for single-earner household without children */
+  changesIncomeSingleEarnerCoupleWithoutChildren: number[];
+  /** Absolute changes for single-earner household with two children  */
+  changesIncomeSingleEarnerCoupleWithTwoChildren: number[];
   /** Change in overall federal budget */
   changeFederalBudget: number;
 
