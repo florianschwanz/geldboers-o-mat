@@ -18,20 +18,16 @@
       },
       "questions": {
         "income-group": "What is your gross income in Euros?",
-        "income-group-year": "What is your gross annual income in Euros?",
-        "income-group-month": "or what is your gross monthly income in Euros?",
         "income-change-annually": "What impact do the parties' proposals have on your annual disposable income?",
         "income-change-monthly": "What impact will the parties' proposals have on your monthly disposable income?",
         "federal-budget-change": "What fiscal effects do the parties' proposals have on the overall budget?",
         "parties": "Which political parties would you like to consider?",
-        "results-format": "How should the results be presented?",
         "disposable-income": "What is disposable income?",
         "why-dont-i-see-the-afd": "Why don't I see the AfD?"
       },
       "labels": {
-        "relative-income-change": "relative change in disposable income",
-        "absolute-income-change-monthly": "change in disposable income per month",
-        "absolute-income-change-annually": "change in disposable income per year",
+        "income-change-monthly": "change in disposable income per month",
+        "income-change-annually": "change in disposable income per year",
         "fiscal-impact-on-the-overall-federal-budget": "fiscal impact on the overall federal budget"
       },
       "context": {

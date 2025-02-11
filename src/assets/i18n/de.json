@@ -18,20 +18,16 @@
       },
       "questions": {
         "income-group": "Wie hoch ist dein Bruttoeinkommen?",
-        "income-group-year": "Wie hoch ist dein Bruttojahreseinkommen?",
-        "income-group-month": "oder wie hoch ist dein Bruttomonatseinkommen?",
         "income-change-annually": "Welche Auswirkungen haben die Vorschläge der Parteiein auf dein jährlich verfügbares Einkommen?",
         "income-change-monthly": "Welche Auswirkungen haben die Vorschläge der Parteiein auf dein monatlich verfügbares Einkommen?",
         "federal-budget-change": "Welche fiskalischen Effekte haben die Vorschläge der Parteien auf den Gesamthaushalt?",
         "parties": "Welche Parteien willst du betrachten?",
-        "results-format": "Wie sollen die Ergebnisse dargestellt werden?",
         "disposable-income": "Was ist verfügbares Einkommen?",
         "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?"
       },
       "labels": {
-        "relative-income-change": "prozentuale Veränderung im verfügbaren Einkommen",
-        "absolute-income-change-monthly": "Veränderung im verfügbaren Einkommen pro Monat",
-        "absolute-income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr",
+        "income-change-monthly": "Veränderung im verfügbaren Einkommen pro Monat",
+        "income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr",
         "fiscal-impact-on-the-overall-federal-budget": "fiskalische Wirkungen auf den Gesamthaushalt"
       },
       "context": {

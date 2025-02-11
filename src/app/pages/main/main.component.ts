@@ -373,7 +373,7 @@ export class MainComponent implements OnInit {
         label =
           selectedIncomeGroupIndex != -1
             ? this.translocoService.translate(
-                'pages.main.labels.absolute-income-change-monthly',
+                'pages.main.labels.income-change-monthly',
                 {},
                 this.lang,
               )
@@ -391,7 +391,7 @@ export class MainComponent implements OnInit {
         label =
           selectedIncomeGroupIndex != -1
             ? this.translocoService.translate(
-                'pages.main.labels.absolute-income-change-annually',
+                'pages.main.labels.income-change-annually',
                 {},
                 this.lang,
               )
@@ -414,7 +414,7 @@ export class MainComponent implements OnInit {
     switch (selectedTimeFormat) {
       case TimeFormat.MONTHLY: {
         dataTitle = this.translocoService.translate(
-          'pages.main.labels.absolute-income-change-monthly',
+          'pages.main.labels.income-change-monthly',
           {},
           this.lang,
         );
@@ -422,7 +422,7 @@ export class MainComponent implements OnInit {
       }
       case TimeFormat.ANNUALLY: {
         dataTitle = this.translocoService.translate(
-          'pages.main.labels.absolute-income-change-annually',
+          'pages.main.labels.income-change-annually',
           {},
           this.lang,
         );
