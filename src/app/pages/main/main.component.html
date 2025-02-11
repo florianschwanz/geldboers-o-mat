@@ -29,7 +29,7 @@
                   (selectionChange)="onIncomeGroupChanged($event)"
                 >
                   @for (
-                    incomeGroup of incomeGroupsSubject | async;
+                    incomeGroup of dataService.incomeGroupsSubject | async;
                     track incomeGroup
                   ) {
                     <mat-option [value]="incomeGroup.index">
@@ -62,7 +62,7 @@
                 (change)="onIncomeGroupChanged($event)"
               >
                 @for (
-                  incomeGroup of incomeGroupsSubject | async;
+                  incomeGroup of dataService.incomeGroupsSubject | async;
                   track incomeGroup
                 ) {
                   <mat-button-toggle [value]="incomeGroup.index"
@@ -110,13 +110,13 @@
           <app-bar-chart
             [datasets]="incomeGroupDatasets"
             [labels]="incomeGroupLabels"
-            [vertical]="false"
+            [horizontal]="false"
             [displayLegend]="false"
             [displayTooltip]="false"
-            [xTitle]="xTitle"
-            [xUnit]="xUnit"
-            [xSuggestedMin]="-xSuggestedMinMax"
-            [xSuggestedMax]="xSuggestedMinMax"
+            [xTitle]="incomeGroupXTitle"
+            [xUnit]="incomeGroupXUnit"
+            [xSuggestedMin]="-incomeGroupXSuggestedMinMax"
+            [xSuggestedMax]="incomeGroupXSuggestedMinMax"
             [yGrid]="false"
           ></app-bar-chart>
         </div>
@@ -125,7 +125,7 @@
           <div class="question">{{ t("questions.parties") }}</div>
 
           <div class="party-selection">
-            @for (party of partiesSubject | async; track party) {
+            @for (party of dataService.partiesSubject | async; track party) {
               <button
                 mat-button
                 class="party-button"
@@ -183,9 +183,10 @@
             </mat-expansion-panel>
           </mat-accordion>
         </div>
+
         <div class="context-container">
           <mat-accordion>
-            @for (party of partiesSubject | async; track party) {
+            @for (party of dataService.partiesSubject | async; track party) {
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
@@ -220,6 +221,21 @@
               </mat-expansion-panel>
             }
           </mat-accordion>
+        </div>
+
+        <div class="chart-container">
+          <app-bar-chart
+            [datasets]="federalBudgetDatasets"
+            [labels]="federalBudgetLabels"
+            [horizontal]="true"
+            [displayLegend]="false"
+            [displayTooltip]="false"
+            [xTitle]="federalBudgetXTitle"
+            [xUnit]="federalBudgetXUnit"
+            [xSuggestedMin]="-federalBudgetXSuggestedMinMax"
+            [xSuggestedMax]="federalBudgetXSuggestedMinMax"
+            [yGrid]="false"
+          ></app-bar-chart>
         </div>
 
         <div class="footer">

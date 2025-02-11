@@ -6,7 +6,7 @@ import {
   RouterLink,
   RouterModule,
 } from '@angular/router';
-import { BehaviorSubject, combineLatestWith, filter, first } from 'rxjs';
+import { combineLatestWith, filter, first } from 'rxjs';
 import {
   getBrowserLang,
   TranslocoModule,
@@ -38,51 +38,11 @@ import {
   MatExpansionPanelTitle,
 } from '@angular/material/expansion';
 import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import {
   SelectionService,
   TimeFormat,
 } from '../../core/selection/services/selection.service';
-
-/**
- * Represents an income group
- */
-export type IncomeGroup = {
-  /** Index */
-  index: number;
-  /** Texts for annual income  */
-  annually: { selectText: string; buttonToggleText: string };
-  /** Texts for monthly income  */
-  monthly: { selectText: string; buttonToggleText: string };
-};
-
-/**
- * Bullet point
- */
-export type BulletPoint = {
-  /** Text */
-  text: string;
-  /** Sub-texts */
-  subTexts?: BulletPoint[];
-};
-
-/**
- * Represents a political party
- */
-export type Party = {
-  /** Name */
-  name: string;
-  /** Image path */
-  image: string;
-  /** Color */
-  color: string;
-  /** Relative changes in income based on income groups */
-  changesRelative: number[];
-  /** Absolute changes in income based on income groups */
-  changesAbsoluteAnnually: number[];
-  /** Reform proposals */
-  reformProposals: BulletPoint[];
-};
+import { DataService, Party } from '../../core/data/services/data.service';
 
 /**
  * Displays main component
@@ -117,8 +77,6 @@ export class MainComponent implements OnInit {
   // Injections
   //
 
-  /** HTTP client */
-  private http = inject(HttpClient);
   /** Activated route */
   private route = inject(ActivatedRoute);
   /** Router */
@@ -129,20 +87,14 @@ export class MainComponent implements OnInit {
   private mediaService = inject(MediaService);
   /** Transloco service */
   private translocoService = inject(TranslocoService);
+
+  /** Data service */
+  protected dataService = inject(DataService);
   /** Selection service */
   protected selectionService = inject(SelectionService);
 
   /** Language */
   lang = getBrowserLang();
-
-  //
-  // Data
-  //
-
-  /** Subject providing income groups */
-  incomeGroupsSubject = new BehaviorSubject<IncomeGroup[]>([]);
-  /** Subject providing parties */
-  partiesSubject = new BehaviorSubject<Party[]>([]);
 
   //
   // Bar Chart
@@ -200,8 +152,8 @@ export class MainComponent implements OnInit {
     this.handleSelections();
     this.handleData();
 
-    this.loadIncomeGroupData();
-    this.loadPartyData();
+    this.dataService.loadIncomeGroupData();
+    this.dataService.loadPartyData();
   }
 
   /**
@@ -247,7 +199,7 @@ export class MainComponent implements OnInit {
    * @private
    */
   private handleSelections() {
-    this.partiesSubject
+    this.dataService.partiesSubject
       .pipe(
         filter((parties) => {
           return parties != null;
@@ -298,9 +250,9 @@ export class MainComponent implements OnInit {
    * @private
    */
   private handleData() {
-    this.incomeGroupsSubject
+    this.dataService.incomeGroupsSubject
       .pipe(
-        combineLatestWith(this.partiesSubject),
+        combineLatestWith(this.dataService.partiesSubject),
         filter(([incomeGroups, parties]) => {
           return incomeGroups != null && parties != null;
         }),
@@ -315,26 +267,6 @@ export class MainComponent implements OnInit {
           this.selectionService.timeFormatSubject.value,
         );
       });
-  }
-
-  /**
-   * Loads income group data
-   * @private
-   */
-  private loadIncomeGroupData() {
-    this.http.get('assets/data/income-groups.json').subscribe((res) => {
-      this.incomeGroupsSubject.next(res as IncomeGroup[]);
-    });
-  }
-
-  /**
-   * Loads party data
-   * @private
-   */
-  private loadPartyData() {
-    this.http.get('assets/data/parties.json').subscribe((res) => {
-      this.partiesSubject.next(res as Party[]);
-    });
   }
 
   //
