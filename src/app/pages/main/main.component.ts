@@ -115,8 +115,10 @@ export class MainComponent implements OnInit {
   federalBudgetDatasets: Dataset[] = [];
   /** Labels for federal budgets */
   federalBudgetLabels: string[] = [];
-  /** Suggested min-max value on the x-axis */
-  federalBudgetYSuggestedMinMax = 30;
+  /** Suggested min value on the x-axis */
+  federalBudgetYSuggestedMin = -100;
+  /** Suggested max value on the x-axis */
+  federalBudgetYSuggestedMax = 100;
 
   //
   // Media
@@ -456,13 +458,10 @@ export class MainComponent implements OnInit {
     this.federalBudgetLabels = parties.map((party) => party.name);
 
     const values: number[] = parties.map((party) => party.changeFederalBudget);
-    const stretchFactor = this.getStretchFactor(
-      this.mediaService.mediaSubject.value,
-    );
+    const stretchFactor = 1.75;
 
-    this.federalBudgetYSuggestedMinMax =
-      Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
-      stretchFactor;
+    this.federalBudgetYSuggestedMin = Math.min(...values) * stretchFactor;
+    this.federalBudgetYSuggestedMax = Math.max(...values) * stretchFactor;
 
     const label = this.translocoService.translate(
       'pages.main.labels.fiscal-impact-on-the-overall-federal-budget',
