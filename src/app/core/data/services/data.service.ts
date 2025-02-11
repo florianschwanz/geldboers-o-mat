@@ -65,6 +65,8 @@ export class DataService {
 
   /** Subject providing income groups */
   incomeGroupsSubject = new BehaviorSubject<IncomeGroup[]>([]);
+  /** Subject providing income groups for example household */
+  incomeGroupsExampleHouseholdSubject = new BehaviorSubject<IncomeGroup[]>([]);
   /** Subject providing parties */
   partiesSubject = new BehaviorSubject<Party[]>([]);
 
@@ -80,6 +82,17 @@ export class DataService {
     this.http.get('assets/data/income-groups.json').subscribe((res) => {
       this.incomeGroupsSubject.next(res as IncomeGroup[]);
     });
+  }
+  /**
+   * Loads income group data for example households
+   * @private
+   */
+  loadIncomeGroupExampleHouseholdsData() {
+    this.http
+      .get('assets/data/income-groups-example-households.json')
+      .subscribe((res) => {
+        this.incomeGroupsExampleHouseholdSubject.next(res as IncomeGroup[]);
+      });
   }
 
   /**

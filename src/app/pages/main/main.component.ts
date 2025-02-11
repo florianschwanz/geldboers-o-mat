@@ -116,9 +116,9 @@ export class MainComponent implements OnInit {
   federalBudgetDatasets: Dataset[] = [];
   /** Labels for federal budgets */
   federalBudgetLabels: string[] = [];
-  /** Suggested min value on the x-axis */
+  /** Suggested min value on the y-axis */
   federalBudgetYSuggestedMin = -100;
-  /** Suggested max value on the x-axis */
+  /** Suggested max value on the y-axis */
   federalBudgetYSuggestedMax = 100;
 
   //
@@ -167,6 +167,7 @@ export class MainComponent implements OnInit {
     this.handleData();
 
     this.dataService.loadIncomeGroupData();
+    this.dataService.loadIncomeGroupExampleHouseholdsData();
     this.dataService.loadPartyData();
   }
 

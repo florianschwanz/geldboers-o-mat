@@ -1,0 +1,27 @@
+[
+  {
+    "index": 0,
+    "annually": { "selectText": "1.666", "buttonToggleText": "1.6T" },
+    "monthly": { "selectText": "20.000", "buttonToggleText": "20T" }
+  },
+  {
+    "index": 1,
+    "annually": { "selectText": "3.333", "buttonToggleText": "3.3T" },
+    "monthly": { "selectText": "40.000", "buttonToggleText": "40T" }
+  },
+  {
+    "index": 2,
+    "annually": { "selectText": "5.000", "buttonToggleText": "5T" },
+    "monthly": { "selectText": "60.000", "buttonToggleText": "60T" }
+  },
+  {
+    "index": 3,
+    "annually": { "selectText": "6.666", "buttonToggleText": "6.6T" },
+    "monthly": { "selectText": "80.000", "buttonToggleText": "80T" }
+  },
+  {
+    "index": 4,
+    "annually": { "selectText": "10.000", "buttonToggleText": "10T" },
+    "monthly": { "selectText": "120.000", "buttonToggleText": "120T" }
+  }
+]
