@@ -25,7 +25,7 @@
               <mat-form-field>
                 <mat-label>{{ t("terms.income-group") }}</mat-label>
                 <mat-select
-                  [value]="selectedIncomeGroupIndexSubject.value"
+                  [value]="selectionService.incomeGroupIndexSubject.value"
                   (selectionChange)="onIncomeGroupChanged($event)"
                 >
                   @for (
@@ -34,12 +34,14 @@
                   ) {
                     <mat-option [value]="incomeGroup.index">
                       @if (
-                        (selectedTimeFormatSubject | async) == timeEnum.MONTHLY
+                        (selectionService.timeFormatSubject | async) ==
+                        timeEnum.MONTHLY
                       ) {
                         {{ incomeGroup.monthly.selectText }}
                       }
                       @if (
-                        (selectedTimeFormatSubject | async) == timeEnum.ANNUALLY
+                        (selectionService.timeFormatSubject | async) ==
+                        timeEnum.ANNUALLY
                       ) {
                         {{ incomeGroup.annually.selectText }}
                       }
@@ -56,7 +58,7 @@
               <mat-button-toggle-group
                 name="income-group-selection-monthly"
                 aria-label="income group"
-                [value]="selectedIncomeGroupIndexSubject.value"
+                [value]="selectionService.incomeGroupIndexSubject.value"
                 (change)="onIncomeGroupChanged($event)"
               >
                 @for (
@@ -66,12 +68,14 @@
                   <mat-button-toggle [value]="incomeGroup.index"
                     >≤
                     @if (
-                      (selectedTimeFormatSubject | async) == timeEnum.MONTHLY
+                      (selectionService.timeFormatSubject | async) ==
+                      timeEnum.MONTHLY
                     ) {
                       {{ incomeGroup.monthly.buttonToggleText }}
                     }
                     @if (
-                      (selectedTimeFormatSubject | async) == timeEnum.ANNUALLY
+                      (selectionService.timeFormatSubject | async) ==
+                      timeEnum.ANNUALLY
                     ) {
                       {{ incomeGroup.annually.buttonToggleText }}
                     }
@@ -87,7 +91,7 @@
               class="time-format-button-group"
               name="time-format-selection"
               aria-label="time format"
-              [value]="selectedTimeFormatSubject.value"
+              [value]="selectionService.timeFormatSubject.value"
               (change)="onTimeFormatChanged($event)"
             >
               <mat-button-toggle [value]="timeEnum.MONTHLY">
@@ -101,7 +105,7 @@
         </div>
       </div>
 
-      @if ((selectedIncomeGroupIndexSubject | async) != -1) {
+      @if ((selectionService.incomeGroupIndexSubject | async) != -1) {
         <div class="chart-container">
           <app-bar-chart
             [datasets]="incomeGroupDatasets"
@@ -125,14 +129,19 @@
               <button
                 mat-button
                 class="party-button"
-                (click)="onPartyToggled(selectedPartiesSubject.value, party)"
+                (click)="
+                  onPartyToggled(selectionService.partiesSubject.value, party)
+                "
               >
                 @if (party.image.length > 0) {
                   <img
                     [src]="party.image"
                     [alt]="party.name"
                     [class.grayscale]="
-                      !isPartySelected(selectedPartiesSubject.value, party)
+                      !isPartySelected(
+                        selectionService.partiesSubject.value,
+                        party
+                      )
                     "
                     class="party-logo"
                   />
@@ -140,7 +149,10 @@
                   <div
                     class="party-label"
                     [class.grayscale]="
-                      !isPartySelected(selectedPartiesSubject.value, party)
+                      !isPartySelected(
+                        selectionService.partiesSubject.value,
+                        party
+                      )
                     "
                   >
                     {{ party.name }}

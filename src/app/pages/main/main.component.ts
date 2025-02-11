@@ -39,14 +39,10 @@ import {
 } from '@angular/material/expansion';
 import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-
-/**
- * Represents a time format
- */
-export enum TimeFormat {
-  MONTHLY,
-  ANNUALLY,
-}
+import {
+  SelectionService,
+  TimeFormat,
+} from '../../core/selection/services/selection.service';
 
 /**
  * Represents an income group
@@ -133,6 +129,8 @@ export class MainComponent implements OnInit {
   private mediaService = inject(MediaService);
   /** Transloco service */
   private translocoService = inject(TranslocoService);
+  /** Selection service */
+  protected selectionService = inject(SelectionService);
 
   /** Language */
   lang = getBrowserLang();
@@ -145,21 +143,6 @@ export class MainComponent implements OnInit {
   incomeGroupsSubject = new BehaviorSubject<IncomeGroup[]>([]);
   /** Subject providing parties */
   partiesSubject = new BehaviorSubject<Party[]>([]);
-
-  //
-  // Selections
-  //
-
-  /** Subject providing the selected income group index */
-  selectedIncomeGroupIndexSubject = new BehaviorSubject<number>(-1);
-  /** Subject providing the selected time format */
-  selectedTimeFormatSubject = new BehaviorSubject<TimeFormat>(
-    TimeFormat.MONTHLY,
-  );
-  /** Subject providing the selected parties */
-  selectedPartiesSubject = new BehaviorSubject<Map<string, boolean>>(
-    new Map<string, boolean>(),
-  );
 
   //
   // Bar Chart
@@ -210,6 +193,8 @@ export class MainComponent implements OnInit {
    */
   ngOnInit() {
     this.handleQueryParameters();
+    this.handleServiceValues();
+
     this.initializeMedia();
 
     this.handleSelections();
@@ -231,12 +216,30 @@ export class MainComponent implements OnInit {
       const timeFormat = +queryParams[this.QUERY_PARAM_TIME_FORMAT];
 
       if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
-        this.selectedIncomeGroupIndexSubject.next(incomeGroupIndex);
+        this.selectionService.incomeGroupIndexSubject.next(incomeGroupIndex);
       }
       if (timeFormat != null && !isNaN(timeFormat)) {
-        this.selectedTimeFormatSubject.next(timeFormat);
+        this.selectionService.timeFormatSubject.next(timeFormat);
       }
     });
+  }
+
+  /**
+   * Handles initial serice values (in case you come from another page)
+   * @private
+   */
+  private handleServiceValues() {
+    this.selectionService.incomeGroupIndexSubject
+      .pipe(
+        combineLatestWith(
+          this.selectionService.timeFormatSubject,
+          this.selectionService.partiesSubject,
+        ),
+        first(),
+      )
+      .subscribe(() => {
+        this.updateQueryParameters();
+      });
   }
 
   /**
@@ -250,9 +253,9 @@ export class MainComponent implements OnInit {
           return parties != null;
         }),
         combineLatestWith(
-          this.selectedIncomeGroupIndexSubject,
-          this.selectedPartiesSubject,
-          this.selectedTimeFormatSubject,
+          this.selectionService.incomeGroupIndexSubject,
+          this.selectionService.partiesSubject,
+          this.selectionService.timeFormatSubject,
         ),
       )
       .subscribe(
@@ -304,12 +307,12 @@ export class MainComponent implements OnInit {
         first(),
       )
       .subscribe(([_, parties]) => {
-        this.initializeTitle(this.selectedTimeFormatSubject.value);
+        this.initializeTitle(this.selectionService.timeFormatSubject.value);
         this.initializeIncomeGroupLabels(parties);
         this.initializeIncomeGroupDatasets(
           parties,
           -1,
-          this.selectedTimeFormatSubject.value,
+          this.selectionService.timeFormatSubject.value,
         );
       });
   }
@@ -533,7 +536,7 @@ export class MainComponent implements OnInit {
    * @param event event
    */
   onIncomeGroupChanged(event: MatSelectChange | MatButtonToggleChange) {
-    this.selectedIncomeGroupIndexSubject.next(event.value);
+    this.selectionService.incomeGroupIndexSubject.next(event.value);
     this.updateQueryParameters();
   }
 
@@ -542,7 +545,7 @@ export class MainComponent implements OnInit {
    * @param event event
    */
   onTimeFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
-    this.selectedTimeFormatSubject.next(event.value);
+    this.selectionService.timeFormatSubject.next(event.value);
     this.updateQueryParameters();
   }
 
@@ -552,10 +555,10 @@ export class MainComponent implements OnInit {
    * @param party party
    */
   onPartyToggled(parties: Map<string, boolean>, party: Party) {
-    const selectedParties = this.selectedPartiesSubject.value;
+    const selectedParties = this.selectionService.partiesSubject.value;
     selectedParties.set(party.name, !this.isPartySelected(parties, party));
 
-    this.selectedPartiesSubject.next(selectedParties);
+    this.selectionService.partiesSubject.next(selectedParties);
   }
 
   //
@@ -571,8 +574,9 @@ export class MainComponent implements OnInit {
       queryParams: {
         [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
         [this.QUERY_PARAM_INCOME_GROUP]:
-          this.selectedIncomeGroupIndexSubject.value,
-        [this.QUERY_PARAM_TIME_FORMAT]: this.selectedTimeFormatSubject.value,
+          this.selectionService.incomeGroupIndexSubject.value,
+        [this.QUERY_PARAM_TIME_FORMAT]:
+          this.selectionService.timeFormatSubject.value,
       },
     });
   }
