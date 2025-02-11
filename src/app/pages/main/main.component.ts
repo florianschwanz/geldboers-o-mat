@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Theme, ThemeService } from '../../core/ui/services/theme.service';
 import {
   ActivatedRoute,
   Router,
@@ -43,6 +42,7 @@ import {
   TimeFormat,
 } from '../../core/selection/services/selection.service';
 import { DataService, Party } from '../../core/data/services/data.service';
+import { Theme, ThemeService } from '../../core/ui/services/theme.service';
 
 /**
  * Displays main component
@@ -167,20 +167,22 @@ export class MainComponent implements OnInit {
    * Handles query parameters
    */
   private handleQueryParameters() {
-    this.route.queryParams.pipe(first()).subscribe((queryParams) => {
-      const theme = queryParams[this.QUERY_PARAM_THEME];
-      this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
+    if (environment.useQueryParameters) {
+      this.route.queryParams.pipe(first()).subscribe((queryParams) => {
+        const theme = queryParams[this.QUERY_PARAM_THEME];
+        this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
 
-      const incomeGroupIndex = +queryParams[this.QUERY_PARAM_INCOME_GROUP];
-      const timeFormat = +queryParams[this.QUERY_PARAM_TIME_FORMAT];
+        const incomeGroupIndex = +queryParams[this.QUERY_PARAM_INCOME_GROUP];
+        const timeFormat = +queryParams[this.QUERY_PARAM_TIME_FORMAT];
 
-      if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
-        this.selectionService.incomeGroupIndexSubject.next(incomeGroupIndex);
-      }
-      if (timeFormat != null && !isNaN(timeFormat)) {
-        this.selectionService.timeFormatSubject.next(timeFormat);
-      }
-    });
+        if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
+          this.selectionService.incomeGroupIndexSubject.next(incomeGroupIndex);
+        }
+        if (timeFormat != null && !isNaN(timeFormat)) {
+          this.selectionService.timeFormatSubject.next(timeFormat);
+        }
+      });
+    }
   }
 
   /**
@@ -188,16 +190,28 @@ export class MainComponent implements OnInit {
    * @private
    */
   private handleServiceValues() {
-    this.selectionService.incomeGroupIndexSubject
+    this.dataService.partiesSubject
       .pipe(
         combineLatestWith(
+          this.selectionService.incomeGroupIndexSubject,
           this.selectionService.timeFormatSubject,
           this.selectionService.partiesSubject,
         ),
         first(),
       )
-      .subscribe(() => {
+      .subscribe(([parties, , , selectedParties]) => {
         this.updateQueryParameters();
+
+        const partiesSelected = parties
+          .slice()
+          .filter((party: Party) =>
+            this.isPartySelected(selectedParties, party),
+          );
+
+        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
+          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
+        );
+        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
       });
   }
 
@@ -217,7 +231,7 @@ export class MainComponent implements OnInit {
           this.selectionService.timeFormatSubject,
           this.translocoService.load(this.translocoService.getActiveLang()),
         ),
-        debounceTime(100),
+        debounceTime(200),
       )
       .subscribe(
         ([
@@ -244,32 +258,14 @@ export class MainComponent implements OnInit {
             selectedIncomeGroupIndex,
             selectedTimeFormat,
           );
+
+          const partiesSortedByFederalBudgetChange = partiesSelected.sort(
+            (a: Party, b: Party) =>
+              b.changeFederalBudget - a.changeFederalBudget,
+          );
+          this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
         },
       );
-
-    this.dataService.partiesSubject
-      .pipe(
-        filter((parties) => {
-          return parties != null;
-        }),
-        combineLatestWith(
-          this.selectionService.partiesSubject,
-          this.translocoService.load(this.translocoService.getActiveLang()),
-        ),
-        debounceTime(100),
-      )
-      .subscribe(([parties, selectedParties, ,]) => {
-        const partiesSelected = parties
-          .slice()
-          .filter((party: Party) =>
-            this.isPartySelected(selectedParties, party),
-          );
-
-        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
-          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
-        );
-        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
-      });
   }
 
   /**
@@ -552,18 +548,20 @@ export class MainComponent implements OnInit {
    * Updates query parameters
    */
   private updateQueryParameters() {
-    this.router
-      .navigate([], {
-        relativeTo: this.route,
-        queryParams: {
-          [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
-          [this.QUERY_PARAM_INCOME_GROUP]:
-            this.selectionService.incomeGroupIndexSubject.value,
-          [this.QUERY_PARAM_TIME_FORMAT]:
-            this.selectionService.timeFormatSubject.value,
-        },
-      })
-      .then(() => {});
+    if (environment.useQueryParameters) {
+      this.router
+        .navigate([], {
+          relativeTo: this.route,
+          queryParams: {
+            [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
+            [this.QUERY_PARAM_INCOME_GROUP]:
+              this.selectionService.incomeGroupIndexSubject.value,
+            [this.QUERY_PARAM_TIME_FORMAT]:
+              this.selectionService.timeFormatSubject.value,
+          },
+        })
+        .then(() => {});
+    }
   }
 
   /**
