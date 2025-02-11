@@ -34,6 +34,8 @@ export class SelectionService {
   );
   /** Subject providing the selected income group index */
   incomeGroupIndexSubject = new BehaviorSubject<number>(-1);
+  /** Subject providing the selected income group index for example household */
+  incomeGroupExampleHouseholdIndexSubject = new BehaviorSubject<number>(-1);
   /** Subject providing the selected time format */
   timeFormatSubject = new BehaviorSubject<TimeFormat>(TimeFormat.MONTHLY);
   /** Subject providing the selected parties */

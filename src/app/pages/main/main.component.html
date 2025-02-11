@@ -116,69 +116,149 @@
           class="flex-container flex-justify-center time-income-group-selection"
         >
           @if (media < mediaEnum.LARGE) {
-            <div class="income-group-selection">
-              <mat-form-field>
-                <mat-label>{{ t("terms.income-group") }}</mat-label>
-                <mat-select
-                  [value]="selectionService.incomeGroupIndexSubject.value"
-                  (selectionChange)="onIncomeGroupChanged($event)"
-                >
-                  @for (
-                    incomeGroup of dataService.incomeGroupsSubject | async;
-                    track incomeGroup
-                  ) {
-                    <mat-option [value]="incomeGroup.index">
-                      @if (
-                        (selectionService.timeFormatSubject | async) ==
-                        timeEnum.MONTHLY
+            @switch (selectionService.exampleHouseholdSubject | async) {
+              @case (exampleHouseholdEnum.OTHER) {
+                <div class="income-group-selection">
+                  <mat-form-field>
+                    <mat-label>{{ t("terms.income-group") }}</mat-label>
+                    <mat-select
+                      [value]="selectionService.incomeGroupIndexSubject.value"
+                      (selectionChange)="onIncomeGroupChanged($event)"
+                    >
+                      @for (
+                        incomeGroup of dataService.incomeGroupsSubject | async;
+                        track incomeGroup
                       ) {
-                        {{ incomeGroup.monthly.selectText }}
+                        <mat-option [value]="incomeGroup.index">
+                          @if (
+                            (selectionService.timeFormatSubject | async) ==
+                            timeEnum.MONTHLY
+                          ) {
+                            {{ incomeGroup.monthly.selectText }}
+                          }
+                          @if (
+                            (selectionService.timeFormatSubject | async) ==
+                            timeEnum.ANNUALLY
+                          ) {
+                            {{ incomeGroup.annually.selectText }}
+                          }
+                          {{ t("terms.euros") }}
+                        </mat-option>
                       }
-                      @if (
-                        (selectionService.timeFormatSubject | async) ==
-                        timeEnum.ANNUALLY
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              }
+              @default {
+                <div class="income-group-selection">
+                  <mat-form-field>
+                    <mat-label>{{ t("terms.income-group") }}</mat-label>
+                    <mat-select
+                      [value]="
+                        selectionService.incomeGroupExampleHouseholdIndexSubject
+                          .value
+                      "
+                      (selectionChange)="
+                        onIncomeGroupExampleHouseholdChanged($event)
+                      "
+                    >
+                      @for (
+                        incomeGroup of dataService.incomeGroupsSubject | async;
+                        track incomeGroup
                       ) {
-                        {{ incomeGroup.annually.selectText }}
+                        <mat-option [value]="incomeGroup.index">
+                          @if (
+                            (selectionService.timeFormatSubject | async) ==
+                            timeEnum.MONTHLY
+                          ) {
+                            {{ incomeGroup.monthly.selectText }}
+                          }
+                          @if (
+                            (selectionService.timeFormatSubject | async) ==
+                            timeEnum.ANNUALLY
+                          ) {
+                            {{ incomeGroup.annually.selectText }}
+                          }
+                          {{ t("terms.euros") }}
+                        </mat-option>
                       }
-                      {{ t("terms.euros") }}
-                    </mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-            </div>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              }
+            }
           }
 
           @if (media > mediaEnum.MEDIUM) {
-            <div class="income-group-selection">
-              <mat-button-toggle-group
-                name="income-group-selection-monthly"
-                aria-label="income group"
-                [value]="selectionService.incomeGroupIndexSubject.value"
-                (change)="onIncomeGroupChanged($event)"
-              >
-                @for (
-                  incomeGroup of dataService.incomeGroupsSubject | async;
-                  track incomeGroup
-                ) {
-                  <mat-button-toggle [value]="incomeGroup.index"
-                    >≤
-                    @if (
-                      (selectionService.timeFormatSubject | async) ==
-                      timeEnum.MONTHLY
+            @switch (selectionService.exampleHouseholdSubject | async) {
+              @case (exampleHouseholdEnum.OTHER) {
+                <div class="income-group-selection">
+                  <mat-button-toggle-group
+                    name="income-group-selection-monthly"
+                    aria-label="income group"
+                    [value]="selectionService.incomeGroupIndexSubject.value"
+                    (change)="onIncomeGroupChanged($event)"
+                  >
+                    @for (
+                      incomeGroup of dataService.incomeGroupsSubject | async;
+                      track incomeGroup
                     ) {
-                      {{ incomeGroup.monthly.buttonToggleText }}
+                      <mat-button-toggle [value]="incomeGroup.index"
+                        >≤
+                        @if (
+                          (selectionService.timeFormatSubject | async) ==
+                          timeEnum.MONTHLY
+                        ) {
+                          {{ incomeGroup.monthly.buttonToggleText }}
+                        }
+                        @if (
+                          (selectionService.timeFormatSubject | async) ==
+                          timeEnum.ANNUALLY
+                        ) {
+                          {{ incomeGroup.annually.buttonToggleText }}
+                        }
+                        {{ t("terms.euros") }}
+                      </mat-button-toggle>
                     }
-                    @if (
-                      (selectionService.timeFormatSubject | async) ==
-                      timeEnum.ANNUALLY
+                  </mat-button-toggle-group>
+                </div>
+              }
+              @default {
+                <div class="income-group-selection">
+                  <mat-button-toggle-group
+                    name="income-group-selection-monthly"
+                    aria-label="income group"
+                    [value]="
+                      selectionService.incomeGroupExampleHouseholdIndexSubject
+                        .value
+                    "
+                    (change)="onIncomeGroupExampleHouseholdChanged($event)"
+                  >
+                    @for (
+                      incomeGroup of dataService.incomeGroupsExampleHouseholdSubject
+                        | async;
+                      track incomeGroup
                     ) {
-                      {{ incomeGroup.annually.buttonToggleText }}
+                      <mat-button-toggle [value]="incomeGroup.index">
+                        @if (
+                          (selectionService.timeFormatSubject | async) ==
+                          timeEnum.MONTHLY
+                        ) {
+                          {{ incomeGroup.monthly.buttonToggleText }}
+                        }
+                        @if (
+                          (selectionService.timeFormatSubject | async) ==
+                          timeEnum.ANNUALLY
+                        ) {
+                          {{ incomeGroup.annually.buttonToggleText }}
+                        }
+                        {{ t("terms.euros") }}
+                      </mat-button-toggle>
                     }
-                    {{ t("terms.euros") }}
-                  </mat-button-toggle>
-                }
-              </mat-button-toggle-group>
-            </div>
+                  </mat-button-toggle-group>
+                </div>
+              }
+            }
           }
 
           <div class="time-format-selection">

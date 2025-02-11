@@ -1,27 +1,27 @@
 [
   {
     "index": 0,
-    "annually": { "selectText": "1.666", "buttonToggleText": "1.6T" },
-    "monthly": { "selectText": "20.000", "buttonToggleText": "20T" }
+    "annually": { "selectText": "20.000", "buttonToggleText": "20T" },
+    "monthly": { "selectText": "1.666", "buttonToggleText": "1.6T" }
   },
   {
     "index": 1,
-    "annually": { "selectText": "3.333", "buttonToggleText": "3.3T" },
-    "monthly": { "selectText": "40.000", "buttonToggleText": "40T" }
+    "annually": { "selectText": "40.000", "buttonToggleText": "40T" },
+    "monthly": { "selectText": "3.333", "buttonToggleText": "3.3T" }
   },
   {
     "index": 2,
-    "annually": { "selectText": "5.000", "buttonToggleText": "5T" },
-    "monthly": { "selectText": "60.000", "buttonToggleText": "60T" }
+    "annually": { "selectText": "60.000", "buttonToggleText": "60T" },
+    "monthly": { "selectText": "5.000", "buttonToggleText": "5T" }
   },
   {
     "index": 3,
-    "annually": { "selectText": "6.666", "buttonToggleText": "6.6T" },
-    "monthly": { "selectText": "80.000", "buttonToggleText": "80T" }
+    "annually": { "selectText": "80.000", "buttonToggleText": "80T" },
+    "monthly": { "selectText": "6.666", "buttonToggleText": "6.6T" }
   },
   {
     "index": 4,
-    "annually": { "selectText": "10.000", "buttonToggleText": "10T" },
-    "monthly": { "selectText": "120.000", "buttonToggleText": "120T" }
+    "annually": { "selectText": "120.000", "buttonToggleText": "120T" },
+    "monthly": { "selectText": "10.000", "buttonToggleText": "10T" }
   }
 ]

@@ -147,6 +147,9 @@ export class MainComponent implements OnInit {
   private QUERY_PARAM_EXAMPLE_HOUSEHOLD: string = 'example-household';
   /** Query parameter income-group */
   private QUERY_PARAM_INCOME_GROUP: string = 'income-group';
+  /** Query parameter income-group-example-household */
+  private QUERY_PARAM_INCOME_GROUP_EXAMPLE_HOUSEHOLD: string =
+    'income-group-example-household';
   /** Query parameter time-format */
   private QUERY_PARAM_TIME_FORMAT: string = 'time-format';
 
@@ -180,8 +183,11 @@ export class MainComponent implements OnInit {
         const theme = queryParams[this.QUERY_PARAM_THEME];
         this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
 
-        const exampleHousehold = +queryParams[this.QUERY_PARAM_EXAMPLE_HOUSEHOLD];
+        const exampleHousehold =
+          +queryParams[this.QUERY_PARAM_EXAMPLE_HOUSEHOLD];
         const incomeGroupIndex = +queryParams[this.QUERY_PARAM_INCOME_GROUP];
+        const incomeGroupExampleHouseholdIndex =
+          +queryParams[this.QUERY_PARAM_INCOME_GROUP_EXAMPLE_HOUSEHOLD];
         const timeFormat = +queryParams[this.QUERY_PARAM_TIME_FORMAT];
 
         if (exampleHousehold != null && !isNaN(exampleHousehold)) {
@@ -189,6 +195,14 @@ export class MainComponent implements OnInit {
         }
         if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
           this.selectionService.incomeGroupIndexSubject.next(incomeGroupIndex);
+        }
+        if (
+          incomeGroupExampleHouseholdIndex != null &&
+          !isNaN(incomeGroupExampleHouseholdIndex)
+        ) {
+          this.selectionService.incomeGroupExampleHouseholdIndexSubject.next(
+            incomeGroupExampleHouseholdIndex,
+          );
         }
         if (timeFormat != null && !isNaN(timeFormat)) {
           this.selectionService.timeFormatSubject.next(timeFormat);
@@ -520,6 +534,15 @@ export class MainComponent implements OnInit {
   //
 
   /**
+   * Handles example household change
+   * @param event event
+   */
+  onExampleHouseholdChanged(event: MatSelectChange | MatButtonToggleChange) {
+    this.selectionService.exampleHouseholdSubject.next(event.value);
+    this.updateQueryParameters();
+  }
+
+  /**
    * Handles change of income group
    * @param event event
    */
@@ -529,20 +552,24 @@ export class MainComponent implements OnInit {
   }
 
   /**
+   * Handles change of income group
+   * @param event event
+   */
+  onIncomeGroupExampleHouseholdChanged(
+    event: MatSelectChange | MatButtonToggleChange,
+  ) {
+    this.selectionService.incomeGroupExampleHouseholdIndexSubject.next(
+      event.value,
+    );
+    this.updateQueryParameters();
+  }
+
+  /**
    * Handles time format change
    * @param event event
    */
   onTimeFormatChanged(event: MatSelectChange | MatButtonToggleChange) {
     this.selectionService.timeFormatSubject.next(event.value);
-    this.updateQueryParameters();
-  }
-
-  /**
-   * Handles example household change
-   * @param event event
-   */
-  onExampleHouseholdChanged(event: MatSelectChange | MatButtonToggleChange) {
-    this.selectionService.exampleHouseholdSubject.next(event.value);
     this.updateQueryParameters();
   }
 
@@ -572,10 +599,14 @@ export class MainComponent implements OnInit {
           relativeTo: this.route,
           queryParams: {
             [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
+            [this.QUERY_PARAM_INCOME_GROUP]:
+              this.selectionService.incomeGroupIndexSubject.value,
             [this.QUERY_PARAM_EXAMPLE_HOUSEHOLD]:
               this.selectionService.exampleHouseholdSubject.value,
             [this.QUERY_PARAM_INCOME_GROUP]:
-            this.selectionService.incomeGroupIndexSubject.value,
+              this.selectionService.incomeGroupIndexSubject.value,
+            [this.QUERY_PARAM_INCOME_GROUP_EXAMPLE_HOUSEHOLD]:
+              this.selectionService.incomeGroupIndexSubject.value,
             [this.QUERY_PARAM_TIME_FORMAT]:
               this.selectionService.timeFormatSubject.value,
           },
