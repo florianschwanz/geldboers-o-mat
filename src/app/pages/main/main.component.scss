@@ -88,8 +88,37 @@
   .time-format-selection,
   .income-group-selection,
   .party-selection,
-  .results-format-selection {
+  .example-household-selection {
     margin-top: 16px;
+  }
+
+  ::ng-deep .mat-button-toggle-group,
+  ::ng-deep .mat-button-toggle-group-appearance-standard {
+    border: transparent !important;
+  }
+
+  ::ng-deep .mat-button-toggle {
+    border-top: 1px solid rgb(224.4, 224.4, 224.4);
+    border-right: 1px solid rgb(224.4, 224.4, 224.4);
+    border-bottom: 1px solid rgb(224.4, 224.4, 224.4);
+  }
+
+  $border-radius: 16px;
+
+  ::ng-deep .mat-button-toggle:last-child {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  ::ng-deep .mat-button-toggle:first-child {
+    border-left: 1px solid rgb(224.4, 224.4, 224.4);
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+
+  .separated-button-toggle {
+    margin-left: 16px;
+    border-right: 1px solid rgb(224.4, 224.4, 224.4);
   }
 
   .time-format-selection,

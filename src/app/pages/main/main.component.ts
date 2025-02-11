@@ -38,6 +38,7 @@ import {
 } from '@angular/material/expansion';
 import { AsyncPipe } from '@angular/common';
 import {
+  ExampleHousehold,
   SelectionService,
   TimeFormat,
 } from '../../core/selection/services/selection.service';
@@ -131,6 +132,8 @@ export class MainComponent implements OnInit {
 
   /** Time enum */
   timeEnum = TimeFormat;
+  /** Example household enum */
+  exampleHouseholdEnum = ExampleHousehold;
 
   //
   // Constants
@@ -140,6 +143,8 @@ export class MainComponent implements OnInit {
   appName = environment.appName;
   /** Query parameter theme */
   private QUERY_PARAM_THEME: string = 'theme';
+  /** Query parameter example-household */
+  private QUERY_PARAM_EXAMPLE_HOUSEHOLD: string = 'example-household';
   /** Query parameter income-group */
   private QUERY_PARAM_INCOME_GROUP: string = 'income-group';
   /** Query parameter time-format */
@@ -174,9 +179,13 @@ export class MainComponent implements OnInit {
         const theme = queryParams[this.QUERY_PARAM_THEME];
         this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
 
+        const exampleHousehold = +queryParams[this.QUERY_PARAM_EXAMPLE_HOUSEHOLD];
         const incomeGroupIndex = +queryParams[this.QUERY_PARAM_INCOME_GROUP];
         const timeFormat = +queryParams[this.QUERY_PARAM_TIME_FORMAT];
 
+        if (exampleHousehold != null && !isNaN(exampleHousehold)) {
+          this.selectionService.exampleHouseholdSubject.next(exampleHousehold);
+        }
         if (incomeGroupIndex != null && !isNaN(incomeGroupIndex)) {
           this.selectionService.incomeGroupIndexSubject.next(incomeGroupIndex);
         }
@@ -528,6 +537,15 @@ export class MainComponent implements OnInit {
   }
 
   /**
+   * Handles example household change
+   * @param event event
+   */
+  onExampleHouseholdChanged(event: MatSelectChange | MatButtonToggleChange) {
+    this.selectionService.exampleHouseholdSubject.next(event.value);
+    this.updateQueryParameters();
+  }
+
+  /**
    * Handles click on party button
    * @param parties parties
    * @param party party
@@ -553,8 +571,10 @@ export class MainComponent implements OnInit {
           relativeTo: this.route,
           queryParams: {
             [this.QUERY_PARAM_THEME]: this.themeService.themeSubject.value,
+            [this.QUERY_PARAM_EXAMPLE_HOUSEHOLD]:
+              this.selectionService.exampleHouseholdSubject.value,
             [this.QUERY_PARAM_INCOME_GROUP]:
-              this.selectionService.incomeGroupIndexSubject.value,
+            this.selectionService.incomeGroupIndexSubject.value,
             [this.QUERY_PARAM_TIME_FORMAT]:
               this.selectionService.timeFormatSubject.value,
           },

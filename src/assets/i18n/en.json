@@ -5,6 +5,13 @@
       "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you.",
       "terms": {
         "the-zew": "The ZEW",
+        "household": "household",
+        "single": "single",
+        "single-parent-with-one-child": "single parent with one child",
+        "single-parent-with-two-children": "single parent with two children",
+        "single-earner-couple-without-children": "single-earner couple without children",
+        "single-earner-couple-with-two-children": "single-earner couple with two children",
+        "other": "other",
         "monthly": "monthly",
         "annually": "annually",
         "income-group": "income group",
@@ -17,6 +24,7 @@
         "imprint": "Imprint"
       },
       "questions": {
+        "example-household": "In what kind of household do you live?",
         "income-group": "What is your gross income in Euros?",
         "income-change-annually": "What impact do the parties' proposals have on your annual disposable income?",
         "income-change-monthly": "What impact will the parties' proposals have on your monthly disposable income?",

@@ -5,6 +5,13 @@
       "description": "hat ausgerechnet, welche Partei wem wie viel Geld ins Portemonnaie spülen möchte. Schau jetzt, was für dich dabei rausspringt.",
       "terms": {
         "the-zew": "Das ZEW",
+        "household": "Haushalt",
+        "single": "Single",
+        "single-parent-with-one-child": "Alleinerziehende(r) mit einem Kind",
+        "single-parent-with-two-children": "Alleinerziehende(r) mit zwei Kindern",
+        "single-earner-couple-without-children": "Alleinverdiener-Paar ohne Kinder",
+        "single-earner-couple-with-two-children": "Alleinverdiener-Paar mit zwei Kinder",
+        "other": "anderer",
         "monthly": "monatlich",
         "annually": "jährlich",
         "income-group": "Einkommensgruppe",
@@ -17,6 +24,7 @@
         "imprint": "Impressum"
       },
       "questions": {
+        "example-household": "In welcher Art Haushalt lebst du?",
         "income-group": "Wie hoch ist dein Bruttoeinkommen?",
         "income-change-annually": "Welche Auswirkungen haben die Vorschläge der Parteiein auf dein jährlich verfügbares Einkommen?",
         "income-change-monthly": "Welche Auswirkungen haben die Vorschläge der Parteiein auf dein monatlich verfügbares Einkommen?",

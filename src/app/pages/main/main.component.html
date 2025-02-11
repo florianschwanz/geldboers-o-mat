@@ -15,6 +15,101 @@
       </div>
 
       <div class="selection-container">
+        <div class="question">{{ t("questions.example-household") }}</div>
+
+        <div
+          class="flex-container flex-justify-center time-income-group-selection"
+        >
+          <div class="example-household-selection">
+            @if (media < mediaEnum.LARGE) {
+              <mat-form-field>
+                <mat-label>{{ t("terms.example-household") }}</mat-label>
+                <mat-select
+                  [value]="selectionService.exampleHouseholdSubject.value"
+                  (selectionChange)="onExampleHouseholdChanged($event)"
+                >
+                  <mat-option [value]="exampleHouseholdEnum.SINGLE">
+                    {{ t("terms.single") }}
+                  </mat-option>
+                  <mat-option
+                    [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_ONE_CHILD"
+                  >
+                    {{ t("terms.single-parent-with-one-child") }}
+                  </mat-option>
+                  <mat-option
+                    [value]="
+                      exampleHouseholdEnum.SINGLE_PARENT_WITH_TWO_CHILDREN
+                    "
+                  >
+                    {{ t("terms.single-parent-with-two-children") }}
+                  </mat-option>
+                  <mat-option
+                    [value]="
+                      exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN
+                    "
+                  >
+                    {{ t("terms.single-earner-couple-without-children") }}
+                  </mat-option>
+                  <mat-option
+                    [value]="
+                      exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN
+                    "
+                  >
+                    {{ t("terms.single-earner-couple-with-two-children") }}
+                  </mat-option>
+                  <mat-option [value]="exampleHouseholdEnum.OTHER">
+                    {{ t("terms.other") }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            }
+
+            @if (media > mediaEnum.MEDIUM) {
+              <mat-button-toggle-group
+                name="example-household-selection"
+                aria-label="example household"
+                class="example-household-button-toggle-group"
+                [value]="selectionService.exampleHouseholdSubject.value"
+                (change)="onExampleHouseholdChanged($event)"
+              >
+                <mat-button-toggle [value]="exampleHouseholdEnum.SINGLE">
+                  {{ t("terms.single") }}
+                </mat-button-toggle>
+                <mat-button-toggle
+                  [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_ONE_CHILD"
+                >
+                  {{ t("terms.single-parent-with-one-child") }}
+                </mat-button-toggle>
+                <mat-button-toggle
+                  [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_TWO_CHILDREN"
+                >
+                  {{ t("terms.single-parent-with-two-children") }}
+                </mat-button-toggle>
+                <mat-button-toggle
+                  [value]="
+                    exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN
+                  "
+                >
+                  {{ t("terms.single-earner-couple-without-children") }}
+                </mat-button-toggle>
+                <mat-button-toggle
+                  [value]="
+                    exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN
+                  "
+                >
+                  {{ t("terms.single-earner-couple-with-two-children") }}
+                </mat-button-toggle>
+                <mat-button-toggle
+                  [value]="exampleHouseholdEnum.OTHER"
+                  class="separated-button-toggle"
+                >
+                  {{ t("terms.other") }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            }
+          </div>
+        </div>
+
         <div class="question">{{ t("questions.income-group") }}</div>
 
         <div
