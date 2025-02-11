@@ -106,6 +106,19 @@
       </div>
 
       @if ((selectionService.incomeGroupIndexSubject | async) != -1) {
+        @switch (selectionService.timeFormatSubject.value) {
+          @case (timeEnum.ANNUALLY) {
+            <div class="question">
+              {{ t("questions.income-change-annually") }}
+            </div>
+          }
+          @case (timeEnum.MONTHLY) {
+            <div class="question">
+              {{ t("questions.income-change-monthly") }}
+            </div>
+          }
+        }
+
         <div class="chart-container">
           <app-bar-chart
             [id]="'bar-chart-income-group'"
@@ -120,6 +133,8 @@
             [yGrid]="false"
           ></app-bar-chart>
         </div>
+
+        <div class="question">{{ t("questions.federal-budget-change") }}</div>
 
         <div class="chart-container">
           <app-bar-chart

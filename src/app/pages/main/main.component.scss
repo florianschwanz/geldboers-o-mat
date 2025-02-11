@@ -67,12 +67,13 @@
   }
 }
 
-.selection-container {
-  .question {
-    margin: 24px 0 16px;
-    text-align: center;
-  }
+.question {
+  margin: 60px 0 16px;
+  text-align: center;
+  font-weight: 800;
+}
 
+.selection-container {
   .time-income-group-selection {
     gap: 32px;
 
@@ -133,4 +134,5 @@
 }
 
 .footer {
+  font-size: 1rem;
 }
