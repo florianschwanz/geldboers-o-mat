@@ -103,12 +103,19 @@
     }
   }
 
+  .party-selection {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+  }
+
   .party-button {
     padding: 8px;
     margin: 0 8px 16px;
     text-align: center;
     vertical-align: center;
     height: 96px;
+    min-width: 128px;
   }
 
   .grayscale {
