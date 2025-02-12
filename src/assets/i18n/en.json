@@ -36,8 +36,7 @@
         "should-i-vote-according-to-my-income": "Should I only vote according to my income?"
       },
       "actions": {
-        "select-income-group": "Select...",
-        "select-example-household": "Select..."
+        "select": "Select..."
       },
       "labels": {
         "income-change-monthly": "change in disposable income per month",

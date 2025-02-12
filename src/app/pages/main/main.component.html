@@ -24,13 +24,7 @@
             @if (media < mediaEnum.LARGE) {
               <mat-form-field>
                 <mat-label>
-                  @if (
-                    (selectionService.incomeGroupIndexSubject | async) != -1
-                  ) {
-                    {{ t("terms.household") }}
-                  } @else {
-                    {{ t("actions.select-example-household") }}
-                  }
+                  {{ t("terms.household") }}
                 </mat-label>
                 <mat-select
                   [value]="selectionService.exampleHouseholdSubject.value"
@@ -134,7 +128,7 @@
                       ) {
                         {{ t("terms.income-group") }}
                       } @else {
-                        {{ t("actions.select-income-group") }}
+                        {{ t("actions.select") }}
                       }
                     </mat-label>
                     <mat-select
@@ -175,7 +169,7 @@
                       ) {
                         {{ t("terms.income-group") }}
                       } @else {
-                        {{ t("actions.select-income-group") }}
+                        {{ t("actions.select") }}
                       }
                     </mat-label>
                     <mat-select
@@ -335,8 +329,8 @@
             [horizontal]="false"
             [displayLegend]="false"
             [displayTooltip]="false"
-            [xSuggestedMin]="-incomeGroupXSuggestedMinMax"
-            [xSuggestedMax]="incomeGroupXSuggestedMinMax"
+            [xSuggestedMin]="incomeGroupXSuggestedMin"
+            [xSuggestedMax]="incomeGroupXSuggestedMax"
             [xTicks]="false"
             [yGrid]="false"
           ></app-bar-chart>
@@ -344,7 +338,7 @@
 
         <div class="question">{{ t("questions.federal-budget-change") }}</div>
 
-        <div class="description">
+        <div class="description-2">
           {{ t("description-federal-budget-change") }}
         </div>
 

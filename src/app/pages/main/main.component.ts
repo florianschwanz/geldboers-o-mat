@@ -105,8 +105,10 @@ export class MainComponent implements OnInit {
   incomeGroupDatasets: Dataset[] = [];
   /** Labels for selected income group */
   incomeGroupLabels: string[] = [];
-  /** Suggested min-max value on the x-axis */
-  incomeGroupXSuggestedMinMax = 30;
+  /** Suggested min value on the x-axis */
+  incomeGroupXSuggestedMin = -30;
+  /** Suggested max value on the x-axis */
+  incomeGroupXSuggestedMax = 30;
 
   //
   // Bar Chart (federal budget)
@@ -471,9 +473,21 @@ export class MainComponent implements OnInit {
     }
 
     // Calculate min-max value
-    this.incomeGroupXSuggestedMinMax =
-      Math.max(Math.abs(Math.max(...data)), Math.abs(Math.min(...data))) *
-      this.getStretchFactor(this.mediaService.mediaSubject.value);
+    if (this.media == Media.SMALL) {
+      this.incomeGroupXSuggestedMin =
+        Math.min(...data) *
+        this.getStretchFactor(this.mediaService.mediaSubject.value);
+      this.incomeGroupXSuggestedMax =
+        Math.max(...data) *
+        this.getStretchFactor(this.mediaService.mediaSubject.value);
+    } else {
+      this.incomeGroupXSuggestedMin =
+        -Math.max(Math.abs(Math.max(...data)), Math.abs(Math.min(...data))) *
+        this.getStretchFactor(this.mediaService.mediaSubject.value);
+      this.incomeGroupXSuggestedMax =
+        Math.max(Math.abs(Math.max(...data)), Math.abs(Math.min(...data))) *
+        this.getStretchFactor(this.mediaService.mediaSubject.value);
+    }
 
     // Set data context
     dataContext = parties.map((party) =>
