@@ -24,6 +24,9 @@ export interface Dataset {
   borderWidth: number;
 }
 
+/** Data context */
+let dataContext: number[] = [];
+
 /**
  * Displays bar chart
  */
@@ -117,8 +120,8 @@ export class BarChartComponent {
       let chart = Chart.getChart(chartId);
 
       const horizontal = this.horizontal();
-      const dataContext = datasets[0].dataContext;
       const dataUnit = datasets[0].dataUnit;
+      dataContext = datasets[0].dataContext;
 
       // Initialize chart
       if (!chart) {

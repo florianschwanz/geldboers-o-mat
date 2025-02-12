@@ -5,12 +5,12 @@ import { BehaviorSubject } from 'rxjs';
  * Represents an example household
  */
 export enum ExampleHousehold {
-  OTHER,
   SINGLE,
   SINGLE_PARENT_WITH_ONE_CHILD,
   SINGLE_PARENT_WITH_TWO_CHILDREN,
   SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN,
   SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN,
+  OTHER,
 }
 
 /**

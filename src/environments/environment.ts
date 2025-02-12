@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   appName: 'Geldbörs-O-Mat',
-  useQueryParameters: true,
+  useQueryParameters: false,
 };

@@ -227,18 +227,8 @@ export class MainComponent implements OnInit {
         first(),
       )
       .subscribe(([parties, , , , selectedParties]) => {
+        this.initializeFederalBudgetData(parties, selectedParties);
         this.updateQueryParameters();
-
-        const partiesSelected = parties
-          .slice()
-          .filter((party: Party) =>
-            this.isPartySelected(selectedParties, party),
-          );
-
-        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
-          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
-        );
-        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
       });
   }
 
@@ -253,9 +243,11 @@ export class MainComponent implements OnInit {
           return parties != null;
         }),
         combineLatestWith(
+          this.selectionService.exampleHouseholdSubject,
           this.selectionService.incomeGroupIndexSubject,
-          this.selectionService.partiesSubject,
+          this.selectionService.incomeGroupExampleHouseholdIndexSubject,
           this.selectionService.timeFormatSubject,
+          this.selectionService.partiesSubject,
           this.translocoService.load(this.translocoService.getActiveLang()),
         ),
         debounceTime(200),
@@ -263,54 +255,24 @@ export class MainComponent implements OnInit {
       .subscribe(
         ([
           parties,
+          selectedExampleHousehold,
           selectedIncomeGroupIndex,
-          selectedParties,
+          selectedIncomeGroupExampleHouseholdIndex,
           selectedTimeFormat,
+          selectedParties,
           ,
         ]) => {
-          const partiesSelected = parties
-            .slice()
-            .filter((party: Party) =>
-              this.isPartySelected(selectedParties, party),
-            );
-
-          const partiesSortedByIncomeChanges = partiesSelected.sort(
-            (a: Party, b: Party) =>
-              b.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex] -
-              a.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
-          );
-
           this.initializeIncomeGroupData(
-            partiesSortedByIncomeChanges,
+            parties,
+            selectedExampleHousehold,
             selectedIncomeGroupIndex,
+            selectedIncomeGroupExampleHouseholdIndex,
             selectedTimeFormat,
+            selectedParties,
           );
+          this.initializeFederalBudgetData(parties, selectedParties);
         },
       );
-
-    this.dataService.partiesSubject
-      .pipe(
-        filter((parties) => {
-          return parties != null;
-        }),
-        combineLatestWith(
-          this.selectionService.partiesSubject,
-          this.translocoService.load(this.translocoService.getActiveLang()),
-        ),
-        debounceTime(200),
-      )
-      .subscribe(([parties, selectedParties, ,]) => {
-        const partiesSelected = parties
-          .slice()
-          .filter((party: Party) =>
-            this.isPartySelected(selectedParties, party),
-          );
-
-        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
-          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
-        );
-        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
-      });
   }
 
   /**
@@ -321,27 +283,24 @@ export class MainComponent implements OnInit {
     this.dataService.incomeGroupsSubject
       .pipe(
         combineLatestWith(
+          this.dataService.incomeGroupsExampleHouseholdSubject,
           this.dataService.partiesSubject,
           this.translocoService.load(this.translocoService.getActiveLang()),
         ),
-        filter(([incomeGroups, parties]) => {
+        filter(([incomeGroups, incomeGroupsExampleHousehold, parties]) => {
           return (
             incomeGroups != null &&
             incomeGroups.length > 0 &&
+            incomeGroupsExampleHousehold != null &&
+            incomeGroupsExampleHousehold.length > 0 &&
             parties != null &&
             parties.length > 0
           );
         }),
         first(),
       )
-      .subscribe(([_, parties]) => {
-        const partiesSelected = parties.slice();
-
-        const partiesSortedByFederalBudgetChange = partiesSelected.sort(
-          (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
-        );
-
-        this.initializeFederalBudgetData(partiesSortedByFederalBudgetChange);
+      .subscribe(([, , parties]) => {
+        this.initializeFederalBudgetData(parties, new Map<string, boolean>());
       });
   }
 
@@ -363,45 +322,24 @@ export class MainComponent implements OnInit {
   /**
    * Initializes income group data
    * @param parties parties
+   * @param selectedExampleHousehold selected example household
    * @param selectedIncomeGroupIndex selected income group index
+   * @param selectedIncomeGroupExampleHouseholdIndex selected income group index for example households
    * @param selectedTimeFormat selected time format
+   * @param selectedParties selected parties
    * @private
    */
   private initializeIncomeGroupData(
     parties: Party[],
+    selectedExampleHousehold: ExampleHousehold,
     selectedIncomeGroupIndex: number,
+    selectedIncomeGroupExampleHouseholdIndex: number,
     selectedTimeFormat: TimeFormat,
+    selectedParties: Map<string, boolean>,
   ) {
-    this.incomeGroupLabels = parties.map((party) => party.name);
-
-    let values: number[] = [];
-
-    switch (selectedTimeFormat) {
-      case TimeFormat.MONTHLY: {
-        values = parties
-          .map(
-            (party) =>
-              party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
-          )
-          .map((value) => Math.floor(value / 12));
-        break;
-      }
-      case TimeFormat.ANNUALLY: {
-        values = parties.map(
-          (party) =>
-            party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
-        );
-        break;
-      }
-    }
-
-    const stretchFactor = this.getStretchFactor(
-      this.mediaService.mediaSubject.value,
-    );
-
-    this.incomeGroupXSuggestedMinMax =
-      Math.max(Math.abs(Math.max(...values)), Math.abs(Math.min(...values))) *
-      stretchFactor;
+    parties = parties
+      .slice()
+      .filter((party: Party) => this.isPartySelected(selectedParties, party));
 
     let label: string = '';
     let data: number[] = [];
@@ -411,47 +349,141 @@ export class MainComponent implements OnInit {
 
     switch (selectedTimeFormat) {
       case TimeFormat.MONTHLY: {
-        label =
-          selectedIncomeGroupIndex != -1
-            ? this.translocoService.translate(
-                'pages.main.labels.income-change-monthly',
-                {},
-                this.lang,
-              )
-            : '';
-        data = parties
-          .map((party) =>
-            selectedIncomeGroupIndex != -1
-              ? party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex]
-              : 0,
-          )
-          .map((value) => Math.floor(value / 12));
+        label = this.translocoService.translate(
+          'pages.main.labels.income-change-monthly',
+          {},
+          this.lang,
+        );
         break;
       }
       case TimeFormat.ANNUALLY: {
-        label =
-          selectedIncomeGroupIndex != -1
-            ? this.translocoService.translate(
-                'pages.main.labels.income-change-annually',
-                {},
-                this.lang,
-              )
-            : '';
-        data = parties.map((party) =>
-          selectedIncomeGroupIndex != -1
-            ? party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex]
-            : 0,
+        label = this.translocoService.translate(
+          'pages.main.labels.income-change-annually',
+          {},
+          this.lang,
         );
         break;
       }
     }
 
+    switch (selectedExampleHousehold) {
+      case ExampleHousehold.SINGLE: {
+        parties = parties.sort(
+          (a: Party, b: Party) =>
+            b.changesIncomeSingle[selectedIncomeGroupExampleHouseholdIndex] -
+            a.changesIncomeSingle[selectedIncomeGroupExampleHouseholdIndex],
+        );
+        data = parties.map(
+          (party) =>
+            party.changesIncomeSingle[selectedIncomeGroupExampleHouseholdIndex],
+        );
+        break;
+      }
+      case ExampleHousehold.SINGLE_PARENT_WITH_ONE_CHILD: {
+        parties = parties.sort(
+          (a: Party, b: Party) =>
+            b.changesIncomeSingleParentWithOneChild[
+              selectedIncomeGroupExampleHouseholdIndex
+            ] -
+            a.changesIncomeSingleParentWithOneChild[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        data = parties.map(
+          (party) =>
+            party.changesIncomeSingleParentWithOneChild[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        break;
+      }
+      case ExampleHousehold.SINGLE_PARENT_WITH_TWO_CHILDREN: {
+        parties = parties.sort(
+          (a: Party, b: Party) =>
+            b.changesIncomeSingleParentWithTwoChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ] -
+            a.changesIncomeSingleParentWithTwoChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        data = parties.map(
+          (party) =>
+            party.changesIncomeSingleParentWithTwoChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        break;
+      }
+      case ExampleHousehold.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN: {
+        parties = parties.sort(
+          (a: Party, b: Party) =>
+            b.changesIncomeSingleEarnerCoupleWithoutChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ] -
+            a.changesIncomeSingleEarnerCoupleWithoutChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        data = parties.map(
+          (party) =>
+            party.changesIncomeSingleEarnerCoupleWithoutChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        break;
+      }
+      case ExampleHousehold.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN: {
+        parties = parties.sort(
+          (a: Party, b: Party) =>
+            b.changesIncomeSingleEarnerCoupleWithTwoChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ] -
+            a.changesIncomeSingleEarnerCoupleWithTwoChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        data = parties.map(
+          (party) =>
+            party.changesIncomeSingleEarnerCoupleWithTwoChildren[
+              selectedIncomeGroupExampleHouseholdIndex
+            ],
+        );
+        break;
+      }
+      case ExampleHousehold.OTHER: {
+        parties = parties.sort(
+          (a: Party, b: Party) =>
+            b.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex] -
+            a.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
+        );
+        data = parties.map(
+          (party) =>
+            party.changesIncomeAbsoluteAnnually[selectedIncomeGroupIndex],
+        );
+        break;
+      }
+    }
+
+    // Divide by 12 if monthly is selected
+    if (selectedTimeFormat === TimeFormat.MONTHLY) {
+      data = data.map((value) => Math.floor(value / 12));
+    }
+
+    // Calculate min-max value
+    this.incomeGroupXSuggestedMinMax =
+      Math.max(Math.abs(Math.max(...data)), Math.abs(Math.min(...data))) *
+      this.getStretchFactor(this.mediaService.mediaSubject.value);
+
+    // Set data context
     dataContext = parties.map((party) =>
+      selectedExampleHousehold == ExampleHousehold.OTHER &&
       selectedIncomeGroupIndex != -1
         ? party.changesIncomeRelative[selectedIncomeGroupIndex]
         : 0,
     );
 
+    // Set data title
     switch (selectedTimeFormat) {
       case TimeFormat.MONTHLY: {
         dataTitle = this.translocoService.translate(
@@ -490,21 +522,25 @@ export class MainComponent implements OnInit {
         borderWidth: 1,
       },
     ];
+    this.incomeGroupLabels = parties.map((party) => party.name);
   }
 
   /**
    * Initializes federal budget data
    * @param parties parties
+   * @param selectedParties selected parties
    * @private
    */
-  private initializeFederalBudgetData(parties: Party[]) {
-    this.federalBudgetLabels = parties.map((party) => party.name);
-
-    const values: number[] = parties.map((party) => party.changeFederalBudget);
-    const stretchFactor = 1.75;
-
-    this.federalBudgetYSuggestedMin = Math.min(...values) * stretchFactor;
-    this.federalBudgetYSuggestedMax = Math.max(...values) * stretchFactor;
+  private initializeFederalBudgetData(
+    parties: Party[],
+    selectedParties: Map<string, boolean>,
+  ) {
+    parties = parties
+      .slice()
+      .filter((party: Party) => this.isPartySelected(selectedParties, party))
+      .sort(
+        (a: Party, b: Party) => b.changeFederalBudget - a.changeFederalBudget,
+      );
 
     const label = this.translocoService.translate(
       'pages.main.labels.fiscal-impact-on-the-overall-federal-budget',
@@ -537,6 +573,7 @@ export class MainComponent implements OnInit {
         borderWidth: 1,
       },
     ];
+    this.federalBudgetLabels = parties.map((party) => party.name);
   }
 
   /**

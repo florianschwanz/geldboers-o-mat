@@ -280,7 +280,15 @@
         </div>
       </div>
 
-      @if ((selectionService.incomeGroupIndexSubject | async) != -1) {
+      @if (
+        ((selectionService.exampleHouseholdSubject | async) ==
+          exampleHouseholdEnum.OTHER &&
+          (selectionService.incomeGroupIndexSubject | async) != -1) ||
+        ((selectionService.exampleHouseholdSubject | async) !=
+          exampleHouseholdEnum.OTHER &&
+          (selectionService.incomeGroupExampleHouseholdIndexSubject | async) !=
+            -1)
+      ) {
         @switch (selectionService.timeFormatSubject.value) {
           @case (timeEnum.ANNUALLY) {
             <div class="question">
