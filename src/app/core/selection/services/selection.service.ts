@@ -37,7 +37,7 @@ export class SelectionService {
   /** Subject providing the selected income group index for example household */
   incomeGroupExampleHouseholdIndexSubject = new BehaviorSubject<number>(-1);
   /** Subject providing the selected time format */
-  timeFormatSubject = new BehaviorSubject<TimeFormat>(TimeFormat.MONTHLY);
+  timeFormatSubject = new BehaviorSubject<TimeFormat>(TimeFormat.ANNUALLY);
   /** Subject providing the selected parties */
   partiesSubject = new BehaviorSubject<Map<string, boolean>>(
     new Map<string, boolean>(),
