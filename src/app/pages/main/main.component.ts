@@ -692,7 +692,7 @@ export class MainComponent implements OnInit {
   private getStretchFactor(media: Media) {
     switch (media) {
       case Media.SMALL: {
-        return 2.5;
+        return 1.5;
       }
       case Media.MEDIUM: {
         return 1.5;
