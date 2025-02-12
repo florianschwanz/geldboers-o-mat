@@ -144,8 +144,6 @@ export class MainComponent implements OnInit {
   // Constants
   //
 
-  /** App name */
-  appName = environment.appName;
   /** Query parameter theme */
   private QUERY_PARAM_THEME: string = 'theme';
   /** Query parameter example-household */

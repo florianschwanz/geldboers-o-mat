@@ -1,12 +1,30 @@
 <ng-container *transloco="let t; lang: lang; read: 'pages.main'">
-  <div class="wrapper" [class]="themeService.themeSubject | async">
-    <div style="min-height: 100%">
+  <div class="wrapper">
+    <div class="main-container" [class]="themeService.themeSubject | async">
+      <div
+        class="header-container flex-container flex-container-vertical flex-align-center"
+      >
+        <div class="tag">{{ t("tag") }}</div>
+        <div class="flex-container flex-align-center app-title">
+          <h1 class="app-name">{{ appName }}</h1>
+          @if (isShareable && env.feature.shareButton) {
+            <button
+              mat-stroked-button
+              color="accent"
+              class="share-button"
+              (click)="onShareClicked()"
+            >
+              {{ t("actions.share") | uppercase }}
+            </button>
+          }
+        </div>
+      </div>
       <router-outlet></router-outlet>
     </div>
     <div class="push"></div>
   </div>
   <div
-    class="footer-imprint flex-container flex-container-vertical flex-align-center"
+    class="footer-container flex-container flex-container-vertical flex-align-center"
     [class]="themeService.themeSubject | async"
   >
     <span>

@@ -1,36 +1,17 @@
 @use "@angular/material" as mat;
 @import "../../../styles";
 
-.main-container {
-  margin: 30px;
-  font-size: 20px;
-
-  @media #{$breakpoint-large} {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 960px;
-  }
-
-  @media #{$breakpoint-medium} {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 960px;
-  }
-
-  @media #{$breakpoint-small} {
-    max-width: calc(100% - 60px);
-  }
-}
-
-.main-container > * > * {
+* {
   max-width: 100%;
 }
 
-.header,
+.description-container,
 .selection-container,
 .chart-container,
 .context-container,
-.footer {
+.footer-container {
+  text-align: center;
+
   @media #{$breakpoint-large} {
     margin-bottom: 36px;
   }
@@ -44,32 +25,9 @@
   }
 }
 
-.header {
-  .tag {
-    color: mat.m2-get-color-from-palette($accent, 600);
-    column-gap: 4px;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-  }
-
-  .header {
-    font-size: 42px;
-    font-weight: 700;
-    margin-top: 4px;
-    text-align: center;
-  }
-
-  .description {
-    text-align: center;
-    margin: 0 auto 32px;
-    width: 41.25rem;
-  }
-}
-
-.description-2 {
-  text-align: center;
-  margin: 0 auto 32px;
+.description-container {
+  margin: 0 auto;
+  width: 42rem;
 }
 
 .question {
@@ -183,6 +141,6 @@
   max-height: 24px;
 }
 
-.footer {
+.footer-container {
   font-size: 1rem;
 }

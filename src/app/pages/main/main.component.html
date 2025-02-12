@@ -1,496 +1,470 @@
 <ng-container *transloco="let t; lang: lang; read: 'pages.main'">
-  <div class="flex-container">
-    <div class="main-container flex-box">
-      <div class="header">
-        <div class="tag">{{ t("tag") }}</div>
-        <h1 class="header">{{ appName }}</h1>
-        <div class="description">
-          <a
-            href="https://www.leibniz-gemeinschaft.de/institute/leibniz-institute-alle-listen/zew-leibniz-zentrum-fuer-europaeische-wirtschaftsforschung"
-            target="_blank"
-            >{{ t("terms.the-zew") }}</a
-          >
-          {{ t("description") }}
-        </div>
-      </div>
+  <div class="description-container">
+    <a
+      href="https://www.leibniz-gemeinschaft.de/institute/leibniz-institute-alle-listen/zew-leibniz-zentrum-fuer-europaeische-wirtschaftsforschung"
+      target="_blank"
+      >{{ t("terms.the-zew") }}</a
+    >
+    {{ t("description") }}
+  </div>
 
-      <div class="selection-container">
-        @if (env.feature.householdSelection) {
-          <div class="question">{{ t("questions.example-household") }}</div>
+  <div class="selection-container">
+    @if (env.feature.householdSelection) {
+      <div class="question">{{ t("questions.example-household") }}</div>
 
-          <div
-            class="flex-container flex-justify-center time-income-group-selection"
-          >
-            <div class="example-household-selection">
-              @if (media < mediaEnum.LARGE) {
-                <mat-form-field>
-                  <mat-label>
-                    {{ t("terms.household") }}
-                  </mat-label>
-                  <mat-select
-                    [value]="selectionService.exampleHouseholdSubject.value"
-                    (selectionChange)="onExampleHouseholdChanged($event)"
-                  >
-                    <mat-option [value]="exampleHouseholdEnum.SINGLE">
-                      {{ t("terms.single") }}
-                    </mat-option>
-                    <mat-option
-                      [value]="
-                        exampleHouseholdEnum.SINGLE_PARENT_WITH_ONE_CHILD
-                      "
-                    >
-                      {{ t("terms.single-parent-with-one-child") }}
-                    </mat-option>
-                    <mat-option
-                      [value]="
-                        exampleHouseholdEnum.SINGLE_PARENT_WITH_TWO_CHILDREN
-                      "
-                    >
-                      {{ t("terms.single-parent-with-two-children") }}
-                    </mat-option>
-                    <mat-option
-                      [value]="
-                        exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN
-                      "
-                    >
-                      {{ t("terms.single-earner-couple-without-children") }}
-                    </mat-option>
-                    <mat-option
-                      [value]="
-                        exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN
-                      "
-                    >
-                      {{ t("terms.single-earner-couple-with-two-children") }}
-                    </mat-option>
-                    <mat-option [value]="exampleHouseholdEnum.OTHER">
-                      {{ t("terms.other") }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              }
-
-              @if (media > mediaEnum.MEDIUM) {
-                <mat-button-toggle-group
-                  name="example-household-selection"
-                  aria-label="example household"
-                  class="example-household-button-toggle-group"
-                  [value]="selectionService.exampleHouseholdSubject.value"
-                  (change)="onExampleHouseholdChanged($event)"
-                >
-                  <mat-button-toggle [value]="exampleHouseholdEnum.SINGLE">
-                    {{ t("terms.single") }}
-                  </mat-button-toggle>
-                  <mat-button-toggle
-                    [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_ONE_CHILD"
-                  >
-                    {{ t("terms.single-parent-with-one-child") }}
-                  </mat-button-toggle>
-                  <mat-button-toggle
-                    [value]="
-                      exampleHouseholdEnum.SINGLE_PARENT_WITH_TWO_CHILDREN
-                    "
-                  >
-                    {{ t("terms.single-parent-with-two-children") }}
-                  </mat-button-toggle>
-                  <mat-button-toggle
-                    [value]="
-                      exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN
-                    "
-                  >
-                    {{ t("terms.single-earner-couple-without-children") }}
-                  </mat-button-toggle>
-                  <mat-button-toggle
-                    [value]="
-                      exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN
-                    "
-                  >
-                    {{ t("terms.single-earner-couple-with-two-children") }}
-                  </mat-button-toggle>
-                  <mat-button-toggle
-                    [value]="exampleHouseholdEnum.OTHER"
-                    class="separated-button-toggle"
-                  >
-                    {{ t("terms.other") }}
-                  </mat-button-toggle>
-                </mat-button-toggle-group>
-              }
-            </div>
-          </div>
-        }
-
-        <div class="question">{{ t("questions.income-group") }}</div>
-
-        <div
-          class="flex-container flex-justify-center time-income-group-selection"
-        >
+      <div
+        class="flex-container flex-justify-center time-income-group-selection"
+      >
+        <div class="example-household-selection">
           @if (media < mediaEnum.LARGE) {
-            @switch (selectionService.exampleHouseholdSubject | async) {
-              @case (exampleHouseholdEnum.OTHER) {
-                <div class="income-group-selection">
-                  <mat-form-field>
-                    <mat-label>
-                      @if (
-                        (selectionService.incomeGroupIndexSubject | async) != -1
-                      ) {
-                        {{ t("terms.income-group") }}
-                      } @else {
-                        {{ t("actions.select") }}
-                      }
-                    </mat-label>
-                    <mat-select
-                      [value]="selectionService.incomeGroupIndexSubject.value"
-                      (selectionChange)="onIncomeGroupChanged($event)"
-                    >
-                      @for (
-                        incomeGroup of dataService.incomeGroupsSubject | async;
-                        track incomeGroup
-                      ) {
-                        <mat-option [value]="incomeGroup.index">
-                          @if (
-                            (selectionService.timeFormatSubject | async) ==
-                            timeEnum.MONTHLY
-                          ) {
-                            {{ incomeGroup.monthly.selectText }}
-                          }
-                          @if (
-                            (selectionService.timeFormatSubject | async) ==
-                            timeEnum.ANNUALLY
-                          ) {
-                            {{ incomeGroup.annually.selectText }}
-                          }
-                          {{ t("terms.euros") }}
-                        </mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              }
-              @default {
-                <div class="income-group-selection">
-                  <mat-form-field>
-                    <mat-label>
-                      @if (
-                        (selectionService.incomeGroupExampleHouseholdIndexSubject
-                          | async) != -1
-                      ) {
-                        {{ t("terms.income-group") }}
-                      } @else {
-                        {{ t("actions.select") }}
-                      }
-                    </mat-label>
-                    <mat-select
-                      [value]="
-                        selectionService.incomeGroupExampleHouseholdIndexSubject
-                          .value
-                      "
-                      (selectionChange)="
-                        onIncomeGroupExampleHouseholdChanged($event)
-                      "
-                    >
-                      @for (
-                        incomeGroup of dataService.incomeGroupsSubject | async;
-                        track incomeGroup
-                      ) {
-                        <mat-option [value]="incomeGroup.index">
-                          @if (
-                            (selectionService.timeFormatSubject | async) ==
-                            timeEnum.MONTHLY
-                          ) {
-                            {{ incomeGroup.monthly.selectText }}
-                          }
-                          @if (
-                            (selectionService.timeFormatSubject | async) ==
-                            timeEnum.ANNUALLY
-                          ) {
-                            {{ incomeGroup.annually.selectText }}
-                          }
-                          {{ t("terms.euros") }}
-                        </mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              }
-            }
+            <mat-form-field>
+              <mat-label>
+                {{ t("terms.household") }}
+              </mat-label>
+              <mat-select
+                [value]="selectionService.exampleHouseholdSubject.value"
+                (selectionChange)="onExampleHouseholdChanged($event)"
+              >
+                <mat-option [value]="exampleHouseholdEnum.SINGLE">
+                  {{ t("terms.single") }}
+                </mat-option>
+                <mat-option
+                  [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_ONE_CHILD"
+                >
+                  {{ t("terms.single-parent-with-one-child") }}
+                </mat-option>
+                <mat-option
+                  [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_TWO_CHILDREN"
+                >
+                  {{ t("terms.single-parent-with-two-children") }}
+                </mat-option>
+                <mat-option
+                  [value]="
+                    exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN
+                  "
+                >
+                  {{ t("terms.single-earner-couple-without-children") }}
+                </mat-option>
+                <mat-option
+                  [value]="
+                    exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN
+                  "
+                >
+                  {{ t("terms.single-earner-couple-with-two-children") }}
+                </mat-option>
+                <mat-option [value]="exampleHouseholdEnum.OTHER">
+                  {{ t("terms.other") }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           }
 
           @if (media > mediaEnum.MEDIUM) {
-            @switch (selectionService.exampleHouseholdSubject | async) {
-              @case (exampleHouseholdEnum.OTHER) {
-                <div class="income-group-selection">
-                  <mat-button-toggle-group
-                    name="income-group-selection-monthly"
-                    aria-label="income group"
-                    [value]="selectionService.incomeGroupIndexSubject.value"
-                    (change)="onIncomeGroupChanged($event)"
-                  >
-                    @for (
-                      incomeGroup of dataService.incomeGroupsSubject | async;
-                      track incomeGroup
-                    ) {
-                      <mat-button-toggle [value]="incomeGroup.index"
-                        >≤
-                        @if (
-                          (selectionService.timeFormatSubject | async) ==
-                          timeEnum.MONTHLY
-                        ) {
-                          {{ incomeGroup.monthly.buttonToggleText }}
-                        }
-                        @if (
-                          (selectionService.timeFormatSubject | async) ==
-                          timeEnum.ANNUALLY
-                        ) {
-                          {{ incomeGroup.annually.buttonToggleText }}
-                        }
-                        {{ t("terms.euros") }}
-                      </mat-button-toggle>
-                    }
-                  </mat-button-toggle-group>
-                </div>
-              }
-              @default {
-                <div class="income-group-selection">
-                  <mat-button-toggle-group
-                    name="income-group-selection-monthly"
-                    aria-label="income group"
-                    [value]="
-                      selectionService.incomeGroupExampleHouseholdIndexSubject
-                        .value
-                    "
-                    (change)="onIncomeGroupExampleHouseholdChanged($event)"
-                  >
-                    @for (
-                      incomeGroup of dataService.incomeGroupsExampleHouseholdSubject
-                        | async;
-                      track incomeGroup
-                    ) {
-                      <mat-button-toggle [value]="incomeGroup.index">
-                        @if (
-                          (selectionService.timeFormatSubject | async) ==
-                          timeEnum.MONTHLY
-                        ) {
-                          {{ incomeGroup.monthly.buttonToggleText }}
-                        }
-                        @if (
-                          (selectionService.timeFormatSubject | async) ==
-                          timeEnum.ANNUALLY
-                        ) {
-                          {{ incomeGroup.annually.buttonToggleText }}
-                        }
-                        {{ t("terms.euros") }}
-                      </mat-button-toggle>
-                    }
-                  </mat-button-toggle-group>
-                </div>
-              }
-            }
-          }
-
-          <div class="time-format-selection">
             <mat-button-toggle-group
-              class="time-format-button-group"
-              name="time-format-selection"
-              aria-label="time format"
-              [value]="selectionService.timeFormatSubject.value"
-              (change)="onTimeFormatChanged($event)"
+              name="example-household-selection"
+              aria-label="example household"
+              class="example-household-button-toggle-group"
+              [value]="selectionService.exampleHouseholdSubject.value"
+              (change)="onExampleHouseholdChanged($event)"
             >
-              <mat-button-toggle [value]="timeEnum.MONTHLY">
-                {{ t("terms.monthly") }}
+              <mat-button-toggle [value]="exampleHouseholdEnum.SINGLE">
+                {{ t("terms.single") }}
               </mat-button-toggle>
-              <mat-button-toggle [value]="timeEnum.ANNUALLY">
-                {{ t("terms.annually") }}
+              <mat-button-toggle
+                [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_ONE_CHILD"
+              >
+                {{ t("terms.single-parent-with-one-child") }}
+              </mat-button-toggle>
+              <mat-button-toggle
+                [value]="exampleHouseholdEnum.SINGLE_PARENT_WITH_TWO_CHILDREN"
+              >
+                {{ t("terms.single-parent-with-two-children") }}
+              </mat-button-toggle>
+              <mat-button-toggle
+                [value]="
+                  exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITHOUT_CHILDREN
+                "
+              >
+                {{ t("terms.single-earner-couple-without-children") }}
+              </mat-button-toggle>
+              <mat-button-toggle
+                [value]="
+                  exampleHouseholdEnum.SINGLE_EARNER_COUPLE_WITH_TWO_CHILDREN
+                "
+              >
+                {{ t("terms.single-earner-couple-with-two-children") }}
+              </mat-button-toggle>
+              <mat-button-toggle
+                [value]="exampleHouseholdEnum.OTHER"
+                class="separated-button-toggle"
+              >
+                {{ t("terms.other") }}
               </mat-button-toggle>
             </mat-button-toggle-group>
-          </div>
+          }
         </div>
       </div>
+    }
 
-      @if (
-        ((selectionService.exampleHouseholdSubject | async) ==
-          exampleHouseholdEnum.OTHER &&
-          (selectionService.incomeGroupIndexSubject | async) != -1) ||
-        ((selectionService.exampleHouseholdSubject | async) !=
-          exampleHouseholdEnum.OTHER &&
-          (selectionService.incomeGroupExampleHouseholdIndexSubject | async) !=
-            -1)
-      ) {
-        @switch (selectionService.timeFormatSubject.value) {
-          @case (timeEnum.ANNUALLY) {
-            <div class="question">
-              {{ t("questions.income-change-annually") }}
+    <div class="question">{{ t("questions.income-group") }}</div>
+
+    <div class="flex-container flex-justify-center time-income-group-selection">
+      @if (media < mediaEnum.LARGE) {
+        @switch (selectionService.exampleHouseholdSubject | async) {
+          @case (exampleHouseholdEnum.OTHER) {
+            <div class="income-group-selection">
+              <mat-form-field>
+                <mat-label>
+                  @if (
+                    (selectionService.incomeGroupIndexSubject | async) != -1
+                  ) {
+                    {{ t("terms.income-group") }}
+                  } @else {
+                    {{ t("actions.select") }}
+                  }
+                </mat-label>
+                <mat-select
+                  [value]="selectionService.incomeGroupIndexSubject.value"
+                  (selectionChange)="onIncomeGroupChanged($event)"
+                >
+                  @for (
+                    incomeGroup of dataService.incomeGroupsSubject | async;
+                    track incomeGroup
+                  ) {
+                    <mat-option [value]="incomeGroup.index">
+                      @if (
+                        (selectionService.timeFormatSubject | async) ==
+                        timeEnum.MONTHLY
+                      ) {
+                        {{ incomeGroup.monthly.selectText }}
+                      }
+                      @if (
+                        (selectionService.timeFormatSubject | async) ==
+                        timeEnum.ANNUALLY
+                      ) {
+                        {{ incomeGroup.annually.selectText }}
+                      }
+                      {{ t("terms.euros") }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
             </div>
           }
-          @case (timeEnum.MONTHLY) {
-            <div class="question">
-              {{ t("questions.income-change-monthly") }}
+          @default {
+            <div class="income-group-selection">
+              <mat-form-field>
+                <mat-label>
+                  @if (
+                    (selectionService.incomeGroupExampleHouseholdIndexSubject
+                      | async) != -1
+                  ) {
+                    {{ t("terms.income-group") }}
+                  } @else {
+                    {{ t("actions.select") }}
+                  }
+                </mat-label>
+                <mat-select
+                  [value]="
+                    selectionService.incomeGroupExampleHouseholdIndexSubject
+                      .value
+                  "
+                  (selectionChange)="
+                    onIncomeGroupExampleHouseholdChanged($event)
+                  "
+                >
+                  @for (
+                    incomeGroup of dataService.incomeGroupsSubject | async;
+                    track incomeGroup
+                  ) {
+                    <mat-option [value]="incomeGroup.index">
+                      @if (
+                        (selectionService.timeFormatSubject | async) ==
+                        timeEnum.MONTHLY
+                      ) {
+                        {{ incomeGroup.monthly.selectText }}
+                      }
+                      @if (
+                        (selectionService.timeFormatSubject | async) ==
+                        timeEnum.ANNUALLY
+                      ) {
+                        {{ incomeGroup.annually.selectText }}
+                      }
+                      {{ t("terms.euros") }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
             </div>
           }
         }
+      }
 
-        <div class="chart-container">
-          <app-bar-chart
-            [id]="'bar-chart-income-group'"
-            [datasets]="incomeGroupDatasets"
-            [labels]="incomeGroupLabels"
-            [horizontal]="false"
-            [displayLegend]="false"
-            [displayTooltip]="false"
-            [xSuggestedMin]="incomeGroupXSuggestedMin"
-            [xSuggestedMax]="incomeGroupXSuggestedMax"
-            [xTicks]="false"
-            [yGrid]="false"
-          ></app-bar-chart>
+      @if (media > mediaEnum.MEDIUM) {
+        @switch (selectionService.exampleHouseholdSubject | async) {
+          @case (exampleHouseholdEnum.OTHER) {
+            <div class="income-group-selection">
+              <mat-button-toggle-group
+                name="income-group-selection-monthly"
+                aria-label="income group"
+                [value]="selectionService.incomeGroupIndexSubject.value"
+                (change)="onIncomeGroupChanged($event)"
+              >
+                @for (
+                  incomeGroup of dataService.incomeGroupsSubject | async;
+                  track incomeGroup
+                ) {
+                  <mat-button-toggle [value]="incomeGroup.index"
+                    >≤
+                    @if (
+                      (selectionService.timeFormatSubject | async) ==
+                      timeEnum.MONTHLY
+                    ) {
+                      {{ incomeGroup.monthly.buttonToggleText }}
+                    }
+                    @if (
+                      (selectionService.timeFormatSubject | async) ==
+                      timeEnum.ANNUALLY
+                    ) {
+                      {{ incomeGroup.annually.buttonToggleText }}
+                    }
+                    {{ t("terms.euros") }}
+                  </mat-button-toggle>
+                }
+              </mat-button-toggle-group>
+            </div>
+          }
+          @default {
+            <div class="income-group-selection">
+              <mat-button-toggle-group
+                name="income-group-selection-monthly"
+                aria-label="income group"
+                [value]="
+                  selectionService.incomeGroupExampleHouseholdIndexSubject.value
+                "
+                (change)="onIncomeGroupExampleHouseholdChanged($event)"
+              >
+                @for (
+                  incomeGroup of dataService.incomeGroupsExampleHouseholdSubject
+                    | async;
+                  track incomeGroup
+                ) {
+                  <mat-button-toggle [value]="incomeGroup.index">
+                    @if (
+                      (selectionService.timeFormatSubject | async) ==
+                      timeEnum.MONTHLY
+                    ) {
+                      {{ incomeGroup.monthly.buttonToggleText }}
+                    }
+                    @if (
+                      (selectionService.timeFormatSubject | async) ==
+                      timeEnum.ANNUALLY
+                    ) {
+                      {{ incomeGroup.annually.buttonToggleText }}
+                    }
+                    {{ t("terms.euros") }}
+                  </mat-button-toggle>
+                }
+              </mat-button-toggle-group>
+            </div>
+          }
+        }
+      }
+
+      <div class="time-format-selection">
+        <mat-button-toggle-group
+          class="time-format-button-group"
+          name="time-format-selection"
+          aria-label="time format"
+          [value]="selectionService.timeFormatSubject.value"
+          (change)="onTimeFormatChanged($event)"
+        >
+          <mat-button-toggle [value]="timeEnum.MONTHLY">
+            {{ t("terms.monthly") }}
+          </mat-button-toggle>
+          <mat-button-toggle [value]="timeEnum.ANNUALLY">
+            {{ t("terms.annually") }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+  @if (
+    ((selectionService.exampleHouseholdSubject | async) ==
+      exampleHouseholdEnum.OTHER &&
+      (selectionService.incomeGroupIndexSubject | async) != -1) ||
+    ((selectionService.exampleHouseholdSubject | async) !=
+      exampleHouseholdEnum.OTHER &&
+      (selectionService.incomeGroupExampleHouseholdIndexSubject | async) != -1)
+  ) {
+    @switch (selectionService.timeFormatSubject.value) {
+      @case (timeEnum.ANNUALLY) {
+        <div class="question">
+          {{ t("questions.income-change-annually") }}
         </div>
-
-        <div class="question">{{ t("questions.federal-budget-change") }}</div>
-
-        <div class="description-2">
-          {{ t("description-federal-budget-change") }}
+      }
+      @case (timeEnum.MONTHLY) {
+        <div class="question">
+          {{ t("questions.income-change-monthly") }}
         </div>
+      }
+    }
 
-        <div class="chart-container">
-          <app-bar-chart
-            [id]="'bar-chart-federal-budget'"
-            [datasets]="federalBudgetDatasets"
-            [labels]="federalBudgetLabels"
-            [horizontal]="true"
-            [displayLegend]="false"
-            [displayTooltip]="false"
-            [xGrid]="false"
-            [ySuggestedMin]="-federalBudgetYSuggestedMin"
-            [ySuggestedMax]="federalBudgetYSuggestedMax"
-            [yTicks]="false"
-          ></app-bar-chart>
-        </div>
+    <div class="chart-container">
+      <app-bar-chart
+        [id]="'bar-chart-income-group'"
+        [datasets]="incomeGroupDatasets"
+        [labels]="incomeGroupLabels"
+        [horizontal]="false"
+        [displayLegend]="false"
+        [displayTooltip]="false"
+        [xSuggestedMin]="incomeGroupXSuggestedMin"
+        [xSuggestedMax]="incomeGroupXSuggestedMax"
+        [xTicks]="false"
+        [yGrid]="false"
+      ></app-bar-chart>
+    </div>
 
-        <div class="selection-container">
-          <div class="question">{{ t("questions.parties") }}</div>
+    <div class="question">{{ t("questions.federal-budget-change") }}</div>
 
-          <div class="party-selection">
-            @for (party of dataService.partiesSubject | async; track party) {
-              <button
-                mat-button
-                class="party-button"
-                (click)="
-                  onPartyToggled(selectionService.partiesSubject.value, party)
+    <div class="description-container">
+      {{ t("description-federal-budget-change") }}
+    </div>
+
+    <div class="chart-container">
+      <app-bar-chart
+        [id]="'bar-chart-federal-budget'"
+        [datasets]="federalBudgetDatasets"
+        [labels]="federalBudgetLabels"
+        [horizontal]="true"
+        [displayLegend]="false"
+        [displayTooltip]="false"
+        [xGrid]="false"
+        [ySuggestedMin]="-federalBudgetYSuggestedMin"
+        [ySuggestedMax]="federalBudgetYSuggestedMax"
+        [yTicks]="false"
+      ></app-bar-chart>
+    </div>
+
+    <div class="selection-container">
+      <div class="question">{{ t("questions.parties") }}</div>
+
+      <div class="party-selection">
+        @for (party of dataService.partiesSubject | async; track party) {
+          <button
+            mat-button
+            class="party-button"
+            (click)="
+              onPartyToggled(selectionService.partiesSubject.value, party)
+            "
+          >
+            @if (party.image.length > 0) {
+              <img
+                [src]="party.image"
+                [alt]="party.name"
+                [class.grayscale]="
+                  !isPartySelected(selectionService.partiesSubject.value, party)
+                "
+                class="party-logo"
+              />
+            } @else {
+              <div
+                class="party-label"
+                [class.grayscale]="
+                  !isPartySelected(selectionService.partiesSubject.value, party)
                 "
               >
-                @if (party.image.length > 0) {
-                  <img
-                    [src]="party.image"
-                    [alt]="party.name"
-                    [class.grayscale]="
-                      !isPartySelected(
-                        selectionService.partiesSubject.value,
-                        party
-                      )
-                    "
-                    class="party-logo"
-                  />
-                } @else {
-                  <div
-                    class="party-label"
-                    [class.grayscale]="
-                      !isPartySelected(
-                        selectionService.partiesSubject.value,
-                        party
-                      )
-                    "
-                  >
-                    {{ party.name }}
-                  </div>
-                }
-              </button>
+                {{ party.name }}
+              </div>
             }
-          </div>
-        </div>
+          </button>
+        }
+      </div>
+    </div>
 
-        <div class="context-container">
-          <mat-accordion multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title
-                  >{{ t("questions.disposable-income") }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>{{ t("context.disposable-income") }}</p>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title
-                  >{{ t("questions.why-dont-i-see-the-afd") }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>{{ t("context.no-afd") }}</p>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title
-                  >{{ t("questions.should-i-vote-according-to-my-income") }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <p>
-                {{ t("context.should-i-vote-according-to-my-income") }}
-                <a href="https://www.wahl-o-mat.de/" target="_blank"
-                  >Wahl-O-Mat</a
-                >
-                /
-                <a href="https://real-o-mat.de/" target="_blank]">Real-O-Mat</a>
-              </p>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
+    <div class="context-container">
+      <mat-accordion multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              >{{ t("questions.disposable-income") }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ t("context.disposable-income") }}</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              >{{ t("questions.why-dont-i-see-the-afd") }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ t("context.no-afd") }}</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              >{{ t("questions.should-i-vote-according-to-my-income") }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            {{ t("context.should-i-vote-according-to-my-income") }}
+            <a href="https://www.wahl-o-mat.de/" target="_blank">Wahl-O-Mat</a>
+            /
+            <a href="https://real-o-mat.de/" target="_blank]">Real-O-Mat</a>
+          </p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
 
-        <div class="context-container">
-          <mat-accordion>
-            @for (party of dataService.partiesSubject | async; track party) {
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    {{ t("terms.reform-proposals") }}
-                    @if (media > mediaEnum.SMALL) {
-                      {{ party.name }}
-                    }
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    <img
-                      class="accordion-image"
-                      [src]="party.image"
-                      [alt]="party.name"
-                    />
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
+    <div class="context-container">
+      <mat-accordion>
+        @for (party of dataService.partiesSubject | async; track party) {
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ t("terms.reform-proposals") }}
+                @if (media > mediaEnum.SMALL) {
+                  {{ party.name }}
+                }
+              </mat-panel-title>
+              <mat-panel-description>
+                <img
+                  class="accordion-image"
+                  [src]="party.image"
+                  [alt]="party.name"
+                />
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <ul>
+              @for (level1 of party.reformProposals; track level1) {
+                <li>{{ level1.text }}</li>
                 <ul>
-                  @for (level1 of party.reformProposals; track level1) {
-                    <li>{{ level1.text }}</li>
+                  @for (level2 of level1.subTexts; track level2) {
+                    <li>{{ level2.text }}</li>
                     <ul>
-                      @for (level2 of level1.subTexts; track level2) {
-                        <li>{{ level2.text }}</li>
-                        <ul>
-                          @for (level3 of level2.subTexts; track level3) {
-                            <li>{{ level3.text }}</li>
-                          }
-                        </ul>
+                      @for (level3 of level2.subTexts; track level3) {
+                        <li>{{ level3.text }}</li>
                       }
                     </ul>
                   }
                 </ul>
-              </mat-expansion-panel>
-            }
-          </mat-accordion>
-        </div>
-
-        <div class="footer">
-          {{ t("terms.source") }}:
-          <a
-            href="https://ftp.zew.de/pub/zew-docs/gutachten/Bundestagswahlprogramme_ZEW_2025.pdf"
-            target="_blank"
-          >
-            {{ t("terms.paper-title") }}</a
-          >
-          {{ t("terms.paper-author") }}
-        </div>
-      }
+              }
+            </ul>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
     </div>
-  </div>
+
+    <div class="description-container">
+      {{ t("terms.source") }}:
+      <a
+        href="https://ftp.zew.de/pub/zew-docs/gutachten/Bundestagswahlprogramme_ZEW_2025.pdf"
+        target="_blank"
+      >
+        {{ t("terms.paper-title") }}</a
+      >
+      {{ t("terms.paper-author") }}
+    </div>
+  }
 </ng-container>

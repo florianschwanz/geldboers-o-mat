@@ -5,6 +5,7 @@
       "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you!",
       "description-federal-budget-change": "But of course it's not just about your own wallet, but also about the state's coffers. Below you can see how much more or less money is available to the state under the parties' proposals to pay for community tasks such as education, infrastructure or the military.",
       "terms": {
+        "share": "for the 2025 Bundestagswahl",
         "the-zew": "The Leibniz-Zentrum für Europäische Wirtschaftsforschung",
         "household": "household",
         "single": "single",
@@ -36,6 +37,7 @@
         "should-i-vote-according-to-my-income": "Should I only vote according to my income?"
       },
       "actions": {
+        "share": "Share",
         "select": "Select..."
       },
       "labels": {

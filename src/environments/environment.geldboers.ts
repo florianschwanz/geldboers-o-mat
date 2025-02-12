@@ -3,6 +3,7 @@ export const environment = {
   appName: 'Geldbörs-O-Mat',
   feature: {
     queryParameters: false,
+    shareButton: true,
     householdSelection: false,
   },
 };

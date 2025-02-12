@@ -1,17 +1,31 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Theme, ThemeService } from './core/ui/services/theme.service';
 import { Meta } from '@angular/platform-browser';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { getBrowserLang, TranslocoModule } from '@jsverse/transloco';
+import {
+  getBrowserLang,
+  translate,
+  TranslocoModule,
+  TranslocoService,
+} from '@jsverse/transloco';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { environment } from '../environments/environment';
 
 /**
  * Displays app component
  */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AsyncPipe, RouterLink, TranslocoModule],
+  imports: [
+    RouterOutlet,
+    AsyncPipe,
+    RouterLink,
+    TranslocoModule,
+    MatButtonModule,
+    UpperCasePipe,
+  ],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss',
@@ -23,15 +37,22 @@ export class AppComponent implements OnInit {
 
   /** Theme service */
   public themeService = inject(ThemeService);
+  /** Transloco service */
+  private translocoService = inject(TranslocoService);
   /** Overlay container */
   private overlayContainer = inject(OverlayContainer);
-  /** Change detector */
-  private changeDetector = inject(ChangeDetectorRef);
   /** Meta service */
   private meta = inject(Meta);
 
+  /** App name */
+  appName = environment.appName;
   /** Language */
   lang = getBrowserLang();
+
+  /** Environment */
+  env = environment;
+  /** Whether the device supports the web share API */
+  isShareable = navigator.canShare();
 
   //
   // Lifecycle hooks
@@ -85,5 +106,32 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+
+  //
+  // Actions
+  //
+
+  /**
+   * Handles click on share button
+   */
+  onShareClicked() {
+    if (navigator.share) {
+      this.translocoService
+        .load(this.translocoService.getActiveLang())
+        .subscribe(() => {
+          navigator
+            .share({
+              title: this.appName,
+              text: this.translocoService.translate(
+                'pages.main.terms.share',
+                {},
+                this.lang,
+              ),
+              url: 'https://geldbörs-o-mat.de',
+            })
+            .then(() => {});
+        });
+    }
   }
 }
