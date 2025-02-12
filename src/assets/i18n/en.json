@@ -3,6 +3,7 @@
     "main": {
       "tag": "Federal Election 2025",
       "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you!",
+      "description-federal-budget-change": "But of course it's not just about your own wallet, but also about the state's coffers. Below you can see how much more or less money is available to the state under the parties' proposals to pay for community tasks such as education, infrastructure or the military.",
       "terms": {
         "the-zew": "The Leibniz-Zentrum für Europäische Wirtschaftsforschung",
         "household": "household",
@@ -31,7 +32,8 @@
         "federal-budget-change": "What fiscal effects do the parties' proposals have on the overall budget?",
         "parties": "Which political parties would you like to consider?",
         "disposable-income": "What is disposable income?",
-        "why-dont-i-see-the-afd": "Why don't I see the AfD?"
+        "why-dont-i-see-the-afd": "Why don't I see the AfD?",
+        "should-i-vote-according-to-my-income": "Should I only vote according to my income?"
       },
       "actions": {
         "select-income-group": "Select...",
@@ -44,7 +46,8 @@
       },
       "context": {
         "disposable-income": "The disposable income describes the amount that actually ends up in your account. It is made up of your gross income minus taxes and contributions (= net income) and plus any transfer payments (such as child benefit, housing benefit or citizen's allowance).",
-        "no-afd": "The authors of this page have decided not to include the proposals of the AfD party, which is partly on the extreme right. Only parties that are credibly committed to democracy, the rule of law and human dignity are shown on this page. The AfD's unfunded promises, which clearly favor wealthy and rich people, can be found in the original ZEW study if you are interested."
+        "no-afd": "The authors of this page have decided not to include the proposals of the AfD party, which is partly on the extreme right. Only parties that are credibly committed to democracy, the rule of law and human dignity are shown on this page. The AfD's unfunded promises, which clearly favor wealthy and rich people, can be found in the original ZEW study if you are interested.",
+        "should-i-vote-according-to-my-income": "You are free to be an egoist! But of course, money isn't everything, so make sure you find out more before you make your choice. You can do this relatively easily with other O-Mats, for example"
       }
     },
     "imprint": {

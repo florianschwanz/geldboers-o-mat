@@ -344,6 +344,10 @@
 
         <div class="question">{{ t("questions.federal-budget-change") }}</div>
 
+        <div class="description">
+          {{ t("description-federal-budget-change") }}
+        </div>
+
         <div class="chart-container">
           <app-bar-chart
             [id]="'bar-chart-federal-budget'"
@@ -418,6 +422,21 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <p>{{ t("context.no-afd") }}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title
+                  >{{ t("questions.should-i-vote-according-to-my-income") }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>
+                {{ t("context.should-i-vote-according-to-my-income") }}
+                <a href="https://www.wahl-o-mat.de/" target="_blank"
+                  >Wahl-O-Mat</a
+                >
+                /
+                <a href="https://real-o-mat.de/" target="_blank]">Real-O-Mat</a>
+              </p>
             </mat-expansion-panel>
           </mat-accordion>
         </div>

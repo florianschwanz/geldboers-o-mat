@@ -3,6 +3,7 @@
     "main": {
       "tag": "Bundestagswahl 2025",
       "description": "hat ausgerechnet, welche Partei wem wie viel Geld ins Portemonnaie spülen möchte. Schau jetzt, was für dich dabei rausspringt!",
+      "description-federal-budget-change": "Aber es geht natürlich nicht nur um dein eigenes Portemonnaie, sondern auch um den Staatssäckel. Unten siehst du, wie viel mehr oder weniger Geld dem Staat nach den Vorschlägen der Parteien zur Verfügung steht, um Gemeinschaftsaufgaben wie Bildung, Infrastruktur oder Militär zu bezahlen",
       "terms": {
         "the-zew": "Das Leibniz-Zentrum für Europäische Wirtschaftsforschung",
         "household": "Haushalt",
@@ -28,10 +29,11 @@
         "income-group": "Wie hoch ist dein Bruttoeinkommen?",
         "income-change-annually": "Welche Auswirkungen haben die Vorschläge der Parteien auf dein jährlich verfügbares Einkommen?",
         "income-change-monthly": "Welche Auswirkungen haben die Vorschläge der Parteien auf dein monatlich verfügbares Einkommen?",
-        "federal-budget-change": "Welche fiskalischen Effekte haben die Vorschläge der Parteien auf den Gesamthaushalt?",
+        "federal-budget-change": "Welche Effekte auf den Staatshaushalt haben die Vorschläge der Parteien auf den Gesamthaushalt?",
         "parties": "Welche Parteien willst du betrachten?",
         "disposable-income": "Was ist verfügbares Einkommen?",
-        "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?"
+        "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?",
+        "should-i-vote-according-to-my-income": "Sollte ich nur nach meinem Einkommen wählen?"
       },
       "actions": {
         "select-income-group": "Auswählen...",
@@ -40,11 +42,12 @@
       "labels": {
         "income-change-monthly": "Veränderung im verfügbaren Einkommen pro Monat",
         "income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr",
-        "fiscal-impact-on-the-overall-federal-budget": "fiskalische Wirkungen auf den Gesamthaushalt"
+        "fiscal-impact-on-the-overall-federal-budget": "Effekte auf den Staatshaushalt"
       },
       "context": {
         "disposable-income": "Das verfügbare Einkommen beschreibt den Betrag, der tatsächlich auf deinem Konto landet. Er setzt sich zusammen aus dem Bruttoeinkommen abzüglich Steuern und Beiträgen (=Nettoeinkommen) sowie zuzüglich etwaiger Transferleistungen (wie beispielsweise Kindergeld, Wohngeld oder Bürgergeld).",
-        "no-afd": "Die Autoren dieser Seite haben sich entschieden, die Vorschläge der in Teilen rechtsextremen Partei AfD nicht aufzunehmen. Auf dieser Seite werden nur Parteien abgebildet, die sich glaubwürdig zu Demokratie, Rechtsstaat und Menschenwürde bekennen. Die nicht gegenfinanzierten Versprechen der AfD, welche klar wohlhabende und reiche Menschen bevorzugen, sind bei Interesse in der Originalstudie des ZEW nachzulesen."
+        "no-afd": "Die Autoren dieser Seite haben sich entschieden, die Vorschläge der in Teilen rechtsextremen Partei AfD nicht aufzunehmen. Auf dieser Seite werden nur Parteien abgebildet, die sich glaubwürdig zu Demokratie, Rechtsstaat und Menschenwürde bekennen. Die nicht gegenfinanzierten Versprechen der AfD, welche klar wohlhabende und reiche Menschen bevorzugen, sind bei Interesse in der Originalstudie des ZEW nachzulesen.",
+        "should-i-vote-according-to-my-income": "Dir steht frei, ein Egoist zu sein! Aber natürlich ist Geld nicht alles, also informiere dich vor der Wahl auf jeden Fall umfassender. Das kannst du zum Beispiel relativ unkompliziert bei anderen O-Maten tun:"
       }
     },
     "imprint": {
