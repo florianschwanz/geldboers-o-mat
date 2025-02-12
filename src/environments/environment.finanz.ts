@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
   appName: 'Finanz-O-Mat',
-  useQueryParameters: false,
+  feature: {
+    queryParameters: false,
+    householdSelection: false,
+  },
 };

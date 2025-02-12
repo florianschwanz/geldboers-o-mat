@@ -137,6 +137,9 @@ export class MainComponent implements OnInit {
   /** Example household enum */
   exampleHouseholdEnum = ExampleHousehold;
 
+  /** Environment */
+  env = environment;
+
   //
   // Constants
   //
@@ -180,7 +183,7 @@ export class MainComponent implements OnInit {
    * Handles query parameters
    */
   private handleQueryParameters() {
-    if (environment.useQueryParameters) {
+    if (environment.feature.queryParameters) {
       this.route.queryParams.pipe(first()).subscribe((queryParams) => {
         const theme = queryParams[this.QUERY_PARAM_THEME];
         this.themeService.switchTheme(theme ? theme : Theme.LIGHT);
@@ -663,7 +666,7 @@ export class MainComponent implements OnInit {
    * Updates query parameters
    */
   private updateQueryParameters() {
-    if (environment.useQueryParameters) {
+    if (environment.feature.queryParameters) {
       this.router
         .navigate([], {
           relativeTo: this.route,
