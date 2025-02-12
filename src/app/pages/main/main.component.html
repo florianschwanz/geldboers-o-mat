@@ -23,7 +23,15 @@
           <div class="example-household-selection">
             @if (media < mediaEnum.LARGE) {
               <mat-form-field>
-                <mat-label>{{ t("terms.example-household") }}</mat-label>
+                <mat-label>
+                  @if (
+                    (selectionService.incomeGroupIndexSubject | async) != -1
+                  ) {
+                    {{ t("terms.household") }}
+                  } @else {
+                    {{ t("actions.select-example-household") }}
+                  }
+                </mat-label>
                 <mat-select
                   [value]="selectionService.exampleHouseholdSubject.value"
                   (selectionChange)="onExampleHouseholdChanged($event)"
@@ -120,7 +128,15 @@
               @case (exampleHouseholdEnum.OTHER) {
                 <div class="income-group-selection">
                   <mat-form-field>
-                    <mat-label>{{ t("terms.income-group") }}</mat-label>
+                    <mat-label>
+                      @if (
+                        (selectionService.incomeGroupIndexSubject | async) != -1
+                      ) {
+                        {{ t("terms.income-group") }}
+                      } @else {
+                        {{ t("actions.select-income-group") }}
+                      }
+                    </mat-label>
                     <mat-select
                       [value]="selectionService.incomeGroupIndexSubject.value"
                       (selectionChange)="onIncomeGroupChanged($event)"
@@ -152,7 +168,16 @@
               @default {
                 <div class="income-group-selection">
                   <mat-form-field>
-                    <mat-label>{{ t("terms.income-group") }}</mat-label>
+                    <mat-label>
+                      @if (
+                        (selectionService.incomeGroupExampleHouseholdIndexSubject
+                          | async) != -1
+                      ) {
+                        {{ t("terms.income-group") }}
+                      } @else {
+                        {{ t("actions.select-income-group") }}
+                      }
+                    </mat-label>
                     <mat-select
                       [value]="
                         selectionService.incomeGroupExampleHouseholdIndexSubject

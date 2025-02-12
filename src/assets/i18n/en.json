@@ -33,6 +33,10 @@
         "disposable-income": "What is disposable income?",
         "why-dont-i-see-the-afd": "Why don't I see the AfD?"
       },
+      "actions": {
+        "select-income-group": "Select...",
+        "select-example-household": "Select..."
+      },
       "labels": {
         "income-change-monthly": "change in disposable income per month",
         "income-change-annually": "change in disposable income per year",

@@ -33,6 +33,10 @@
         "disposable-income": "Was ist verfügbares Einkommen?",
         "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?"
       },
+      "actions": {
+        "select-income-group": "Auswählen...",
+        "select-example-household": "Auswählen..."
+      },
       "labels": {
         "income-change-monthly": "Veränderung im verfügbaren Einkommen pro Monat",
         "income-change-annually": "Veränderung im verfügbaren Einkommen pro Jahr",
