@@ -383,7 +383,9 @@
       </div>
     </div>
 
+    
     <div class="context-container">
+      <div class="question">{{ t("questions.faq") }}</div>
       <mat-accordion multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -418,6 +420,7 @@
     </div>
 
     <div class="context-container">
+      <div class="question">{{ t("questions.reform-proposal-header") }}</div>
       <mat-accordion>
         @for (party of dataService.partiesSubject | async; track party) {
           <mat-expansion-panel>
