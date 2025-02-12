@@ -72,6 +72,10 @@
   margin: 60px 0 16px;
   font-weight: 800;
   text-align: center;
+
+  @media #{$breakpoint-small} {
+    margin: 36px 0 8px;
+  }
 }
 
 .selection-container {
