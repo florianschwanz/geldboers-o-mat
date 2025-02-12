@@ -28,9 +28,9 @@
       "questions": {
         "example-household": "In welcher Art Haushalt lebst du?",
         "income-group": "Wie hoch ist dein Bruttoeinkommen?",
-        "income-change-annually": "Welche Auswirkungen haben die Vorschläge der Parteien auf dein jährlich verfügbares Einkommen?",
-        "income-change-monthly": "Welche Auswirkungen haben die Vorschläge der Parteien auf dein monatlich verfügbares Einkommen?",
-        "federal-budget-change": "Welche Auswirkungen haben die Vorschläge der Parteien auf den Staatshaushalt?",
+        "income-change-annually": "Auswirkungen der Partei-Vorschläge auf dein jährlich verfügbares Einkommen",
+        "income-change-monthly": "Auswirkungen der Partei-Vorschläge auf dein monatlich verfügbares Einkommen",
+        "federal-budget-change": "Auswirkungen der Partei-Vorschläge auf den Staatshaushalt",
         "parties": "Welche Parteien willst du betrachten?",
         "disposable-income": "Was ist verfügbares Einkommen?",
         "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?",
