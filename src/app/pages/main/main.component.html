@@ -107,7 +107,7 @@
     }
 
     <div class="question">{{ t("questions.income-group") }}</div>
-
+    
     <div class="flex-container flex-justify-center time-income-group-selection">
       @if (media < mediaEnum.LARGE) {
         @switch (selectionService.exampleHouseholdSubject | async) {
@@ -270,23 +270,23 @@
           }
         }
       }
+    </div>
 
-      <div class="time-format-selection">
-        <mat-button-toggle-group
-          class="time-format-button-group"
-          name="time-format-selection"
-          aria-label="time format"
-          [value]="selectionService.timeFormatSubject.value"
-          (change)="onTimeFormatChanged($event)"
-        >
-          <mat-button-toggle [value]="timeEnum.MONTHLY">
-            {{ t("terms.monthly") }}
-          </mat-button-toggle>
-          <mat-button-toggle [value]="timeEnum.ANNUALLY">
-            {{ t("terms.annually") }}
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
+    <div class="time-format-selection">
+      <mat-button-toggle-group
+        class="time-format-button-group"
+        name="time-format-selection"
+        aria-label="time format"
+        [value]="selectionService.timeFormatSubject.value"
+        (change)="onTimeFormatChanged($event)"
+      >
+        <mat-button-toggle [value]="timeEnum.MONTHLY">
+          {{ t("terms.monthly") }}
+        </mat-button-toggle>
+        <mat-button-toggle [value]="timeEnum.ANNUALLY">
+          {{ t("terms.annually") }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
   </div>
 
@@ -325,12 +325,12 @@
         [yGrid]="false"
       ></app-bar-chart>
     </div>
-
-    <div class="question">{{ t("questions.federal-budget-change") }}</div>
-
+    
     <div class="description-container">
       {{ t("description-federal-budget-change") }}
     </div>
+    
+    <div class="question">{{ t("questions.federal-budget-change") }}</div>
 
     <div class="chart-container">
       <app-bar-chart
@@ -383,7 +383,9 @@
       </div>
     </div>
 
+    
     <div class="context-container">
+      <div class="question">{{ t("questions.faq") }}</div>
       <mat-accordion multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -418,6 +420,7 @@
     </div>
 
     <div class="context-container">
+      <div class="question">{{ t("questions.reform-proposal-header") }}</div>
       <mat-accordion>
         @for (party of dataService.partiesSubject | async; track party) {
           <mat-expansion-panel>
@@ -465,6 +468,10 @@
         {{ t("terms.paper-title") }}</a
       >
       {{ t("terms.paper-author") }}
+    </div>
+    <br>
+    <div class="description-container">
+      {{ t("description-self-distancing") }}
     </div>
   }
 </ng-container>

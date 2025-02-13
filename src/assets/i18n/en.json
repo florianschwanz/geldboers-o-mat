@@ -4,6 +4,7 @@
       "tag": "Federal Election 2025",
       "description": "has calculated which political party wants to put how much money in whose wallet. Now see what's in it for you!",
       "description-federal-budget-change": "But of course it's not just about your own wallet, but also about the state's coffers. Below you can see how much more or less money is available to the state under the parties' proposals to pay for community tasks such as education, infrastructure or the military.",
+      "description-self-distancing": "The Geldbörs-O-Mat is not an election recommendation, but rather an information service about elections and politics. The operators of this website are in no way associated with the ZEW or the parties.",
       "terms": {
         "share": "for the 2025 Bundestagswahl",
         "the-zew": "The Leibniz-Zentrum für Europäische Wirtschaftsforschung",
@@ -31,6 +32,8 @@
         "income-change-annually": "What impact do the parties' proposals have on your annual disposable income?",
         "income-change-monthly": "What impact will the parties' proposals have on your monthly disposable income?",
         "federal-budget-change": "What fiscal effects do the parties' proposals have on the overall budget?",
+        "faq": "Frequently Asked Questions",
+        "reform-proposal-header": "Considered reform proposals by the parties",
         "parties": "Which political parties would you like to consider?",
         "disposable-income": "What is disposable income?",
         "why-dont-i-see-the-afd": "Why don't I see the AfD?",

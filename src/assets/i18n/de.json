@@ -4,6 +4,7 @@
       "tag": "Bundestagswahl 2025",
       "description": "hat ausgerechnet, welche Partei wem wie viel Geld ins Portemonnaie spülen möchte. Schau jetzt, was für dich dabei rausspringt!",
       "description-federal-budget-change": "Aber es geht natürlich nicht nur um dein eigenes Portemonnaie, sondern auch um den Staatssäckel. Unten siehst du, wie viel mehr oder weniger Geld dem Staat nach den Vorschlägen der Parteien zur Verfügung steht, um Gemeinschaftsaufgaben wie Bildung, Infrastruktur oder Militär zu bezahlen",
+      "description-self-distancing": "Der Geldbörs-O-Mat ist keine Wahlempfehlung, sondern ein Informationsangebot über Wahlen und Politik. Die Betreiber dieser Website sind in keiner Weise mit dem ZEW oder den Parteien assoziiert.",
       "terms": {
         "share": "zur Bundestagswahl 2025",
         "the-zew": "Das Leibniz-Zentrum für Europäische Wirtschaftsforschung",
@@ -28,9 +29,11 @@
       "questions": {
         "example-household": "In welcher Art Haushalt lebst du?",
         "income-group": "Wie hoch ist dein Bruttoeinkommen?",
-        "income-change-annually": "Welche Auswirkungen haben die Vorschläge der Parteien auf dein jährlich verfügbares Einkommen?",
-        "income-change-monthly": "Welche Auswirkungen haben die Vorschläge der Parteien auf dein monatlich verfügbares Einkommen?",
-        "federal-budget-change": "Welche Effekte auf den Staatshaushalt haben die Vorschläge der Parteien auf den Gesamthaushalt?",
+        "income-change-annually": "Auswirkungen der Partei-Vorschläge auf dein jährlich verfügbares Einkommen",
+        "income-change-monthly": "Auswirkungen der Partei-Vorschläge auf dein monatlich verfügbares Einkommen",
+        "federal-budget-change": "Auswirkungen der Partei-Vorschläge auf den Staatshaushalt",
+        "faq": "Häufig gestellte Fragen",
+        "reform-proposal-header": "Berücksichtigte Reformvorschläge der Parteien",
         "parties": "Welche Parteien willst du betrachten?",
         "disposable-income": "Was ist verfügbares Einkommen?",
         "why-dont-i-see-the-afd": "Wieso sehe ich die AfD nicht?",
