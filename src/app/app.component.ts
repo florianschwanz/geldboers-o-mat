@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Theme, ThemeService } from './core/ui/services/theme.service';
@@ -6,11 +6,10 @@ import { Meta } from '@angular/platform-browser';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   getBrowserLang,
-  translate,
   TranslocoModule,
   TranslocoService,
 } from '@jsverse/transloco';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { environment } from '../environments/environment';
 
 /**
@@ -51,8 +50,6 @@ export class AppComponent implements OnInit {
 
   /** Environment */
   env = environment;
-  /** Whether the device supports the web share API */
-  isShareable = navigator.canShare();
 
   //
   // Lifecycle hooks
@@ -133,5 +130,16 @@ export class AppComponent implements OnInit {
             .then(() => {});
         });
     }
+  }
+
+  //
+  // Helpers
+  //
+
+  /**
+   * Determines if Web share API is available
+   */
+  canShare() {
+    return 'canShare' in navigator && navigator.canShare();
   }
 }

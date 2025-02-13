@@ -7,7 +7,7 @@
         <div class="tag">{{ t("tag") }}</div>
         <div class="flex-container flex-align-center app-title">
           <h1 class="app-name">{{ appName }}</h1>
-          @if (isShareable && env.feature.shareButton) {
+          @if (canShare() && env.feature.shareButton) {
             <button
               mat-stroked-button
               color="accent"
