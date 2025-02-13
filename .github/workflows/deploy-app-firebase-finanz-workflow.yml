@@ -1,5 +1,5 @@
 name: Build and Deploy to Firebase (Finanz-O-Mat)
-on: [pull_request, push]
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
