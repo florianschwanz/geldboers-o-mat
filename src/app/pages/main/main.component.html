@@ -107,7 +107,7 @@
     }
 
     <div class="question">{{ t("questions.income-group") }}</div>
-    
+
     <div class="flex-container flex-justify-center time-income-group-selection">
       @if (media < mediaEnum.LARGE) {
         @switch (selectionService.exampleHouseholdSubject | async) {
@@ -325,11 +325,11 @@
         [yGrid]="false"
       ></app-bar-chart>
     </div>
-    
+
     <div class="description-container">
       {{ t("description-federal-budget-change") }}
     </div>
-    
+
     <div class="question">{{ t("questions.federal-budget-change") }}</div>
 
     <div class="chart-container">
@@ -383,7 +383,6 @@
       </div>
     </div>
 
-    
     <div class="context-container">
       <div class="question">{{ t("questions.faq") }}</div>
       <mat-accordion multi>
@@ -469,7 +468,7 @@
       >
       {{ t("terms.paper-author") }}
     </div>
-    <br>
+    <br />
     <div class="description-container">
       {{ t("description-self-distancing") }}
     </div>
