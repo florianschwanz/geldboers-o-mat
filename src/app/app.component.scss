@@ -64,6 +64,18 @@ $footer-height: 64px;
   }
 }
 
+.description-container,
+.selection-container,
+.chart-container,
+.context-container,
+.footer-container {
+}
+
+.description-container {
+  margin: 0 auto;
+  width: 42rem;
+}
+
 .footer-container,
 .push {
   height: $footer-height;
