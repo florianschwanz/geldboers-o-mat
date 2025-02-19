@@ -61,6 +61,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.initializeTheme();
     this.initializeThemeSubscription();
+
+    this.initializeDarkMode();
   }
 
   //
@@ -103,6 +105,23 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * Initializes browser dark mode
+   * @private
+   */
+  private initializeDarkMode() {
+    const isDarkMode = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
+    this.themeService.switchTheme(isDarkMode ? Theme.DARK : Theme.LIGHT);
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (event) => {
+        this.themeService.switchTheme(event.matches ? Theme.DARK : Theme.LIGHT);
+      });
   }
 
   //

@@ -314,6 +314,7 @@
     <div class="chart-container">
       <app-bar-chart
         [id]="'bar-chart-income-group'"
+        [theme]="themeService.themeSubject.value"
         [datasets]="incomeGroupDatasets"
         [labels]="incomeGroupLabels"
         [horizontal]="false"
@@ -335,6 +336,7 @@
     <div class="chart-container">
       <app-bar-chart
         [id]="'bar-chart-federal-budget'"
+        [theme]="themeService.themeSubject.value"
         [datasets]="federalBudgetDatasets"
         [labels]="federalBudgetLabels"
         [horizontal]="true"
@@ -472,5 +474,4 @@
     >
     {{ t("terms.paper-author") }}
   </div>
-  
 </ng-container>

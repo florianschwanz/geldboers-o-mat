@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; lang: lang; read: 'pages.main'">
-  <div class="wrapper">
-    <div class="main-container" [class]="themeService.themeSubject | async">
+  <div class="wrapper" [class]="themeService.themeSubject | async">
+    <div class="main-container">
       <div
         class="header-container flex-container flex-container-vertical flex-align-center"
       >

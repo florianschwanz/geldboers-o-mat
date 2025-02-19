@@ -83,7 +83,7 @@ export class MainComponent implements OnInit {
   /** Router */
   private router = inject(Router);
   /** Theme service */
-  private themeService = inject(ThemeService);
+  protected themeService = inject(ThemeService);
   /** Media service */
   private mediaService = inject(MediaService);
   /** Transloco service */

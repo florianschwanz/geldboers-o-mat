@@ -3,6 +3,16 @@
 
 $footer-height: 64px;
 
+.theme-light {
+  color: rgb(37, 37, 37);
+  background: #ffffff;
+}
+
+.theme-dark {
+  color: #ffffff;
+  background: #343332;
+}
+
 .wrapper {
   min-height: 100%;
   margin-bottom: -$footer-height;

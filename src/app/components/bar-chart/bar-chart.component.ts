@@ -123,6 +123,8 @@ export class BarChartComponent {
       const dataUnit = datasets[0].dataUnit;
       dataContext = datasets[0].dataContext;
 
+      const color = theme == Theme.DARK ? '#fefefe' : '#000000';
+
       // Initialize chart
       if (!chart) {
         chart = new Chart(chartId, {
@@ -136,7 +138,7 @@ export class BarChartComponent {
                 ctx.save();
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillStyle = 'black';
+                ctx.fillStyle = color;
 
                 data.datasets.forEach((dataset, datasetIndex) => {
                   chart
@@ -209,31 +211,40 @@ export class BarChartComponent {
         scales: {
           x: {
             display: true,
+            border: {
+              color: color,
+            },
             title: {
               display: true,
               text: datasets[0].dataTitle,
+              color: color,
               font: {
                 size: 14,
               },
             },
             grid: {
               display: this.xGrid(),
+              color: color,
             },
             ticks: {
               display: this.xTicks(),
-              color: theme == Theme.DARK ? '#fefefe' : '#000000',
+              color: color,
             },
             suggestedMin: this.xSuggestedMin(),
             suggestedMax: this.xSuggestedMax(),
           },
           y: {
             display: true,
+            border: {
+              color: color,
+            },
             grid: {
               display: this.yGrid(),
+              color: color,
             },
             ticks: {
               display: this.yTicks(),
-              color: theme == Theme.DARK ? '#fefefe' : '#000000',
+              color: color,
             },
             suggestedMin: this.ySuggestedMin(),
             suggestedMax: this.ySuggestedMax(),
