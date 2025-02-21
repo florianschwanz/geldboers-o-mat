@@ -363,7 +363,11 @@
           >
             @if (party.image.length > 0) {
               <img
-                [src]="party.image"
+                [src]="
+                  themeService.themeSubject.value == themeEnum.LIGHT
+                    ? party.image
+                    : party.imageDarkMode
+                "
                 [alt]="party.name"
                 [class.grayscale]="
                   !isPartySelected(selectionService.partiesSubject.value, party)
@@ -435,7 +439,11 @@
               <mat-panel-description>
                 <img
                   class="accordion-image"
-                  [src]="party.image"
+                  [src]="
+                    themeService.themeSubject.value == themeEnum.LIGHT
+                      ? party.image
+                      : party.imageDarkMode
+                  "
                   [alt]="party.name"
                 />
               </mat-panel-description>

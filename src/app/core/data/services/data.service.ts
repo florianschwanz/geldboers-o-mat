@@ -32,6 +32,8 @@ export type Party = {
   name: string;
   /** Image path */
   image: string;
+  /** Image path */
+  imageDarkMode: string;
   /** Color */
   color: string;
   /** Relative changes in income based on income groups */

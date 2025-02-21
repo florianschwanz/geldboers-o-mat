@@ -132,6 +132,8 @@ export class MainComponent implements OnInit {
   /** Media enum */
   mediaEnum = Media;
 
+  /** Theme enum */
+  themeEnum = Theme;
   /** Time enum */
   timeEnum = TimeFormat;
   /** Example household enum */
